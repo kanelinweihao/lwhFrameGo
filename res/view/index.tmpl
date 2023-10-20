@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.ModTitle}}</title>
+</head>
+<body>
+    {{/*参数显示*/}}
+    <div>
+        项目名称Title : {{.ModTitle}}
+    </div>
+    <div>
+        项目版本Version : {{.ModVersion}}
+    </div>
+    {{/*提交表单*/}}
+    <form>
+        <div>
+            示例字段Field1
+            <input type="text" name="Field1" value={{.Field1}}>
+        </div>
+        <div>
+            示例字段Field2
+            <input type="text" name="Field2" value={{.Field2}} onkeyup="value=value.replace(/[^\d]/g,'')">
+        </div>
+        <div  style="display:none;">
+            示例字段Field3
+            <input type="text" name="Field3" value={{.Field3}}>
+        </div>
+        <div>
+            <input type="submit">
+        </div>
+    </form>
+    {{/*结果显示*/}}
+    <div>
+        <b>{{.MsgOut}}</b>
+    </div>
+</body>
+</html>
