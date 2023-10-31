@@ -1,8 +1,8 @@
 package conf
 
 import (
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 var paramsKeyRedis = base.AttrS1{
@@ -21,7 +21,7 @@ type EntityConfigRedis struct {
 
 func GetEntityConfigRedis() (r *EntityConfigRedis) {
 	paramsKey := paramsKeyRedis
-	r = &EntityConfigRedis{}
+	r = new(EntityConfigRedis)
 	getEntityConfig(paramsKey, r)
 	return r
 }

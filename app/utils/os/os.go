@@ -1,27 +1,37 @@
 package os
 
 import (
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"runtime"
 )
 
 func GetOSName() (osName string) {
 	osName = runtime.GOOS
-	// dd.DD(osName)
-	// osArch := runtime.GOARCH
-	// dd.DD(osArch)
-	// pathRoot := runtime.GOROOT()
-	// dd.DD(pathRoot)
 	return osName
 }
 
-func EnbaleCPU() {
-	// numGoroutine := runtime.NumGoroutine()
-	// dd.DD(numGoroutine)
-	numCPU := runtime.NumCPU()
-	// dd.DD(numCPU)
-	runtime.GOMAXPROCS(numCPU)
-	// numCPUEnabled := runtime.GOMAXPROCS(numCPU)
-	// dd.DD(numCPUEnabled)
-	return
+func GetOSArch() (osArch string) {
+	osArch = runtime.GOARCH
+	return osArch
+}
+
+func GetPathRoot() (pathRoot string) {
+	pathRoot = runtime.GOROOT()
+	return pathRoot
+}
+
+func getNumGoroutine() (numGoroutine int) {
+	numGoroutine = runtime.NumGoroutine()
+	return numGoroutine
+}
+
+func getNumCPU() (numCPU int) {
+	numCPU = runtime.NumCPU()
+	return numCPU
+}
+
+func EnbaleCPU() (numCPUEnabled int) {
+	numCPU := getNumCPU()
+	numCPUEnabled = runtime.GOMAXPROCS(numCPU)
+	return numCPUEnabled
 }

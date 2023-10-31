@@ -2,8 +2,8 @@ package time
 
 import (
 	"fmt"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"time"
 )
 
@@ -18,7 +18,6 @@ var (
 func getLocal() (localCn *time.Location) {
 	localCn, errTime := time.LoadLocation("Asia/Shanghai")
 	err.ErrCheck(errTime)
-	// dd.DD(localCn)
 	return localCn
 }
 

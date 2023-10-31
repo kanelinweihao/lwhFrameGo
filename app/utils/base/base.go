@@ -1,7 +1,7 @@
 package base
 
 import (
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 // map
@@ -37,7 +37,7 @@ func ReserveAttrStr(attrStrOld AttrS1) (attrStrNew AttrS1) {
 
 // array_merge()
 func MergeAttr(args ...AttrT1) (attrMix AttrT1) {
-	attrMix = AttrT1{}
+	attrMix = make(AttrT1)
 	for _, attrOne := range args {
 		for k, v := range attrOne {
 			attrMix[k] = v

@@ -1,28 +1,27 @@
 package tmpl
 
 import (
-	"fmt"
-	"go.lwh.com/linweihao/lwhFrameGo/app/conf"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/pack"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 	"html/template"
 	"net/http"
 	"net/url"
 )
 
-var paramsRoute = base.AttrT3{}
+var paramsRoute = make(base.AttrT3)
 var entityBackEnd backEndExecer
 
 type backEndExecer interface {
 	ExecBackEnd(paramsIn base.AttrT1) (paramsFromBackend base.AttrT1)
 }
 
-////
-// Html
-////
+/*
+Html
+*/
 
 func SetTmplAndServer(paramsRouteToSet base.AttrT3, entityBackEndToSet backEndExecer) {
 	if len(paramsRouteToSet) == 0 {
@@ -36,18 +35,16 @@ func SetTmplAndServer(paramsRouteToSet base.AttrT3, entityBackEndToSet backEndEx
 	return
 }
 
-////
-// Tmpl
-////
+/*
+Tmpl
+*/
 
 func setTmplToHandle() {
 	for route, _ := range paramsRoute {
-		// dd.DD(route)
 		http.HandleFunc(
 			route,
 			setTmpl)
 	}
-	// time.ShowTimeAndMsg("Tmpl set success")
 	return
 }
 
@@ -58,7 +55,7 @@ func setTmpl(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 	paramsIn, ok := execFromTmpl(route, req)
-	paramsOutAppend := base.AttrT1{}
+	paramsOutAppend := make(base.AttrT1)
 	if ok {
 		paramsOutAppend = entityBackEnd.ExecBackEnd(paramsIn)
 	}
@@ -69,13 +66,12 @@ func setTmpl(resp http.ResponseWriter, req *http.Request) {
 	return
 }
 
-////
-// FromTmpl
-////
+/*
+FromTmpl
+*/
 
 func execFromTmpl(route string, req *http.Request) (paramsIn base.AttrT1, ok bool) {
 	paramsFromTmpl := req.URL.Query()
-	// dd.DD(paramsFromTmpl)
 	if len(paramsFromTmpl) == 0 {
 		return nil, false
 	}
@@ -95,10 +91,9 @@ func getParamsInDefault(route string) (paramsInDefault base.AttrT1, ok bool) {
 func getParamsFromTmpl(paramsFromTmpl url.Values, paramsInDefault base.AttrT1) (paramsIn base.AttrT1) {
 	var valueFromTmpl interface{}
 	var valueIn interface{}
-	paramsIn = base.AttrT1{}
+	paramsIn = make(base.AttrT1)
 	for field, valueDefault := range paramsInDefault {
 		valueFromTmpl = paramsFromTmpl.Get(field)
-		// dd.DD(valueFromTmpl)
 		if valueFromTmpl == "" {
 			valueIn = valueDefault
 		} else {
@@ -106,20 +101,17 @@ func getParamsFromTmpl(paramsFromTmpl url.Values, paramsInDefault base.AttrT1) (
 		}
 		paramsIn[field] = valueIn
 	}
-	// dd.DD(paramsIn)
 	return paramsIn
 }
 
-////
-// ToTmpl
-////
+/*
+ToTmpl
+*/
 
 func getRoute(req *http.Request) (route string, ok bool) {
 	route = req.URL.Path
-	// dd.DD(route)
 	ok = false
 	for routeValid, _ := range paramsRoute {
-		// dd.DD(routeValid)
 		if route == routeValid {
 			ok = true
 		}
@@ -142,7 +134,6 @@ func execSetToTmpl(route string, resp http.ResponseWriter, paramsOutAppend base.
 	}
 	paramsOutAppendAll := getParamsOutAppendAll(paramsOutAppend)
 	paramsOut := getParamsToTmpl(paramsOutDefault, paramsOutAppendAll)
-	// dd.DD(paramsOut)
 	errTmplExec := tmpl.Execute(resp, paramsOut)
 	err.ErrCheck(errTmplExec)
 	return true
@@ -153,15 +144,13 @@ func getPathTmplByRoute(route string) (pathTmpl string, ok bool) {
 	if !ok {
 		return "", false
 	}
-	// dd.DD(pathTmpl)
 	return pathTmpl, true
 }
 
 func getTmpl(pathTmpl string) (tmpl *template.Template) {
-	fsResource, patternsTmpl := pack.GetFSOfTmpl(pathTmpl)
+	fsResource, patternsTmpl := pack.GetFSAndPath(pathTmpl)
 	tmpl, errTmplParse := template.ParseFS(fsResource, patternsTmpl)
 	err.ErrCheck(errTmplParse)
-	// dd.DD(tmpl)
 	return tmpl
 }
 
@@ -177,7 +166,7 @@ func getParamsOutAppendAll(paramsOutAppend base.AttrT1) (paramsOutAppendAll base
 }
 
 func getParamsToTmpl(paramsOutDefault base.AttrT1, paramsOutAppendAll base.AttrT1) (paramsOut base.AttrT1) {
-	paramsOut = base.AttrT1{}
+	paramsOut = make(base.AttrT1)
 	for field, valueDefault := range paramsOutDefault {
 		valueOut := valueDefault
 		valueOutAppend, ok := paramsOutAppendAll[field].(string)
@@ -186,30 +175,18 @@ func getParamsToTmpl(paramsOutDefault base.AttrT1, paramsOutAppendAll base.AttrT
 		}
 		paramsOut[field] = valueOut
 	}
-	// dd.DD(paramsOutAppendAll)
-	// dd.DD(paramsOut)
 	return paramsOut
 }
 
-////
-// Listen
-////
+/*
+Listen
+*/
 
 func setServerToListen() {
 	address := conf.GetDomain()
 	server := http.Server{
 		Addr: address,
 	}
-	// time.ShowTimeAndMsg("Server listen success")
-	//msgEn := fmt.Sprintf(
-	//	"Ready!Please open |%s/%s| in your browser to continue",
-	//	address,
-	//	"index")
-	msgCn := fmt.Sprintf(
-		"准备就绪!请在浏览器中打开|%s|继续操作",
-		address)
-	msg := msgCn
-	time.ShowTimeAndMsg(msg)
 	errServerListen := server.ListenAndServe()
 	err.ErrCheck(errServerListen)
 	return

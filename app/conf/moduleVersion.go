@@ -2,38 +2,35 @@ package conf
 
 import (
 	"fmt"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/file"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
 	"strings"
 )
 
-var Version string = "v1.0.1"
-var PathVersion string = "./res/env/version.env"
+var versionMajor = "1"
+var versionMinor = "0"
+var versionPatch = "2"
 
-func GetVersion() (version string) {
-	version = Version
-	return version
-}
-
-func getPathVersion() (pathVersion string) {
-	pathVersion = file.GetFilePathAbs(PathVersion)
-	// dd.DD(pathVersion)
-	return pathVersion
+func GetModuleVersion() (modVersion string) {
+	version := fmt.Sprintf(
+		"%s.%s.%s",
+		versionMajor,
+		versionMinor,
+		versionPatch)
+	modVersion = "v" + version
+	return modVersion
 }
 
 func GetParamsVersion() (paramsVersion base.AttrS1) {
-	paramsVersion = base.AttrS1{}
+	paramsVersion = make(base.AttrS1)
 	pathVersion := getPathVersion()
-	strFromVersion := file.ReadFileAsString(pathVersion)
-	// dd.DD(strFromVersion)
+	strFromVersion := pack.ReadFileEmbedAsString(pathVersion)
 	sliceVersionLine := strings.Split(strFromVersion, "\n")
-	// dd.DD(sliceVersionLine)
 	strAnnotation := "#"
 	strSeparator := "|"
 	for _, strVersionLine := range sliceVersionLine {
-		// dd.DD(strVersionLine)
 		if len(strVersionLine) == 0 {
 			continue
 		}
@@ -52,7 +49,6 @@ func GetParamsVersion() (paramsVersion base.AttrS1) {
 
 func GetVersionDescription(version string) (versionDescription string) {
 	paramsVersion := GetParamsVersion()
-	// dd.DD(paramsVersion)
 	versionDescription, ok := paramsVersion[version]
 	if !ok {
 		msgError := fmt.Sprintf(
@@ -70,7 +66,7 @@ func GetVersionDescription(version string) (versionDescription string) {
 }
 
 func GetVersionDescriptionNow() (versionDescription string) {
-	version := GetVersion()
+	version := GetModuleVersion()
 	versionDescription = GetVersionDescription(version)
 	return versionDescription
 }

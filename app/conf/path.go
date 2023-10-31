@@ -1,20 +1,35 @@
 package conf
 
 import (
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/file"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 )
 
+var pathEnv string = "./res/env/env.env"
+var pathVersion string = "./res/version/version.env"
+
+func getPathEnv() (pathEnvEmbed string) {
+	pathEnvEmbed = file.GetFilePathEmbed(pathEnv)
+	return pathEnvEmbed
+}
+
+func getPathVersion() (pathVersionEmbed string) {
+	pathVersionEmbed = file.GetFilePathEmbed(pathVersion)
+	return pathVersionEmbed
+}
+
+func getPathFromEnv(envKey string) (pathEmbed string) {
+	pathRel := getEnvValue(envKey)
+	pathEmbed = file.GetFilePathEmbed(pathRel)
+	return pathEmbed
+}
+
 func GetPathPrivateKey() (pathPrivateKey string) {
-	PathPrivateKey := getEnvValue("PathPrivateKey")
-	pathPrivateKey = file.GetFilePathAbs(PathPrivateKey)
-	// dd.DD(pathPrivateKey)
+	pathPrivateKey = getPathFromEnv("PathPrivateKey")
 	return pathPrivateKey
 }
 
 func GetPathDirPutExcel() (pathDirPutExcel string) {
-	PathDirPutExcel := getEnvValue("PathDirPutExcel")
-	pathDirPutExcel = file.GetFilePathAbs(PathDirPutExcel)
-	// dd.DD(pathDirPutExcel)
+	pathDirPutExcel = getPathFromEnv("PathDirPutExcel")
 	return pathDirPutExcel
 }

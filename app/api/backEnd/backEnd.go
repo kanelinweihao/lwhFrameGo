@@ -1,18 +1,21 @@
 package backEnd
 
 import (
-	"go.lwh.com/linweihao/lwhFrameGo/app/api/cacheSet"
-	"go.lwh.com/linweihao/lwhFrameGo/app/api/dataGet"
-	"go.lwh.com/linweihao/lwhFrameGo/app/api/dataPut"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/api/cacheSet"
+	"github.com/kanelinweihao/lwhFrameGo/app/api/dataGet"
+	"github.com/kanelinweihao/lwhFrameGo/app/api/dataPut"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 )
 
 func ExecBackEnd(paramsIn base.AttrT1) (paramsOut base.AttrT1) {
 	paramsOut, boxData := dataGet.GetData(paramsIn)
+	time.ShowTimeAndMsg("Data get success")
 	dataPut.PutDataToExcel(paramsOut, boxData)
+	time.ShowTimeAndMsg("Data put success")
 	cacheSet.SetCache(paramsOut)
+	time.ShowTimeAndMsg("Cache set success")
 	time.ShowTimeAndMsg("OK")
 	return paramsOut
 }

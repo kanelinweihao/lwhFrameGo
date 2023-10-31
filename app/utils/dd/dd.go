@@ -54,11 +54,15 @@ func ddMsg(arg interface{}) {
 	fmt.Println(funcName)
 	fmt.Print("codeLine = ")
 	fmt.Println(codeLine)
-	fmt.Print("type = ")
-	fmt.Println(typeName)
-	fmt.Print("value = ")
-	// fmt.Print("value\n")
-	fmt.Println(value)
+	if typeName != "" {
+		fmt.Print("type = ")
+		fmt.Println(typeName)
+		fmt.Print("value = ")
+		fmt.Println(value)
+	} else {
+		fmt.Println("value ->")
+		fmt.Printf("%#v\n", value)
+	}
 }
 
 func getLocationOfDD() (fileName string, funcName string, codeLine int) {

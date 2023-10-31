@@ -2,12 +2,12 @@ package browser
 
 import (
 	"fmt"
-	"go.lwh.com/linweihao/lwhFrameGo/app/conf"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/os"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/os"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 	"os/exec"
 )
 
@@ -17,13 +17,8 @@ var commands = base.AttrS1{
 	"linux":   "xdg-open",
 }
 
-////
-// Browser
-////
-
 func OpenBrowser() {
 	osName := os.GetOSName()
-	// dd.DD(osName)
 	if osName != "windows" {
 		return
 	}
@@ -38,10 +33,8 @@ func OpenBrowser() {
 		"%s %s",
 		command,
 		url)
-	// dd.DD(run)
 	cmd := exec.Command(run)
 	byteOutput, errCmd := cmd.Output()
-	fmt.Println(byteOutput)
 	err.ErrCheck(errCmd)
 	msg := "Open Browser Success"
 	time.ShowTimeAndMsg(msg)

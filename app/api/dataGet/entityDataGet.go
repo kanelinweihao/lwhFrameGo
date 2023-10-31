@@ -2,28 +2,48 @@ package dataGet
 
 import (
 	"fmt"
-	"go.lwh.com/linweihao/lwhFrameGo/app/factory/factoryOfDB"
-	"go.lwh.com/linweihao/lwhFrameGo/app/factory/factoryOfGoroutine"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/conv"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/db"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/goroutine"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/rfl"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/db"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
 )
 
-func (self *EntityDataGet) GetDataFromDB() {
-	// entityDB := db.InitDB()
-	entityDB := factoryOfDB.MakeEntityOfDB()
+type EntityDataGet struct {
+	Field1  string
+	Field2  string
+	Field3  string
+	UID     string
+	MsgOut  string
+	BoxData base.AttrS3
+}
+
+func (self *EntityDataGet) GetData() (boxData base.AttrS3, paramsOut base.AttrT1) {
+	self.setMsgOut().getDataFromDB()
+	boxData = self.BoxData
+	paramsOut = conv.ToAttrFromEntity(self)
+	return boxData, paramsOut
+}
+
+func (self *EntityDataGet) setMsgOut() *EntityDataGet {
+	MsgOut := fmt.Sprintf(
+		"\n%s%s\n",
+		self.Field1,
+		self.UID)
+	self.MsgOut = MsgOut
+	return self
+}
+
+func (self *EntityDataGet) getDataFromDB() {
+	entityDB := db.MakeEntityOfDB()
 	defer entityDB.CloseDB()
 	// init
-	boxData := base.AttrS3{}
-	// userId := conv.ToIntFromStr(self.UID)
+	boxData := make(base.AttrS3)
 	userId := self.UID
 	// write
 	var arrEntityUID []EntityUID
-	// dd.DD(arrEntityUID)
 	channelReadUID := getAttrS2ExcelDataOfWrite(
 		entityDB,
 		arrEntityUID,
@@ -45,8 +65,7 @@ func (self *EntityDataGet) GetDataFromDB() {
 }
 
 func getAttrS2ExcelDataOfWrite[T TypeEntityData](entityDB *db.EntityDB, arrEntity []T, query string, userId string) (entityChannel *goroutine.EntityChannel) {
-	// entityChannel = goroutine.InitEntityChannel()
-	entityChannel = factoryOfGoroutine.MakeEntityOfGoroutine()
+	entityChannel = goroutine.MakeEntityOfGoroutine()
 	go db.GetArrAttrForExcelUseGoroutine(
 		entityChannel,
 		entityDB,

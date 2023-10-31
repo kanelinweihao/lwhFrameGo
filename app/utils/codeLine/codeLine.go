@@ -1,10 +1,9 @@
 package codeLine
 
 import (
-	_ "fmt"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/file"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 	"os"
 	"path/filepath"
 )
@@ -12,28 +11,27 @@ import (
 var attrValidExt = base.AttrS1{
 	"go": "",
 }
-var attrValidFilePath = base.AttrS1{}
+var attrValidFilePath = make(base.AttrS1)
 
 func GetCodeLine(pathDirRel string) (countCodeLine int) {
-	pathDirAbs := getPathDirAbs(pathDirRel)
-	countCodeLine = getCodeLineValid(pathDirAbs)
+	pathDirEmbed := getPathDirEmbed(pathDirRel)
+	countCodeLine = getCodeLineValid(pathDirEmbed)
 	return countCodeLine
 }
 
-func getPathDirAbs(pathDirRel string) (pathDirAbs string) {
+func getPathDirEmbed(pathDirRel string) (pathDirEmbed string) {
 	if pathDirRel == "" {
 		pathDirRel = "./"
 	}
-	pathDirAbs = file.GetFilePathAbs(pathDirRel)
-	return pathDirAbs
+	pathDirEmbed = file.GetFilePathEmbed(pathDirRel)
+	pathDirEmbed = pathDirRel
+	return pathDirEmbed
 }
 
-func getCodeLineValid(pathDirAbs string) (countCodeLine int) {
+func getCodeLineValid(pathDirEmbed string) (countCodeLine int) {
 	countCodeLine = 0
-	filepath.Walk(pathDirAbs, walkFunc)
-	// dd.DD(attrValidFilePath)
+	filepath.Walk(pathDirEmbed, walkFunc)
 	countFile := len(attrValidFilePath)
-	// dd.DD(countFile)
 	if countFile == 0 {
 		return 0
 	}
@@ -45,13 +43,11 @@ func getCodeLineValid(pathDirAbs string) (countCodeLine int) {
 }
 
 func walkFunc(path string, info os.FileInfo, err error) error {
-	// fmt.Println(path)
 	isValidFile := isValidFile(path)
 	if !isValidFile {
 		return nil
 	}
 	attrValidFilePath[path] = ""
-	// fmt.Println(path)
 	return nil
 }
 
@@ -70,18 +66,13 @@ func isValidFile(path string) (isValidFile bool) {
 }
 
 func getCodeLineValidEach(pathFileValid string) (countCodeLineEach int) {
-	// fmt.Println(pathFileValid)
 	countCodeLineEach = 0
 	arrStrCodeLine := file.ReadFileAsArrayString(pathFileValid)
-	// dd.DD(arrStrCodeLine)
 	for _, strCodeLine := range arrStrCodeLine {
-		// fmt.Println(strCodeLine)
 		if strCodeLine == "" {
 			continue
 		}
 		countCodeLineEach++
-		// fmt.Println(strCodeLine)
 	}
-	// fmt.Println(countCodeLineEach)
 	return countCodeLineEach
 }

@@ -1,11 +1,12 @@
 ### git忽略目录
-#
+# main
 .idea/
+# res
 /res/env/*
 !/res/env/.gitkeep
-!/res/env/version.env
 /res/privateKey/*
 !/res/privateKey/.gitkeep
+# tmp
 /tmp/bak/*
 !/tmp/bak/.gitkeep
 /tmp/logs/*
@@ -14,5 +15,5 @@
 !/tmp/downloads/.gitkeep
 /tmp/uploads/*
 !/tmp/uploads/.gitkeep
-#
+# ext
 *.exe

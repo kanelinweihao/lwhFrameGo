@@ -2,8 +2,8 @@ package goroutine
 
 import (
 	"fmt"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 )
 
 type EntityChannel struct {
@@ -12,27 +12,9 @@ type EntityChannel struct {
 	ChannelRead  <-chan interface{}
 }
 
-////
-// Init
-////
-
-func InitEntityChannel() (entityChannel *EntityChannel) {
-	channelBase := make(chan interface{})
-	var channelWrite chan<- interface{}
-	channelWrite = channelBase
-	var channelRead <-chan interface{}
-	channelRead = channelBase
-	entityChannel = &EntityChannel{
-		ChannelBase:  channelBase,
-		ChannelWrite: channelWrite,
-		ChannelRead:  channelRead,
-	}
-	return entityChannel
-}
-
-////
-// Exec
-////
+/*
+Write
+*/
 
 func (self *EntityChannel) WriteOnce(dataOnce interface{}) {
 	channelWrite := self.getChannelWrite()
@@ -41,20 +23,9 @@ func (self *EntityChannel) WriteOnce(dataOnce interface{}) {
 	return
 }
 
-func (self *EntityChannel) ReadOnce() (dataOnce interface{}) {
-	channelRead := self.getChannelRead()
-	dataOnce = <-channelRead
-	return dataOnce
-}
-
 func (self *EntityChannel) getChannelWrite() (channelWrite chan<- interface{}) {
 	channelWrite = self.ChannelWrite
 	return channelWrite
-}
-
-func (self *EntityChannel) getChannelRead() (channelRead <-chan interface{}) {
-	channelRead = self.ChannelRead
-	return channelRead
 }
 
 func (self *EntityChannel) closeChannel() {
@@ -73,4 +44,19 @@ func (self *EntityChannel) checkIsClosed() {
 			1)
 		err.ErrPanic(msgError)
 	}
+}
+
+/*
+Read
+*/
+
+func (self *EntityChannel) ReadOnce() (dataOnce interface{}) {
+	channelRead := self.getChannelRead()
+	dataOnce = <-channelRead
+	return dataOnce
+}
+
+func (self *EntityChannel) getChannelRead() (channelRead <-chan interface{}) {
+	channelRead = self.ChannelRead
+	return channelRead
 }

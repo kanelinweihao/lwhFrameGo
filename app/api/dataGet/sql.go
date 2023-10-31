@@ -1,7 +1,7 @@
 package dataGet
 
 import (
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 var queryUID string = `SELECT

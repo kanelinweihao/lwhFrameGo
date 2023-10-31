@@ -3,15 +3,17 @@ package main
 import (
 	"embed"
 	"fmt"
-	"go.lwh.com/linweihao/lwhFrameGo/app/api/frontEnd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/conf"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/os"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/pack"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/rfl"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/api/frontEnd"
+	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/codeLine"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/ip"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/os"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 )
 
 //go:embed res/*
@@ -36,13 +38,13 @@ func main() {
 func doIt() {
 	showTips()
 	showWeb()
+	dd.IGNORE("")
 }
 
 func showTips() {
-	now := time.GetNow()
+	ip.ShowIP()
 	moduleTips := conf.GetModuleTips()
-	strShow := now + "\n" + moduleTips
-	fmt.Println(strShow)
+	time.ShowTimeAndMsg(moduleTips)
 	return
 }
 

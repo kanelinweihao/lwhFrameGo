@@ -2,13 +2,13 @@ package rfl
 
 import (
 	"fmt"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"reflect"
 )
 
-////
-// Type
-////
+/*
+Type
+*/
 
 func getType(value interface{}) (typeOfValue reflect.Type) {
 	typeOfValue = reflect.TypeOf(value)
@@ -27,9 +27,9 @@ func GetTypeName(value interface{}) (typeName string) {
 	return typeName
 }
 
-////
-// Value
-////
+/*
+Value
+*/
 
 func getValue(value interface{}) (valueOfValue reflect.Value) {
 	valueOfValue = reflect.ValueOf(value)

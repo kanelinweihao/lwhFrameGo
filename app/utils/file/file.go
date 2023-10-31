@@ -2,8 +2,8 @@ package file
 
 import (
 	_ "fmt"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	_ "io/fs"
 	"io/ioutil"
 	"os"
@@ -11,9 +11,9 @@ import (
 	"strings"
 )
 
-////
-// Path
-////
+/*
+Path
+*/
 
 func isFilePathAbs(filePath string) (isAbs bool) {
 	isAbs = filepath.IsAbs(filePath)
@@ -52,32 +52,30 @@ func GetFilePathEmbed(filePath string) (filePathEmbed string) {
 	return filePathEmbed
 }
 
-////
-// FileInfo
-////
+/*
+FileInfo
+*/
 
 func getFileInfo(filePath string) (fileInfo os.FileInfo, errFileInfo error) {
 	fileInfo, errFileInfo = os.Stat(filePath)
 	return fileInfo, errFileInfo
 }
 
-////
-// Ext
-////
-
 func GetExt(filePath string) (ext string) {
 	// kDot := strings.LastIndex(fileName, ".")
 	// kBegin := kDot + 1
 	// ext = fileName[kBegin:]
 	extWithDot := filepath.Ext(filePath)
+	if len(extWithDot) == 0 {
+		return ""
+	}
 	ext = extWithDot[1:]
-	// dd.DD(ext)
 	return ext
 }
 
-////
-// Dir
-////
+/*
+Dir
+*/
 
 func IsDir(filePath string) (isDir bool) {
 	fileInfo, errFileInfo := getFileInfo(filePath)
@@ -112,35 +110,33 @@ func MakeDir(filePathDir string) {
 	return
 }
 
-////
-// FileRead
-////
+/*
+FileRead
+*/
 
-func ReadFileAsArrayByte(filePath string) (arrByte []byte) {
+// --> pack.ReadFileEmbedAsArrayByte(path)
+func readFileAsArrayByte(filePath string) (arrByte []byte) {
 	fs, errFileOpen := os.OpenFile(
 		filePath,
 		os.O_RDONLY,
 		0666)
 	err.ErrCheck(errFileOpen)
-	// dd.DD(fs)
-	// *os.File
 	defer fs.Close()
 	arrByte, errFileRead := ioutil.ReadAll(fs)
 	err.ErrCheck(errFileRead)
-	// dd.DD(arrByte)
 	return arrByte
 }
 
-func ReadFileAsString(filePath string) (strFromFile string) {
-	arrByte := ReadFileAsArrayByte(filePath)
-	strFromFile = string(arrByte)
-	// dd.DD(strFromFile)
-	return strFromFile
+// --> pack.ReadFileEmbedAsString(path)
+func readFileAsString(filePath string) (str string) {
+	arrByte := readFileAsArrayByte(filePath)
+	str = string(arrByte)
+	return str
 }
 
+// --> pack.ReadFileEmbedAsArrayString(path)
 func ReadFileAsArrayString(filePath string) (arrStr []string) {
-	strFromFile := ReadFileAsString(filePath)
-	arrStr = strings.Split(strFromFile, "\n")
-	// dd.DD(arrStr)
+	str := readFileAsString(filePath)
+	arrStr = strings.Split(str, "\n")
 	return arrStr
 }

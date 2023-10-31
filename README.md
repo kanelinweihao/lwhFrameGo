@@ -18,11 +18,9 @@
 
 - | 根目录
     - app | 程序代码
-        - api | 后台逻辑
+        - api | 主体逻辑
         - conf | 配置
-        - factory | 工厂
         - utils | 工具
-        - web | 前台页面
     - res | 静态资源文件
         - env | 环境配置
         - ico | 图标
@@ -75,7 +73,7 @@ cd ./lwhFrameGo
 ```
 初始化项目
 ```
-go mod init go.lwh.com/linweihao/lwhFrameGo
+go mod init github.com/kanelinweihao/lwhFrameGo
 ```
 
 #### 引入外部依赖
@@ -94,7 +92,7 @@ go get -u golang.org/x/crypto/ssh
 ```
 redis
 ```
-go get -u github.com/go-redis/redis
+go get -u github.com/redis/go-redis/v9
 ```
 decimal 高精度
 ```

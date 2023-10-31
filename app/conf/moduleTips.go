@@ -2,16 +2,25 @@ package conf
 
 import (
 	"fmt"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/codeLine"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 func GetModuleTips() (moduleTips string) {
+	moduleDesc := GetModuleDesc()
+	webTips := getWebTips()
+	moduleTips = fmt.Sprintf(
+		"%s%s",
+		moduleDesc,
+		webTips)
+	return moduleTips
+}
+
+func GetModuleDesc() (moduleDesc string) {
 	moduleNameCN := GetModuleNameCN()
 	msgModuleName := fmt.Sprintf(
 		"项目名称 = %s\n",
 		moduleNameCN)
-	moduleVersion := GetVersion()
+	moduleVersion := GetModuleVersion()
 	msgModuleVersion := fmt.Sprintf(
 		"项目版本 = %s\n",
 		moduleVersion)
@@ -19,17 +28,20 @@ func GetModuleTips() (moduleTips string) {
 	msgVersionDescription := fmt.Sprintf(
 		"版本描述 = %s\n",
 		versionDescription)
-	pathDirRel := "./app/"
-	numCodeLine := codeLine.GetCodeLine(pathDirRel)
-	msgNumCodeLine := fmt.Sprintf(
-		"项目代码行数 = %d\n",
-		numCodeLine)
-	moduleTips = fmt.Sprintf(
-		"\n%s\n%s\n%s\n%s\n",
+	moduleDesc = fmt.Sprintf(
+		"\n%s%s%s\n",
 		msgModuleName,
 		msgModuleVersion,
-		msgVersionDescription,
-		msgNumCodeLine)
-	// dd.DD(moduleTips)
-	return moduleTips
+		msgVersionDescription)
+	return moduleDesc
+}
+
+func getWebTips() (webTips string) {
+	// strFormatEN := "Ready!Please open |%s| in your browser to continue"
+	strFormatCN := "准备就绪!请在浏览器中打开|%s|继续操作"
+	address := GetDomain()
+	webTips = fmt.Sprintf(
+		strFormatCN,
+		address)
+	return webTips
 }

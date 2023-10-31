@@ -2,34 +2,22 @@ package conf
 
 import (
 	"fmt"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/conv"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/file"
-	_ "regexp"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
 	"strings"
 )
 
-var PathEnv string = "./res/env/env.env"
-
-func getPathEnv() (pathEnv string) {
-	pathEnv = file.GetFilePathAbs(PathEnv)
-	// dd.DD(pathEnv)
-	return pathEnv
-}
-
 func getParamsEnv() (paramsEnv base.AttrS1) {
-	paramsEnv = base.AttrS1{}
+	paramsEnv = make(base.AttrS1)
 	pathEnv := getPathEnv()
-	strFromEnv := file.ReadFileAsString(pathEnv)
-	// dd.DD(strFromEnv)
+	strFromEnv := pack.ReadFileEmbedAsString(pathEnv)
 	sliceEnvLine := strings.Split(strFromEnv, "\n")
-	// dd.DD(sliceEnvLine)
 	strAnnotation := "#"
 	strSeparator := "="
 	for _, strEnvLine := range sliceEnvLine {
-		// dd.DD(strEnvLine)
 		if len(strEnvLine) == 0 {
 			continue
 		}
@@ -48,11 +36,8 @@ func getParamsEnv() (paramsEnv base.AttrS1) {
 
 func getEnvValue(envKey string) (envValue string) {
 	paramsEnv := getParamsEnv()
-	// dd.DD(paramsEnv)
 	envValue, ok := paramsEnv[envKey]
 	if !ok {
-		// envValueDefault := ""
-		// return envValueDefault
 		msgError := fmt.Sprintf(
 			"The |%s| not found in env.env",
 			envKey)
@@ -68,7 +53,7 @@ func getEnvValue(envKey string) (envValue string) {
 }
 
 func getParamsEnvNeed(paramsKey base.AttrS1) (paramsNeed base.AttrT1) {
-	paramsNeed = base.AttrT1{}
+	paramsNeed = make(base.AttrT1)
 	paramsEnv := getParamsEnv()
 	for needKey, envKey := range paramsKey {
 		envValue, ok := paramsEnv[envKey]
@@ -85,9 +70,6 @@ func getParamsEnvNeed(paramsKey base.AttrS1) (paramsNeed base.AttrT1) {
 
 func getEntityConfig[T interface{}](paramsKey base.AttrS1, entity *T) {
 	paramsNeed := getParamsEnvNeed(paramsKey)
-	// dd.DD(paramsNeed)
 	conv.ToEntityFromAttr(paramsNeed, entity)
-	// strJson := conv.ToJsonFromEntity(entity)
-	// dd.DD(strJson)
 	return
 }

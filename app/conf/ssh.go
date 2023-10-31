@@ -1,9 +1,9 @@
 package conf
 
 import (
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/conv"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 var paramsKeySSH = base.AttrS1{
@@ -32,7 +32,7 @@ func IsNeedSSH() (isNeedSSH bool) {
 
 func GetEntityConfigSSH() (s *EntityConfigSSH) {
 	paramsKey := paramsKeySSH
-	s = &EntityConfigSSH{}
+	s = new(EntityConfigSSH)
 	getEntityConfig(paramsKey, s)
 	s.PathPrivateKey = GetPathPrivateKey()
 	return s

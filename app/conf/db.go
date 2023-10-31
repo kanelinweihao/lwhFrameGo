@@ -1,8 +1,8 @@
 package conf
 
 import (
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 var paramsKeyMysql = base.AttrS1{
@@ -25,7 +25,7 @@ type EntityConfigMysql struct {
 
 func GetEntityConfigMysql() (m *EntityConfigMysql) {
 	paramsKey := paramsKeyMysql
-	m = &EntityConfigMysql{}
+	m = new(EntityConfigMysql)
 	getEntityConfig(paramsKey, m)
 	return m
 }

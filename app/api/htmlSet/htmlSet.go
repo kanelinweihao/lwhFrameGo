@@ -1,10 +1,10 @@
 package htmlSet
 
 import (
-	"go.lwh.com/linweihao/lwhFrameGo/app/api/backEnd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/base"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/tmpl"
+	"github.com/kanelinweihao/lwhFrameGo/app/api/backEnd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/tmpl"
 )
 
 var paramsRoute = base.AttrT3{
@@ -74,7 +74,7 @@ func (self *EntityBackEnd) ExecBackEnd(paramsIn base.AttrT1) (paramsFromBackend 
 }
 
 func SetHtml() {
-	entityBackEnd := &EntityBackEnd{}
+	entityBackEnd := new(EntityBackEnd)
 	tmpl.SetTmplAndServer(paramsRoute, entityBackEnd)
 	return
 }

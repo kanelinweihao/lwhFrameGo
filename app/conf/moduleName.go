@@ -1,7 +1,7 @@
 package conf
 
 import (
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 func GetModuleNameEN() (moduleNameEN string) {

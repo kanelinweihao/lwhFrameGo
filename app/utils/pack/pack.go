@@ -2,9 +2,10 @@ package pack
 
 import (
 	"embed"
-	_ "go.lwh.com/linweihao/lwhFrameGo/app/utils/dd"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/err"
-	"go.lwh.com/linweihao/lwhFrameGo/app/utils/file"
+	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
+	"strings"
 )
 
 var FilesResource embed.FS
@@ -14,27 +15,27 @@ func SetFilesResource(FilesResourceFromEmbed embed.FS) {
 	return
 }
 
-func GetArrayBytePrivateKey(pathPrivateKey string) (arrBytePrivateKey []byte) {
-	// dd.DD(pathPrivateKey)
-	// pathPrivateKeyRel := file.GetFilePathRel(pathPrivateKey)
-	// dd.DD(pathPrivateKeyRel)
-	pathPrivateKeyEmbed := file.GetFilePathEmbed(pathPrivateKey)
-	// dd.DD(pathPrivateKeyEmbed)
-	arrBytePrivateKey, errReadPrivateKey := FilesResource.ReadFile(pathPrivateKeyEmbed)
-	err.ErrCheck(errReadPrivateKey)
-	return arrBytePrivateKey
+func GetFSAndPath(path string) (fsResource embed.FS, pathEmbed string) {
+	fsResource = FilesResource
+	pathEmbed = file.GetFilePathEmbed(path)
+	return fsResource, pathEmbed
 }
 
-func GetFSOfTmpl(pathTmpl string) (fsResource embed.FS, patternsTmpl string) {
-	// dd.DD(pathTmpl)
-	// pathTmplRel := file.GetFilePathRel(pathTmpl)
-	// dd.DD(pathTmplRel)
-	fsResource = FilesResource
-	patternsTmpl = file.GetFilePathEmbed(pathTmpl)
-	return fsResource, patternsTmpl
-	// var fsTmpl fs.File
-	// fsTmpl,errFsOpen := FilesResource.Open(pathTmplRel)
-	// err.ErrCheck(errFsOpen)
-	// // dd.DD(fsTmpl)
-	// return fsTmpl
+func ReadFileEmbedAsArrayByte(path string) (arrByte []byte) {
+	fsResource, pathEmbed := GetFSAndPath(path)
+	arrByte, errRead := fsResource.ReadFile(pathEmbed)
+	err.ErrCheck(errRead)
+	return arrByte
+}
+
+func ReadFileEmbedAsString(path string) (str string) {
+	arrByte := ReadFileEmbedAsArrayByte(path)
+	str = string(arrByte)
+	return str
+}
+
+func ReadFileEmbedAsArrayString(path string) (arrStr []string) {
+	str := ReadFileEmbedAsString(path)
+	arrStr = strings.Split(str, "\n")
+	return arrStr
 }
