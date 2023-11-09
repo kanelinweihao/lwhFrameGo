@@ -26,23 +26,25 @@ func GetModuleVersion() (modVersion string) {
 func GetParamsVersion() (paramsVersion base.AttrS1) {
 	paramsVersion = make(base.AttrS1)
 	pathVersion := getPathVersion()
-	strFromVersion := pack.ReadFileEmbedAsString(pathVersion)
-	sliceVersionLine := strings.Split(strFromVersion, "\n")
+	strFromEnv := pack.ReadFileEmbedAsString(pathVersion)
+	arrLine := strings.Split(strFromEnv, "\n")
 	strAnnotation := "#"
 	strSeparator := "|"
-	for _, strVersionLine := range sliceVersionLine {
-		if len(strVersionLine) == 0 {
+	for _, strLine := range arrLine {
+		if len(strLine) == 0 {
 			continue
 		}
-		firstLetter := string(strVersionLine[0])
+		firstLetter := string(strLine[0])
 		if firstLetter == strAnnotation {
 			continue
 		}
-		sliceVersionKV := strings.Split(strVersionLine, strSeparator)
-		if len(sliceVersionKV) != 2 {
+		arrPart := strings.Split(strLine, strSeparator)
+		if len(arrPart) != 2 {
 			continue
 		}
-		paramsVersion[sliceVersionKV[0]] = sliceVersionKV[1]
+		version := arrPart[0]
+		versionDescription := arrPart[1]
+		paramsVersion[version] = versionDescription
 	}
 	return paramsVersion
 }
@@ -52,7 +54,7 @@ func GetVersionDescription(version string) (versionDescription string) {
 	versionDescription, ok := paramsVersion[version]
 	if !ok {
 		msgError := fmt.Sprintf(
-			"The |%s| not found in version.env",
+			"The version |%s| not found in version.env",
 			version)
 		err.ErrPanic(msgError)
 	}

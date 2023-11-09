@@ -3,6 +3,7 @@ package dataPut
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	"github.com/kanelinweihao/lwhFrameGo/app/sqlInfo"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
@@ -13,32 +14,8 @@ import (
 
 var ext = "xlsx"
 var paramsFileNamePrefix = base.AttrS1{
-	"UID": "示例_用户手机号",
-	"OID": "示例_用户所属机构",
-}
-var paramsExcelTitleUID = base.AttrS2{
-	"UserId": {
-		"field": "UserId",
-		"title": "UID",
-		"sort":  "1",
-	},
-	"MobileNo": {
-		"field": "MobileNo",
-		"title": "手机号",
-		"sort":  "2",
-	},
-}
-var paramsExcelTitleOID = base.AttrS2{
-	"UserId": {
-		"field": "UserId",
-		"title": "UID",
-		"sort":  "1",
-	},
-	"OrgId": {
-		"field": "OrgId",
-		"title": "所属机构编号",
-		"sort":  "2",
-	},
+	"GetMobileNoByUserId": "示例_用户手机号",
+	"GetOrgIdByUserId":    "示例_用户所属机构",
 }
 
 func MakeEntityOfDataPut(paramsOut base.AttrT1, boxExcelData base.AttrS3) (entityDataPut *EntityDataPut) {
@@ -58,7 +35,7 @@ func (self *EntityDataPut) Init(paramsOut base.AttrT1, boxExcelData base.AttrS3)
 }
 
 func (self *EntityDataPut) SetUserId(paramsOut base.AttrT1) *EntityDataPut {
-	userId, ok := paramsOut["UID"].(string)
+	userId, ok := paramsOut["UserId"].(string)
 	if !ok {
 		jsonParamsOut := conv.ToJsonFromAttr(paramsOut)
 		msgError := fmt.Sprintf(
@@ -76,17 +53,24 @@ func (self *EntityDataPut) SetBoxExcelData(boxExcelData base.AttrS3) *EntityData
 }
 
 func (self *EntityDataPut) SetBoxExcelTitle() *EntityDataPut {
+	boxExcelData := self.BoxExcelData
 	boxExcelTitle := make(base.AttrS3)
-	boxExcelTitle["UID"] = paramsExcelTitleUID
-	boxExcelTitle["OID"] = paramsExcelTitleOID
+	for sqlName, _ := range boxExcelData {
+		boxExcelTitle[sqlName] = getParamsExcelTitle(sqlName)
+	}
 	self.BoxExcelTitle = boxExcelTitle
 	return self
+}
+
+func getParamsExcelTitle(sqlName string) (paramsExcelTitle base.AttrS2) {
+	paramsExcelTitle = sqlInfo.GetParamsExcelTitleBySQLName(sqlName)
+	return paramsExcelTitle
 }
 
 func (self *EntityDataPut) SetPathDirThisTime() *EntityDataPut {
 	pathDirPutExcel := conf.GetPathDirPutExcel()
 	file.MakeDir(pathDirPutExcel)
-	userId := self.getUserId()
+	userId := self.UserId
 	pathDirThisTime := getPathDirThisTime(userId)
 	file.MakeDir(pathDirThisTime)
 	self.PathDirThisTime = pathDirThisTime
@@ -109,14 +93,14 @@ func getPathDirThisTime(userId string) (PathDir string) {
 }
 
 func (self *EntityDataPut) SetParamsPathFile() *EntityDataPut {
-	userId := self.getUserId()
+	userId := self.UserId
 	pathDirThisTime := self.PathDirThisTime
 	paramsPathFile := make(base.AttrS1)
-	for shortName, fileNamePrefix := range paramsFileNamePrefix {
+	for sqlName, fileNamePrefix := range paramsFileNamePrefix {
 		fileName := getFileName(fileNamePrefix, userId)
 		pathFileOne := pathDirThisTime + "/" + fileName
 		pathFileOne = file.GetFilePathEmbed(pathFileOne)
-		paramsPathFile[shortName] = pathFileOne
+		paramsPathFile[sqlName] = pathFileOne
 	}
 	self.ParamsPathFile = paramsPathFile
 	return self

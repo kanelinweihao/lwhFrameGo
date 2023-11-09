@@ -1,17 +1,13 @@
 package db
 
 import (
-	_ "database/sql"
-	"fmt"
-	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbQuerier"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbReader"
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/ssh"
 )
-
-var driver string = "mysql"
 
 /*
 Init
@@ -29,69 +25,22 @@ func initEntityDB() (entityDB *EntityDB) {
 }
 
 func (self *EntityDB) Init() *EntityDB {
-	self.setEntitySSH().setEntityConfigMysql().setDBSqlx().pingDBSqlx()
+	self.setEntityDBConnector()
 	return self
 }
 
-func (self *EntityDB) setEntitySSH() *EntityDB {
-	isNeedSSH := conf.IsNeedSSH()
-	self.IsNeedSSH = isNeedSSH
-	if !isNeedSSH {
-		return self
-	}
-	entitySSH := ssh.MakeEntityOfSSHForMysql()
-	funcDialMysql := entitySSH.DialForMysql
-	networkDialMysql := ssh.NetworkTCPANDSSH
-	mysql.RegisterDialContext(networkDialMysql, funcDialMysql)
-	self.EntitySSH = entitySSH
+func (self *EntityDB) setEntityDBConnector() *EntityDB {
+	self.EntityDBConnector = dbConnector.MakeEntityOfDBConnector()
 	return self
 }
 
-func (self *EntityDB) setEntityConfigMysql() *EntityDB {
-	ec := conf.GetEntityConfigMysql()
-	self.EntityConfigMysql = ec
+func (self *EntityDB) setEntityDBQuerier(arrSQLName []string, attrArgsForQuery base.AttrS1) *EntityDB {
+	self.EntityDBQuerier = dbQuerier.MakeEntityOfDBQuerier(arrSQLName, attrArgsForQuery)
 	return self
 }
 
-func (self *EntityDB) setDBSqlx() *EntityDB {
-	dsn := self.initDSN()
-	m, errDB := sqlx.Open(driver, dsn)
-	err.ErrCheck(errDB)
-	self.DBSqlx = m
-	return self
-}
-
-func (self *EntityDB) initDSN() (dsn string) {
-	ec := self.EntityConfigMysql
-	mysqlHost := ec.Host
-	mysqlPort := ec.Port
-	mysqlUser := ec.User
-	mysqlPassword := ec.Password
-	mysqlDBName := ec.DBName
-	mysqlCharset := ec.Charset
-	network := ssh.NetworkTCP
-	isNeedSSH := self.IsNeedSSH
-	if isNeedSSH {
-		network = ssh.NetworkTCPANDSSH
-	}
-	networkFull := fmt.Sprintf(
-		"%s(%s:%s)",
-		network,
-		mysqlHost,
-		mysqlPort)
-	dsn = fmt.Sprintf(
-		"%s:%s@%s/%s?charset=%s",
-		mysqlUser,
-		mysqlPassword,
-		networkFull,
-		mysqlDBName,
-		mysqlCharset)
-	return dsn
-}
-
-func (self *EntityDB) pingDBSqlx() *EntityDB {
-	errPing := self.DBSqlx.Ping()
-	err.ErrCheck(errPing)
+func (self *EntityDB) setEntityDBReader(dbSqlx *sqlx.DB, attrT2DBQuery base.AttrT2) *EntityDB {
+	self.EntityDBReader = dbReader.MakeEntityOfDBReader(dbSqlx, attrT2DBQuery)
 	return self
 }
 
@@ -100,28 +49,15 @@ Close
 */
 
 func (self *EntityDB) CloseDB() {
-	self.closeDBSqlx().closeSSH()
+	self.closeDBConnector()
 	return
 }
 
-func (self *EntityDB) closeDBSqlx() *EntityDB {
-	if self.DBSqlx == nil {
+func (self *EntityDB) closeDBConnector() *EntityDB {
+	if self.EntityDBConnector == nil {
 		return self
 	}
-	self.DBSqlx.Close()
-	self.DBSqlx = nil
-	return self
-}
-
-func (self *EntityDB) closeSSH() *EntityDB {
-	if !self.IsNeedSSH {
-		self.EntitySSH = nil
-		return self
-	}
-	if self.EntitySSH == nil {
-		return self
-	}
-	self.EntitySSH.CloseSSH()
-	self.EntitySSH = nil
+	self.EntityDBConnector.CloseDBConnector()
+	self.EntityDBConnector = nil
 	return self
 }

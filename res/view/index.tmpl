@@ -15,16 +15,16 @@
     {{/*提交表单*/}}
     <form>
         <div>
-            示例字段Field1
-            <input type="text" name="Field1" value={{.Field1}}>
+            机构编号OrgId
+            <input type="text" name="OrgId" value={{.OrgId}}>
         </div>
         <div>
-            示例字段Field2
-            <input type="text" name="Field2" value={{.Field2}} onkeyup="value=value.replace(/[^\d]/g,'')">
+            用户编号简写ShortUserId
+            <input type="text" name="ShortUserId" value={{.ShortUserId}} onkeyup="value=value.replace(/[^\d]/g,'')">
         </div>
         <div  style="display:none;">
-            示例字段Field3
-            <input type="text" name="Field3" value={{.Field3}}>
+            隐藏标识Sign
+            <input type="text" name="Sign" value={{.Sign}}>
         </div>
         <div>
             <input type="submit">

@@ -14,22 +14,24 @@ func getParamsEnv() (paramsEnv base.AttrS1) {
 	paramsEnv = make(base.AttrS1)
 	pathEnv := getPathEnv()
 	strFromEnv := pack.ReadFileEmbedAsString(pathEnv)
-	sliceEnvLine := strings.Split(strFromEnv, "\n")
+	arrLine := strings.Split(strFromEnv, "\n")
 	strAnnotation := "#"
 	strSeparator := "="
-	for _, strEnvLine := range sliceEnvLine {
-		if len(strEnvLine) == 0 {
+	for _, strLine := range arrLine {
+		if len(strLine) == 0 {
 			continue
 		}
-		firstLetter := string(strEnvLine[0])
+		firstLetter := string(strLine[0])
 		if firstLetter == strAnnotation {
 			continue
 		}
-		sliceEnvKV := strings.Split(strEnvLine, strSeparator)
-		if len(sliceEnvKV) != 2 {
+		arrPart := strings.Split(strLine, strSeparator)
+		if len(arrPart) != 2 {
 			continue
 		}
-		paramsEnv[sliceEnvKV[0]] = sliceEnvKV[1]
+		envKey := arrPart[0]
+		envValue := arrPart[1]
+		paramsEnv[envKey] = envValue
 	}
 	return paramsEnv
 }
@@ -68,7 +70,7 @@ func getParamsEnvNeed(paramsKey base.AttrS1) (paramsNeed base.AttrT1) {
 	return paramsNeed
 }
 
-func getEntityConfig[T interface{}](paramsKey base.AttrS1, entity *T) {
+func getEntityConfig(paramsKey base.AttrS1, entity base.EntityBase) {
 	paramsNeed := getParamsEnvNeed(paramsKey)
 	conv.ToEntityFromAttr(paramsNeed, entity)
 	return

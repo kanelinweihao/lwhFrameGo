@@ -9,8 +9,13 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 )
 
+var arrSQLName = []string{
+	"GetMobileNoByUserId",
+	"GetOrgIdByUserId",
+}
+
 func ExecBackEnd(paramsIn base.AttrT1) (paramsOut base.AttrT1) {
-	paramsOut, boxData := dataGet.GetData(paramsIn)
+	paramsOut, boxData := dataGet.GetData(paramsIn, arrSQLName)
 	time.ShowTimeAndMsg("Data get success")
 	dataPut.PutDataToExcel(paramsOut, boxData)
 	time.ShowTimeAndMsg("Data put success")

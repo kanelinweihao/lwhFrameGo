@@ -7,19 +7,12 @@ import (
 	"time"
 )
 
-var cacheKeyPrefix = "log"
-var ttl = time.Second * time.Duration(60)
-
 type EntityCacheSet struct {
 	ParamsOut  base.AttrT1
 	CacheKey   string
 	CacheValue string
 	TTL        time.Duration
 }
-
-/*
-Exec
-*/
 
 func (self *EntityCacheSet) SetToRedis() {
 	cacheKey := self.CacheKey

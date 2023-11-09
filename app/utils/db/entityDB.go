@@ -1,41 +1,39 @@
 package db
 
 import (
-	"github.com/jmoiron/sqlx"
-	"github.com/kanelinweihao/lwhFrameGo/app/conf"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbQuerier"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbReader"
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/ssh"
 )
 
 type EntityDB struct {
-	DBSqlx            *sqlx.DB
-	EntityConfigMysql *conf.EntityConfigMysql
-	IsNeedSSH         bool
-	EntitySSH         *ssh.EntitySSH
+	BoxData           base.AttrS3
+	EntityDBConnector *dbConnector.EntityDBConnector
+	EntityDBQuerier   *dbQuerier.EntityDBQuerier
+	EntityDBReader    *dbReader.EntityDBReader
 }
 
-func GetArrAttrForExcel[T interface{}](self *EntityDB, arrEntity []T, query string, queryValue ...interface{}) (attrS2 base.AttrS2) {
-	d := self.DBSqlx
-	errSqlxSelect := d.Select(
-		&arrEntity,
-		query,
-		queryValue...)
-	err.ErrCheck(errSqlxSelect)
-	attrT2 := conv.ToAttrT2FromArrEntity(arrEntity)
-	attrS2 = conv.ToAttrS2FromAttrT2(attrT2)
-	return attrS2
+func (self *EntityDB) GetDBData(arrSQLName []string, attrArgsForQuery base.AttrS1) (boxData base.AttrS3) {
+	self.setEntityDBQuerier(
+		arrSQLName,
+		attrArgsForQuery)
+	self.setEntityDBReader(
+		self.EntityDBConnector.DBSqlx,
+		self.EntityDBQuerier.AttrT2DBQuery)
+	self.setBoxData()
+	boxData = self.getBoxData()
+	return boxData
 }
 
-func GetArrAttrForExcelUseGoroutine[T interface{}](entityChannel *goroutine.EntityChannel, self *EntityDB, arrEntity []T, query string, queryValue ...interface{}) {
-	attrS2 := GetArrAttrForExcel(
-		self,
-		arrEntity,
-		query,
-		queryValue...)
-	entityChannel.WriteOnce(attrS2)
-	return
+func (self *EntityDB) setBoxData() *EntityDB {
+	boxData := self.EntityDBReader.SetBoxData().GetBoxData()
+	self.BoxData = boxData
+	return self
+}
+
+func (self *EntityDB) getBoxData() (boxData base.AttrS3) {
+	boxData = self.BoxData
+	return boxData
 }

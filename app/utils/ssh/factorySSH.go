@@ -6,6 +6,7 @@ import (
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -61,7 +62,18 @@ func (self *EntitySSH) dialSSH() *EntitySSH {
 		network,
 		address,
 		configSSHClient)
-	err.ErrCheck(errDial)
+	if errDial == nil {
+		self.ClientDial = clientDial
+		self.Network = network
+		self.Address = address
+		return self
+	}
+	time.Sleep(2, "s")
+	clientDial, errDialAgain := ssh.Dial(
+		network,
+		address,
+		configSSHClient)
+	err.ErrCheck(errDialAgain)
 	self.ClientDial = clientDial
 	self.Network = network
 	self.Address = address

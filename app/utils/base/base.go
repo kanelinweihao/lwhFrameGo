@@ -4,6 +4,12 @@ import (
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
+// interface
+type EntityBase interface{}
+type EntityDBData interface {
+	EntityBase
+}
+
 // map
 type AttrT1 map[string]interface{}
 type AttrT2 map[string]AttrT1

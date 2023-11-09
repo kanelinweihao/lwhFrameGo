@@ -7,7 +7,11 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	ttt "github.com/kanelinweihao/lwhFrameGo/app/utils/time"
+	"time"
 )
+
+var cacheKeyPrefix = "log"
+var ttl60s = time.Second * time.Duration(60)
 
 func MakeEntityOfCacheSet(paramsOut base.AttrT1) (entityCacheSet *EntityCacheSet) {
 	entityCacheSet = initCacheSet(paramsOut)
@@ -21,7 +25,7 @@ func initCacheSet(paramsOut base.AttrT1) (entityCacheSet *EntityCacheSet) {
 }
 
 func (self *EntityCacheSet) Init(paramsOut base.AttrT1) *EntityCacheSet {
-	self.setParamsOut(paramsOut).setCacheKey().setCacheValue()
+	self.setParamsOut(paramsOut).setCacheKey().setCacheValue().setTTL()
 	return self
 }
 
@@ -46,5 +50,10 @@ func (self *EntityCacheSet) setCacheValue() *EntityCacheSet {
 	paramsOut := self.ParamsOut
 	cacheValue := conv.ToJsonFromAttr(paramsOut)
 	self.CacheValue = cacheValue
+	return self
+}
+
+func (self *EntityCacheSet) setTTL() *EntityCacheSet {
+	self.TTL = ttl60s
 	return self
 }

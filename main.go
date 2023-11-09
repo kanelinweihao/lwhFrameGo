@@ -38,7 +38,7 @@ func main() {
 func doIt() {
 	showTips()
 	showWeb()
-	dd.IGNORE("")
+	finishIt()
 }
 
 func showTips() {
@@ -51,4 +51,11 @@ func showTips() {
 func showWeb() {
 	frontEnd.ExecFrontEnd()
 	return
+}
+
+func finishIt() {
+	fmt.Println("FINISH")
+	time.Sleep(10, "s")
+	dd.IGNORE("")
+	dd.DIE("")
 }

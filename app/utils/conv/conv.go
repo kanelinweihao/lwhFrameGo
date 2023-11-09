@@ -1,9 +1,11 @@
 package conv
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
@@ -12,7 +14,14 @@ import (
 )
 
 func ToValidType(valueOld interface{}, typeNameNew string) (valueNew interface{}) {
-	typeNameOld := rfl.GetTypeName(valueOld)
+	isPtr, typeNameOld, typeKindNameOld := rfl.GetTypeInfo(valueOld)
+	if isPtr {
+		errPanicIsPtr(
+			valueOld,
+			typeKindNameOld,
+			typeNameOld,
+			typeNameNew)
+	}
 	if typeNameOld == typeNameNew {
 		valueNew = valueOld
 		return valueNew
@@ -33,6 +42,16 @@ func ToValidType(valueOld interface{}, typeNameNew string) (valueNew interface{}
 	return valueNew
 }
 
+func errPanicIsPtr(value interface{}, typeKindName string, typeNameOld string, typeNameNew string) {
+	msgError := fmt.Sprintf(
+		"Fail to format value |%v|, kind |%s| from typeName |%s| to typeName |%s|",
+		value,
+		typeKindName,
+		typeNameOld,
+		typeNameNew)
+	err.ErrPanic(msgError)
+}
+
 func errPanicFormat(value interface{}, typeNameOld string, typeNameNew string) {
 	msgError := fmt.Sprintf(
 		"Fail to format value |%v| from typeName |%s| to typeName |%s|",
@@ -49,7 +68,14 @@ ToBool
 // interface{}->bool
 func ToBool(valueOld interface{}) (valueNew bool) {
 	typeNameNew := "bool"
-	typeNameOld := rfl.GetTypeName(valueOld)
+	isPtr, typeNameOld, typeKindNameOld := rfl.GetTypeInfo(valueOld)
+	if isPtr {
+		errPanicIsPtr(
+			valueOld,
+			typeKindNameOld,
+			typeNameOld,
+			typeNameNew)
+	}
 	if typeNameOld == typeNameNew {
 		valueNew = valueOld.(bool)
 		return valueNew
@@ -94,7 +120,14 @@ ToInt
 // interface{}->int
 func ToInt(valueOld interface{}) (valueNew int) {
 	typeNameNew := "int"
-	typeNameOld := rfl.GetTypeName(valueOld)
+	isPtr, typeNameOld, typeKindNameOld := rfl.GetTypeInfo(valueOld)
+	if isPtr {
+		errPanicIsPtr(
+			valueOld,
+			typeKindNameOld,
+			typeNameOld,
+			typeNameNew)
+	}
 	if typeNameOld == typeNameNew {
 		valueNew = valueOld.(int)
 		return valueNew
@@ -139,7 +172,14 @@ ToStr
 // interface{}->string
 func ToStr(valueOld interface{}) (valueNew string) {
 	typeNameNew := "string"
-	typeNameOld := rfl.GetTypeName(valueOld)
+	isPtr, typeNameOld, typeKindNameOld := rfl.GetTypeInfo(valueOld)
+	if isPtr {
+		errPanicIsPtr(
+			valueOld,
+			typeKindNameOld,
+			typeNameOld,
+			typeNameNew)
+	}
 	if typeNameOld == typeNameNew {
 		valueNew = valueOld.(string)
 		return valueNew
@@ -157,7 +197,18 @@ func ToStr(valueOld interface{}) (valueNew string) {
 		valueNew = fmt.Sprintf(
 			"%s",
 			valueOld)
+	case "NullInt64":
+		valueInt, _ := valueOld.(sql.NullInt64).Value()
+		valueNew = fmt.Sprintf(
+			"%d",
+			valueInt)
+	case "NullString":
+		valueStr, _ := valueOld.(sql.NullString).Value()
+		valueNew = fmt.Sprintf(
+			"%s",
+			valueStr)
 	default:
+		dd.DD(typeNameOld)
 		errPanicFormat(
 			valueNew,
 			typeNameOld,
@@ -190,8 +241,8 @@ func ToJsonFromAttr(attrT1 base.AttrT1) (strJson string) {
 	return strJson
 }
 
-// map->json
-func ToJsonFromEntity[T interface{}](entity *T) (strJson string) {
+// struct->json
+func ToJsonFromEntity(entity base.EntityBase) (strJson string) {
 	attrT1 := ToAttrFromEntity(entity)
 	strJson = ToJsonFromAttr(attrT1)
 	return strJson
@@ -201,7 +252,7 @@ func ToJsonFromEntity[T interface{}](entity *T) (strJson string) {
 ToMap
 */
 
-// map->json
+// json->map
 func ToAttrFromJson(strJson string) (attrT1 base.AttrT1) {
 	arrByte := []byte(strJson)
 	errTo := json.Unmarshal(arrByte, &attrT1)
@@ -210,11 +261,10 @@ func ToAttrFromJson(strJson string) (attrT1 base.AttrT1) {
 }
 
 // struct->map
-func ToAttrFromEntity[T interface{}](entity *T) (attrT1 base.AttrT1) {
+func ToAttrFromEntity(entity base.EntityBase) (attrT1 base.AttrT1) {
 	attrT1 = make(base.AttrT1)
-	entityStruct := *entity
-	t := reflect.TypeOf(entityStruct)
-	v := reflect.ValueOf(entityStruct)
+	t := reflect.TypeOf(entity).Elem()
+	v := reflect.ValueOf(entity).Elem()
 	for i := 0; i < t.NumField(); i++ {
 		key := t.Field(i).Name
 		value := v.Field(i).Interface()
@@ -228,11 +278,10 @@ ToStruct
 */
 
 // map->struct
-func ToEntityFromAttr[T interface{}](attrT1 base.AttrT1, entity *T) {
+func ToEntityFromAttr(attrT1 base.AttrT1, entity base.EntityBase) {
 	structValue := reflect.ValueOf(entity).Elem()
 	for k, v := range attrT1 {
 		structFieldValue := structValue.FieldByName(k)
-		typeStructFieldValue := structFieldValue.Type()
 		if !structFieldValue.IsValid() {
 			continue
 		}
@@ -244,6 +293,7 @@ func ToEntityFromAttr[T interface{}](attrT1 base.AttrT1, entity *T) {
 		}
 		val := reflect.ValueOf(v)
 		typeVal := val.Type()
+		typeStructFieldValue := structFieldValue.Type()
 		if typeStructFieldValue != typeVal {
 			typeNameStruct := typeStructFieldValue.Name()
 			vNew := ToValidType(
@@ -254,18 +304,6 @@ func ToEntityFromAttr[T interface{}](attrT1 base.AttrT1, entity *T) {
 		structFieldValue.Set(val)
 	}
 	return
-}
-
-// []Struct->Map2
-func ToAttrT2FromArrEntity[T interface{}](arrEntity []T) (attrT2 base.AttrT2) {
-	attrT2 = make(base.AttrT2, len(arrEntity))
-	for key, entityStruct := range arrEntity {
-		k := ToStrFromInt(key)
-		entity := &entityStruct
-		attrT1 := ToAttrFromEntity(entity)
-		attrT2[k] = attrT1
-	}
-	return attrT2
 }
 
 /*
@@ -291,7 +329,7 @@ func ToAttrStrFromAttr(attrT1 base.AttrT1) (attrS1 base.AttrS1) {
 	return attrS1
 }
 
-// ArrAttr->AttrS2
+// AttrT2->AttrS2
 func ToAttrS2FromAttrT2(attrT2 base.AttrT2) (attrS2 base.AttrS2) {
 	attrS2 = make(base.AttrS2, len(attrT2))
 	for k, attrT1 := range attrT2 {

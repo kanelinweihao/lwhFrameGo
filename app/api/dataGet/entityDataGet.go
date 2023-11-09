@@ -3,89 +3,55 @@ package dataGet
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db"
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
 )
 
 type EntityDataGet struct {
-	Field1  string
-	Field2  string
-	Field3  string
-	UID     string
-	MsgOut  string
-	BoxData base.AttrS3
+	ParamsOut        base.AttrT1
+	Sign             string
+	ShortUserId      string
+	UserId           string
+	ArrSQLName       []string
+	AttrArgsForQuery base.AttrS1
+	BoxData          base.AttrS3
+	MsgOut           string
 }
 
 func (self *EntityDataGet) GetData() (boxData base.AttrS3, paramsOut base.AttrT1) {
-	self.setMsgOut().getDataFromDB()
+	self.getDataFromDB().setMsgOut().setParamsOut()
 	boxData = self.BoxData
-	paramsOut = conv.ToAttrFromEntity(self)
+	paramsOut = self.ParamsOut
 	return boxData, paramsOut
 }
 
-func (self *EntityDataGet) setMsgOut() *EntityDataGet {
-	MsgOut := fmt.Sprintf(
-		"\n%s%s\n",
-		self.Field1,
-		self.UID)
-	self.MsgOut = MsgOut
+func (self *EntityDataGet) getDataFromDB() *EntityDataGet {
+	entityDB := db.MakeEntityOfDB()
+	defer entityDB.CloseDB()
+	boxData := entityDB.GetDBData(
+		self.ArrSQLName,
+		self.AttrArgsForQuery)
+	self.BoxData = boxData
 	return self
 }
 
-func (self *EntityDataGet) getDataFromDB() {
-	entityDB := db.MakeEntityOfDB()
-	defer entityDB.CloseDB()
-	// init
-	boxData := make(base.AttrS3)
-	userId := self.UID
-	// write
-	var arrEntityUID []EntityUID
-	channelReadUID := getAttrS2ExcelDataOfWrite(
-		entityDB,
-		arrEntityUID,
-		queryUID,
-		userId)
-	var arrEntityOID []EntityOID
-	channelReadOID := getAttrS2ExcelDataOfWrite(
-		entityDB,
-		arrEntityOID,
-		queryOID,
-		userId)
-	// read
-	attrS2ExcelDataUID := getAttrS2ExcelDataOfRead(channelReadUID)
-	attrS2ExcelDataOID := getAttrS2ExcelDataOfRead(channelReadOID)
-	boxData["UID"] = attrS2ExcelDataUID
-	boxData["OID"] = attrS2ExcelDataOID
-	self.BoxData = boxData
-	return
+func (self *EntityDataGet) setMsgOut() *EntityDataGet {
+	msgOut := fmt.Sprintf(
+		"\n%s\n%s\n",
+		self.UserId,
+		"Success")
+	self.MsgOut = msgOut
+	return self
 }
 
-func getAttrS2ExcelDataOfWrite[T TypeEntityData](entityDB *db.EntityDB, arrEntity []T, query string, userId string) (entityChannel *goroutine.EntityChannel) {
-	entityChannel = goroutine.MakeEntityOfGoroutine()
-	go db.GetArrAttrForExcelUseGoroutine(
-		entityChannel,
-		entityDB,
-		arrEntity,
-		query,
-		userId)
-	return entityChannel
-}
-
-func getAttrS2ExcelDataOfRead(entityChannel *goroutine.EntityChannel) (attrS2ExcelData base.AttrS2) {
-	dataOnce := entityChannel.ReadOnce()
-	attrS2ExcelData, ok := dataOnce.(base.AttrS2)
-	if !ok {
-		typeInvalid := rfl.GetTypeName(attrS2ExcelData)
-		msgError := fmt.Sprintf(
-			"The type of |%s| is |%s|, it should be |%s|",
-			"attrS2ExcelData",
-			typeInvalid,
-			"base.AttrS2")
-		err.ErrPanic(msgError)
+func (self *EntityDataGet) setParamsOut() *EntityDataGet {
+	paramsOut := make(base.AttrT1)
+	paramsOut = base.AttrT1{
+		"Sign":        self.Sign,
+		"ShortUserId": self.ShortUserId,
+		"UserId":      self.UserId,
+		"MsgOut":      self.MsgOut,
 	}
-	return attrS2ExcelData
+	self.ParamsOut = paramsOut
+	return self
 }

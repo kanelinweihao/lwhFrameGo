@@ -7,20 +7,23 @@ import (
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
-func MakeEntityOfDataGet(paramsIn base.AttrT1) (entityDataGet *EntityDataGet) {
-	entityDataGet = initDataGet(paramsIn)
+func MakeEntityOfDataGet(paramsIn base.AttrT1, arrSQLName []string) (entityDataGet *EntityDataGet) {
+	entityDataGet = initDataGet(paramsIn, arrSQLName)
 	return entityDataGet
 }
 
-func initDataGet(paramsIn base.AttrT1) (entityDataGet *EntityDataGet) {
+func initDataGet(paramsIn base.AttrT1, arrSQLName []string) (entityDataGet *EntityDataGet) {
 	entityDataGet = new(EntityDataGet)
-	entityDataGet.Init(paramsIn)
+	entityDataGet.Init(paramsIn, arrSQLName)
 	return entityDataGet
 }
 
-func (self *EntityDataGet) Init(paramsIn base.AttrT1) *EntityDataGet {
+func (self *EntityDataGet) Init(paramsIn base.AttrT1, arrSQLName []string) *EntityDataGet {
 	conv.ToEntityFromAttr(paramsIn, self)
-	self.UID = calc.Add(self.Field2, "1000000")
-	self.Field3 = "empty"
+	self.UserId = calc.Add(self.ShortUserId, "1000000")
+	self.ArrSQLName = arrSQLName
+	self.AttrArgsForQuery = base.AttrS1{
+		"UserId": self.UserId,
+	}
 	return self
 }

@@ -19,46 +19,21 @@ type EntityDataPut struct {
 	BoxExcelTitle   base.AttrS3
 }
 
-/*
-GET
-*/
-
-func (self *EntityDataPut) getUserId() (userId string) {
-	userId = self.UserId
-	if userId == "0" {
-		msgError := "The |userId| is required"
-		err.ErrPanic(msgError)
-	}
-	return userId
-}
-
-func errPanicExcelParamsRequired(shortName string, part string) {
-	msgError := fmt.Sprintf(
-		"The |%s| of |%s| is required",
-		part,
-		shortName)
-	err.ErrPanic(msgError)
-}
-
-/*
-EXEC
-*/
-
 func (self *EntityDataPut) BatchPutExcel() {
 	paramsPathFile := self.ParamsPathFile
 	boxExcelTitle := self.BoxExcelTitle
 	boxExcelData := self.BoxExcelData
-	for shortName, pathFile := range paramsPathFile {
-		attrS2ExcelTitle, ok := boxExcelTitle[shortName]
+	for sqlName, pathFile := range paramsPathFile {
+		attrS2ExcelTitle, ok := boxExcelTitle[sqlName]
 		if !ok {
-			errPanicExcelParamsRequired(shortName, "excelTitle")
+			errPanicExcelParamsRequired(sqlName, "excelTitle")
 		}
-		attrS2ExcelData, ok := boxExcelData[shortName]
+		attrS2ExcelData, ok := boxExcelData[sqlName]
 		if !ok {
-			errPanicExcelParamsRequired(shortName, "excelData")
+			errPanicExcelParamsRequired(sqlName, "excelData")
 		}
 		go putOne(
-			shortName,
+			sqlName,
 			pathFile,
 			attrS2ExcelTitle,
 			attrS2ExcelData)
@@ -66,7 +41,15 @@ func (self *EntityDataPut) BatchPutExcel() {
 	return
 }
 
-func putOne(shortName string, pathFile string, attrS2ExcelTitle base.AttrS2, attrS2ExcelData base.AttrS2) {
+func errPanicExcelParamsRequired(sqlName string, part string) {
+	msgError := fmt.Sprintf(
+		"The |%s| of |%s| is required",
+		part,
+		sqlName)
+	err.ErrPanic(msgError)
+}
+
+func putOne(sqlName string, pathFile string, attrS2ExcelTitle base.AttrS2, attrS2ExcelData base.AttrS2) {
 	writeOne(pathFile, attrS2ExcelTitle, attrS2ExcelData)
 	time.Sleep(100, "ms")
 	// readOne(pathFile)

@@ -1,10 +1,9 @@
 package file
 
 import (
-	_ "fmt"
 	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	_ "io/fs"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -99,10 +98,6 @@ func MakeDir(filePathDir string) {
 	isExisted, errDirExisted := HasDir(filePathDir)
 	err.ErrCheck(errDirExisted)
 	if isExisted {
-		// msgError := fmt.Sprintf(
-		//     "The dir of |%s| is existed",
-		//     filePathDir)
-		// err.ErrPanic(msgError)
 		return
 	}
 	errDirMk := os.MkdirAll(filePathDir, os.ModePerm)
@@ -114,15 +109,20 @@ func MakeDir(filePathDir string) {
 FileRead
 */
 
-// --> pack.ReadFileEmbedAsArrayByte(path)
-func readFileAsArrayByte(filePath string) (arrByte []byte) {
-	fs, errFileOpen := os.OpenFile(
+func getFS(filePath string) (f fs.File) {
+	f, errFileOpen := os.OpenFile(
 		filePath,
 		os.O_RDONLY,
 		0666)
 	err.ErrCheck(errFileOpen)
-	defer fs.Close()
-	arrByte, errFileRead := ioutil.ReadAll(fs)
+	return f
+}
+
+// --> pack.ReadFileEmbedAsArrayByte(path)
+func readFileAsArrayByte(filePath string) (arrByte []byte) {
+	f := getFS(filePath)
+	defer f.Close()
+	arrByte, errFileRead := ioutil.ReadAll(f)
 	err.ErrCheck(errFileRead)
 	return arrByte
 }
