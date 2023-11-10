@@ -5,7 +5,6 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbQuerier"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbReader"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 type EntityDB struct {

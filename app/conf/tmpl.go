@@ -3,7 +3,6 @@ package conf
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 func GetDomain() (domain string) {

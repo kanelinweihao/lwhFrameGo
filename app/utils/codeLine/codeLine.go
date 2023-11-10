@@ -1,8 +1,8 @@
 package codeLine
 
 import (
+	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 	"os"
 	"path/filepath"
@@ -13,7 +13,16 @@ var attrValidExt = base.AttrS1{
 }
 var attrValidFilePath = make(base.AttrS1)
 
-func GetCodeLine(pathDirRel string) (countCodeLine int) {
+func GetMsgCodeLine(pathDirRel string) (msgCodeLine string) {
+	countCodeLine := GetCountCodeLine(pathDirRel)
+	msgCodeLine = fmt.Sprintf(
+		"\npathDirRel = %s\ncountCodeLine = %d\n",
+		pathDirRel,
+		countCodeLine)
+	return msgCodeLine
+}
+
+func GetCountCodeLine(pathDirRel string) (countCodeLine int) {
 	pathDirEmbed := getPathDirEmbed(pathDirRel)
 	countCodeLine = getCodeLineValid(pathDirEmbed)
 	return countCodeLine

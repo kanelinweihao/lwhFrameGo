@@ -3,7 +3,6 @@ package tmpl
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"

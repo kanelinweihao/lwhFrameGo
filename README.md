@@ -2,9 +2,8 @@
 # LwhUtils
 
 ## 1.项目简述
-
-| 条目 | 说明 |
-| :- |:-----------------------|
+| 条目   | 说明 |
+|:--|:--|
 | 中文名称 | 林为豪自用框架GO |
 | 英文名称 | LwhFrameGo |
 | 项目作者 | 林为豪 |
@@ -14,35 +13,48 @@
 | 项目类型 | 自用框架 |
 | 简要描述 | 自制自用框架,复用以便快速开发 |
 
-## 2.文件结构
+## 2.外部依赖
 
+| 路径 | 备注 |
+| :-- |:--|
+| github.com/akavel/rsrc | rsrc打包指定图标 |
+| github.com/go-sql-driver/mysql | mysql_base |
+| github.com/jmoiron/sqlx | mysql_sqlx |
+| github.com/redis/go-redis/v9 | redis |
+| github.com/shopspring/decimal | decimal高精度 |
+| github.com/xuri/excelize/v2 | excel |
+| golang.org/x/crypto/ssh | ssh |
+
+## 3.内部架构
 - | 根目录
     - app | 程序代码
         - api | 主体逻辑
         - conf | 配置
+        - sqlInfo | 数据表信息
         - utils | 工具
     - res | 静态资源文件
         - env | 环境配置
         - ico | 图标
         - privateKey | 私钥
+        - sql | 数据表语句
+        - version | 版本信息
         - view | 视图
     - tmp | 临时文件
         - bak | 备份
-        - downloads | 待下载
+        - downloads | 已下载
         - logs | 日志
-        - uploads | 待上传
-    - .editorconfig | 格式规范
+        - uploads | 已上传
+    - .editorconfig | 编辑器格式规范
     - .gitignore | git忽略文件
     - go.mod | GO依赖目录
     - go.sum | GO依赖哈希
     - main.go | 总入口
+    - main_test.go | 测试入口
     - readme.md | 项目描述
     - rsrc.syso | 图标文件
 
-## 3.常用命令
-
+## 4.常用命令
 #### 设置环境变量
-
 GO依赖管理使用官方自带的MODULE,而不是早已过时的GOPATH
 ```
 go env -w GO111MODULE=on
@@ -65,7 +77,6 @@ go env -w GOARCH=amd64
 ```
 
 #### 初始化本项目
-
 创建目录
 ```
 mkdir lwhFrameGo
@@ -75,44 +86,26 @@ cd ./lwhFrameGo
 ```
 go mod init github.com/kanelinweihao/lwhFrameGo
 ```
-
-#### 引入外部依赖
-
-mysql_1
-```
-go get -u github.com/go-sql-driver/mysql
-```
-mysql_2
-```
-go get -u github.com/jmoiron/sqlx
-```
-ssh
-```
-go get -u golang.org/x/crypto/ssh
-```
-redis
-```
-go get -u github.com/redis/go-redis/v9
-```
-decimal 高精度
-```
-go get -u github.com/shopspring/decimal
-```
-excel
-```
-go get -u github.com/xuri/excelize/v2
-```
-rsrc 打包指定图标
-```
-go get -u github.com/akavel/rsrc
-```
-
-#### 编译打包
-
 创建图标资源文件
 ```
 rsrc -manifest ./res/ico/main.manifest -ico ./res/ico/icon_go.ico -o rsrc.syso
 ```
+
+#### 执行代码
+运行代码
+```
+go run main.go
+```
+逻辑测试
+```
+go test
+```
+基准测试
+```
+go test -bench=.
+```
+
+#### 编译打包
 格式化代码
 ```
 go fmt ./...
@@ -133,10 +126,3 @@ go list -m -json all
 ```
 GOOS=windows GOARCH=amd64 go build -o 林为豪自用框架GO.exe
 ```
-
-#### 执行源码
-
-```
-go run main.go
-```
-

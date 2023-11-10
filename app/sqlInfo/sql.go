@@ -3,7 +3,6 @@ package sqlInfo
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 )
 

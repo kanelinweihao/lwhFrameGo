@@ -3,23 +3,26 @@ package conf
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
 	"strings"
 )
 
-var versionMajor = "1"
-var versionMinor = "0"
-var versionPatch = "2"
-
 func GetModuleVersion() (modVersion string) {
-	version := fmt.Sprintf(
-		"%s.%s.%s",
+	paramsKeyVersion := base.AttrS1{
+		"VersionMajor": "VersionMajor",
+		"VersionMinor": "VersionMinor",
+		"VersionPatch": "VersionPatch",
+	}
+	paramsVersion := getParamsEnvNeed(paramsKeyVersion)
+	versionMajor := paramsVersion["VersionMajor"].(string)
+	versionMinor := paramsVersion["VersionMinor"].(string)
+	versionPatch := paramsVersion["VersionPatch"].(string)
+	modVersion = fmt.Sprintf(
+		"v%s.%s.%s",
 		versionMajor,
 		versionMinor,
 		versionPatch)
-	modVersion = "v" + version
 	return modVersion
 }
 

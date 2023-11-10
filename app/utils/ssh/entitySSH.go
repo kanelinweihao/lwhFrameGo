@@ -3,7 +3,6 @@ package ssh
 import (
 	"context"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"golang.org/x/crypto/ssh"
 	"net"

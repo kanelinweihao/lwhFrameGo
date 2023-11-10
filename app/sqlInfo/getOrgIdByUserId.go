@@ -3,7 +3,6 @@ package sqlInfo
 import (
 	"database/sql"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 type EntityGetOrgIdByUserId struct {

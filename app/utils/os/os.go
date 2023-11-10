@@ -1,7 +1,6 @@
 package os
 
 import (
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"runtime"
 )
 

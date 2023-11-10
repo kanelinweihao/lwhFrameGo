@@ -1,7 +1,6 @@
 package conf
 
 import (
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 )
 

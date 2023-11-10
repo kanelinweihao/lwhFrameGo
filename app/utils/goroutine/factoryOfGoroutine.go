@@ -1,9 +1,5 @@
 package goroutine
 
-import (
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
-)
-
 /*
 Init
 */

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 type EntityDataGet struct {

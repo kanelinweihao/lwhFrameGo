@@ -2,7 +2,6 @@ package cacheSet
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 func SetCache(paramsOut base.AttrT1) {

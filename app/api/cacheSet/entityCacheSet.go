@@ -3,7 +3,6 @@ package cacheSet
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"time"
 )
 

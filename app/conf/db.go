@@ -2,7 +2,6 @@ package conf
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 var paramsKeyMysql = base.AttrS1{

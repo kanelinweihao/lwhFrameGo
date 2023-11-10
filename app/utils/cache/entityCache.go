@@ -2,7 +2,6 @@ package cache
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/ssh"
 	"github.com/redis/go-redis/v9"

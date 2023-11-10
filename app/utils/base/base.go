@@ -1,9 +1,5 @@
 package base
 
-import (
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
-)
-
 // interface
 type EntityBase interface{}
 type EntityDBData interface {

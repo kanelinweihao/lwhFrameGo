@@ -5,7 +5,6 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/api/dataGet"
 	"github.com/kanelinweihao/lwhFrameGo/app/api/dataPut"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 )
 

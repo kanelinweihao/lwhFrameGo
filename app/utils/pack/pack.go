@@ -2,7 +2,6 @@ package pack
 
 import (
 	"embed"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 	"strings"

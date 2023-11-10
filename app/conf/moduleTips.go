@@ -2,7 +2,6 @@ package conf
 
 import (
 	"fmt"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 func GetModuleTips() (moduleTips string) {

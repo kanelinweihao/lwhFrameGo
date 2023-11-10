@@ -4,7 +4,6 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/calc"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
-	_ "github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 )
 
 func MakeEntityOfDataGet(paramsIn base.AttrT1, arrSQLName []string) (entityDataGet *EntityDataGet) {
