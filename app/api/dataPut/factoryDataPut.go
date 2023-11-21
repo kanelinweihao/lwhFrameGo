@@ -7,33 +7,37 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/excel"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 )
 
-var ext = "xlsx"
-var paramsFileNamePrefix = base.AttrS1{
-	"GetMobileNoByUserId": "示例_用户手机号",
-	"GetOrgIdByUserId":    "示例_用户所属机构",
-}
-
-func MakeEntityOfDataPut(paramsOut base.AttrT1, boxExcelData base.AttrS3) (entityDataPut *EntityDataPut) {
-	entityDataPut = initDataPut(paramsOut, boxExcelData)
-	return entityDataPut
-}
-
-func initDataPut(paramsOut base.AttrT1, boxExcelData base.AttrS3) (entityDataPut *EntityDataPut) {
+func MakeEntityDataPut(paramsOut base.AttrT1, boxExcelData base.AttrS3) (entityDataPut *EntityDataPut) {
 	entityDataPut = new(EntityDataPut)
 	entityDataPut.Init(paramsOut, boxExcelData)
 	return entityDataPut
 }
 
 func (self *EntityDataPut) Init(paramsOut base.AttrT1, boxExcelData base.AttrS3) *EntityDataPut {
-	self.SetUserId(paramsOut).SetBoxExcelData(boxExcelData).SetBoxExcelTitle().SetPathDirThisTime().SetParamsPathFile()
+	self.setParamsIn(paramsOut, boxExcelData).setParamsMore()
 	return self
 }
 
-func (self *EntityDataPut) SetUserId(paramsOut base.AttrT1) *EntityDataPut {
+func (self *EntityDataPut) setParamsIn(paramsOut base.AttrT1, boxExcelData base.AttrS3) *EntityDataPut {
+	self.ParamsOut = paramsOut
+	self.BoxExcelData = boxExcelData
+	return self
+}
+
+func (self *EntityDataPut) setParamsMore() *EntityDataPut {
+	self.setUserId().setArrSQLName().setBoxExcelTitle()
+	self.setPathDirThisTime().setParamsPathFile()
+	self.setAttrEntityForExcel().setBoxForExcel()
+	return self
+}
+
+func (self *EntityDataPut) setUserId() *EntityDataPut {
+	paramsOut := self.ParamsOut
 	userId, ok := paramsOut["UserId"].(string)
 	if !ok {
 		jsonParamsOut := conv.ToJsonFromAttr(paramsOut)
@@ -46,16 +50,22 @@ func (self *EntityDataPut) SetUserId(paramsOut base.AttrT1) *EntityDataPut {
 	return self
 }
 
-func (self *EntityDataPut) SetBoxExcelData(boxExcelData base.AttrS3) *EntityDataPut {
-	self.BoxExcelData = boxExcelData
+func (self *EntityDataPut) setArrSQLName() *EntityDataPut {
+	boxExcelData := self.BoxExcelData
+	arrSQLName := make([]string, 0, len(boxExcelData))
+	for sqlName, _ := range boxExcelData {
+		arrSQLName = append(arrSQLName, sqlName)
+	}
+	self.ArrSQLName = arrSQLName
 	return self
 }
 
-func (self *EntityDataPut) SetBoxExcelTitle() *EntityDataPut {
-	boxExcelData := self.BoxExcelData
+func (self *EntityDataPut) setBoxExcelTitle() *EntityDataPut {
+	arrSQLName := self.ArrSQLName
 	boxExcelTitle := make(base.AttrS3)
-	for sqlName, _ := range boxExcelData {
-		boxExcelTitle[sqlName] = getParamsExcelTitle(sqlName)
+	for _, sqlName := range arrSQLName {
+		excelTitle := getParamsExcelTitle(sqlName)
+		boxExcelTitle[sqlName] = excelTitle
 	}
 	self.BoxExcelTitle = boxExcelTitle
 	return self
@@ -66,7 +76,7 @@ func getParamsExcelTitle(sqlName string) (paramsExcelTitle base.AttrS2) {
 	return paramsExcelTitle
 }
 
-func (self *EntityDataPut) SetPathDirThisTime() *EntityDataPut {
+func (self *EntityDataPut) setPathDirThisTime() *EntityDataPut {
 	pathDirPutExcel := conf.GetPathDirPutExcel()
 	file.MakeDir(pathDirPutExcel)
 	userId := self.UserId
@@ -91,23 +101,34 @@ func getPathDirThisTime(userId string) (PathDir string) {
 	return PathDir
 }
 
-func (self *EntityDataPut) SetParamsPathFile() *EntityDataPut {
+func (self *EntityDataPut) setParamsPathFile() *EntityDataPut {
+	arrSQLName := self.ArrSQLName
 	userId := self.UserId
 	pathDirThisTime := self.PathDirThisTime
 	paramsPathFile := make(base.AttrS1)
-	for sqlName, fileNamePrefix := range paramsFileNamePrefix {
-		fileName := getFileName(fileNamePrefix, userId)
-		pathFileOne := pathDirThisTime + "/" + fileName
-		pathFileOne = file.GetFilePathEmbed(pathFileOne)
-		paramsPathFile[sqlName] = pathFileOne
+	for _, sqlName := range arrSQLName {
+		pathFile := getPathFile(
+			sqlName,
+			userId,
+			pathDirThisTime)
+		paramsPathFile[sqlName] = pathFile
 	}
 	self.ParamsPathFile = paramsPathFile
 	return self
 }
 
-func getFileName(fileNamePrefix string, userId string) (fileName string) {
-	timeSuffix := time.GetTimeSuffix()
+func getPathFile(sqlName string, userId string, pathDirThisTime string) (pathFile string) {
+	fileName := getFileName(sqlName, userId)
+	pathFile = pathDirThisTime + "/" + fileName
+	pathFile = file.GetFilePathEmbed(pathFile)
+	return pathFile
+}
+
+func getFileName(sqlName string, userId string) (fileName string) {
+	fileNamePrefix := getFileNamePrefix(sqlName)
 	remarkUser := "用户" + userId
+	timeSuffix := time.GetTimeSuffix()
+	ext := excel.ExtExcel
 	fileName = fmt.Sprintf(
 		"%s_%s_%s.%s",
 		fileNamePrefix,
@@ -115,4 +136,59 @@ func getFileName(fileNamePrefix string, userId string) (fileName string) {
 		timeSuffix,
 		ext)
 	return fileName
+}
+
+func getFileNamePrefix(sqlName string) (fileNamePrefix string) {
+	fileNamePrefix = sqlInfo.GetFileNamePrefixBySQLName(sqlName)
+	return fileNamePrefix
+}
+
+func (self *EntityDataPut) setAttrEntityForExcel() *EntityDataPut {
+	arrSQLName := self.ArrSQLName
+	paramsPathFile := self.ParamsPathFile
+	boxExcelTitle := self.BoxExcelTitle
+	boxExcelData := self.BoxExcelData
+	attrEntityForExcel := make(map[string]*EntityForExcel)
+	for _, sqlName := range arrSQLName {
+		pathFile, ok := paramsPathFile[sqlName]
+		if !ok {
+			errPanicExcelParamsRequired(sqlName, "excelPath")
+		}
+		attrS2ExcelTitle, ok := boxExcelTitle[sqlName]
+		if !ok {
+			errPanicExcelParamsRequired(sqlName, "excelTitle")
+		}
+		attrS2ExcelData, ok := boxExcelData[sqlName]
+		if !ok {
+			errPanicExcelParamsRequired(sqlName, "excelData")
+		}
+		entityForExcel := new(EntityForExcel)
+		entityForExcel.SQLName = sqlName
+		entityForExcel.PathFile = pathFile
+		entityForExcel.SheetName = excel.SheetNameDefault
+		entityForExcel.AttrS2ExcelTitle = attrS2ExcelTitle
+		entityForExcel.AttrS2ExcelData = attrS2ExcelData
+		attrEntityForExcel[pathFile] = entityForExcel
+	}
+	self.AttrEntityForExcel = attrEntityForExcel
+	return self
+}
+
+func errPanicExcelParamsRequired(sqlName string, part string) {
+	msgError := fmt.Sprintf(
+		"The |%s| of |%s| is required",
+		part,
+		sqlName)
+	err.ErrPanic(msgError)
+}
+
+func (self *EntityDataPut) setBoxForExcel() *EntityDataPut {
+	attrEntityForExcel := self.AttrEntityForExcel
+	boxForExcel := make(base.BoxData)
+	for sqlName, entityForExcel := range attrEntityForExcel {
+		attrT1ForExcel := conv.ToAttrFromEntity(entityForExcel)
+		boxForExcel[sqlName] = attrT1ForExcel
+	}
+	self.BoxForExcel = boxForExcel
+	return self
 }

@@ -71,6 +71,18 @@ func GetExt(filePath string) (ext string) {
 	return ext
 }
 
+func GetFilename(filePath string) (filename string) {
+	filename = filepath.Base(filePath)
+	return filename
+}
+
+func GetFilenameWithExt(filePath string) (filenameWithExt string) {
+	filename := filepath.Base(filePath)
+	extWithDot := filepath.Ext(filePath)
+	filenameWithExt = filename + extWithDot
+	return filenameWithExt
+}
+
 /*
 Dir
 */

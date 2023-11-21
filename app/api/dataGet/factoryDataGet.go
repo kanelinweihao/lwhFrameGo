@@ -2,27 +2,53 @@ package dataGet
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/calc"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 )
 
-func MakeEntityOfDataGet(paramsIn base.AttrT1, arrSQLName []string) (entityDataGet *EntityDataGet) {
-	entityDataGet = initDataGet(paramsIn, arrSQLName)
+func MakeEntityDataGet(paramsOut base.AttrT1) (entityDataGet *EntityDataGet) {
+	entityDataGet = initDataGet(paramsOut)
 	return entityDataGet
 }
 
-func initDataGet(paramsIn base.AttrT1, arrSQLName []string) (entityDataGet *EntityDataGet) {
+func initDataGet(paramsOut base.AttrT1) (entityDataGet *EntityDataGet) {
 	entityDataGet = new(EntityDataGet)
-	entityDataGet.Init(paramsIn, arrSQLName)
+	entityDataGet.Init(paramsOut)
 	return entityDataGet
 }
 
-func (self *EntityDataGet) Init(paramsIn base.AttrT1, arrSQLName []string) *EntityDataGet {
-	conv.ToEntityFromAttr(paramsIn, self)
-	self.UserId = calc.Add(self.ShortUserId, "1000000")
+func (self *EntityDataGet) Init(paramsOut base.AttrT1) *EntityDataGet {
+	self.setParamsIn(paramsOut).setParamsMore()
+	return self
+}
+
+func (self *EntityDataGet) setParamsIn(paramsOut base.AttrT1) *EntityDataGet {
+	self.ParamsOut = paramsOut
+	return self
+}
+
+func (self *EntityDataGet) setParamsMore() *EntityDataGet {
+	self.setArrSQLName().setAttrArgsForQuery().setBoxForDB()
+	return self
+}
+
+func (self *EntityDataGet) setArrSQLName() *EntityDataGet {
 	self.ArrSQLName = arrSQLName
-	self.AttrArgsForQuery = base.AttrS1{
-		"UserId": self.UserId,
+	return self
+}
+
+func (self *EntityDataGet) setAttrArgsForQuery() *EntityDataGet {
+	paramsOut := self.ParamsOut
+	userId := paramsOut["UserId"].(string)
+	attrArgsForQuery := base.AttrS1{
+		"UserId": userId,
 	}
+	self.AttrArgsForQuery = attrArgsForQuery
+	return self
+}
+
+func (self *EntityDataGet) setBoxForDB() *EntityDataGet {
+	boxForDB := make(base.BoxData)
+	boxForDB["ArrSQLName"] = self.ArrSQLName
+	boxForDB["AttrArgsForQuery"] = self.AttrArgsForQuery
+	self.BoxForDB = boxForDB
 	return self
 }

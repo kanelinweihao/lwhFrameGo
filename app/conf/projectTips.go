@@ -4,35 +4,35 @@ import (
 	"fmt"
 )
 
-func GetModuleTips() (moduleTips string) {
-	moduleDesc := GetModuleDesc()
+func GetProjectTips() (projectTips string) {
+	projectDesc := GetProjectDesc()
 	webTips := getWebTips()
-	moduleTips = fmt.Sprintf(
+	projectTips = fmt.Sprintf(
 		"%s%s",
-		moduleDesc,
+		projectDesc,
 		webTips)
-	return moduleTips
+	return projectTips
 }
 
-func GetModuleDesc() (moduleDesc string) {
-	moduleNameCN := GetModuleNameCN()
-	msgModuleName := fmt.Sprintf(
+func GetProjectDesc() (projectDesc string) {
+	projectNameCN := GetProjectNameCN()
+	msgProjectName := fmt.Sprintf(
 		"项目名称 = %s\n",
-		moduleNameCN)
-	moduleVersion := GetModuleVersion()
-	msgModuleVersion := fmt.Sprintf(
+		projectNameCN)
+	projectVersion := GetProjectVersion()
+	msgProjectVersion := fmt.Sprintf(
 		"项目版本 = %s\n",
-		moduleVersion)
+		projectVersion)
 	versionDescription := GetVersionDescriptionNow()
 	msgVersionDescription := fmt.Sprintf(
 		"版本描述 = %s\n",
 		versionDescription)
-	moduleDesc = fmt.Sprintf(
+	projectDesc = fmt.Sprintf(
 		"\n%s%s%s\n",
-		msgModuleName,
-		msgModuleVersion,
+		msgProjectName,
+		msgProjectVersion,
 		msgVersionDescription)
-	return moduleDesc
+	return projectDesc
 }
 
 func getWebTips() (webTips string) {

@@ -232,6 +232,14 @@ func ToStrFromInt(num int) (str string) {
 ToJson
 */
 
+// slice->json
+func ToJsonFromSlice(arrT []string) (strJson string) {
+	arrByte, errTo := json.Marshal(arrT)
+	err.ErrCheck(errTo)
+	strJson = string(arrByte)
+	return strJson
+}
+
 // map->json
 func ToJsonFromAttr(attrT1 base.AttrT1) (strJson string) {
 	arrByte, errTo := json.Marshal(attrT1)
@@ -245,6 +253,29 @@ func ToJsonFromEntity(entity base.EntityBase) (strJson string) {
 	attrT1 := ToAttrFromEntity(entity)
 	strJson = ToJsonFromAttr(attrT1)
 	return strJson
+}
+
+/*
+ToSlice
+*/
+
+// map->slice
+func ToArrFromAttr(attrT1 base.AttrT1) (arrT []interface{}) {
+	len := len(attrT1)
+	arrT = make([]interface{}, len)
+	for _, v := range attrT1 {
+		arrT = append(arrT, v)
+	}
+	return arrT
+}
+
+// map->slice
+func ToArrStrFromAttrStr(attrS1 base.AttrS1) (arrS []string) {
+	arrS = make([]string, 0, len(attrS1))
+	for _, v := range attrS1 {
+		arrS = append(arrS, v)
+	}
+	return arrS
 }
 
 /*

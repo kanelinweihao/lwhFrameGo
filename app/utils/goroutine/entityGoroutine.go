@@ -16,6 +16,7 @@ Write
 */
 
 func (self *EntityChannel) WriteOnce(dataOnce interface{}) {
+	err.ThrowError()
 	channelWrite := self.getChannelWrite()
 	channelWrite <- dataOnce
 	self.closeChannel()
@@ -50,6 +51,7 @@ Read
 */
 
 func (self *EntityChannel) ReadOnce() (dataOnce interface{}) {
+	err.ThrowError()
 	channelRead := self.getChannelRead()
 	dataOnce = <-channelRead
 	return dataOnce

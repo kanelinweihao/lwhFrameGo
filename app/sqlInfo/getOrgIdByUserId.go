@@ -14,6 +14,8 @@ var ArrNameArgsForQueryGetOrgIdByUserId []string = []string{
 	"UserId",
 }
 
+var FileNamePrefixGetOrgIdByUserId string = "数据导出_用户所属机构"
+
 var ParamsExcelTitleGetOrgIdByUserId = base.AttrS2{
 	"UserId": {
 		"field": "UserId",

@@ -9,18 +9,11 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/ssh"
 )
 
-var driver string = "mysql"
-
 /*
 Init
 */
 
-func MakeEntityOfDBConnector() (entityDBConnector *EntityDBConnector) {
-	entityDBConnector = initEntityDBConnector()
-	return entityDBConnector
-}
-
-func initEntityDBConnector() (entityDBConnector *EntityDBConnector) {
+func MakeEntityDBConnector() (entityDBConnector *EntityDBConnector) {
 	entityDBConnector = new(EntityDBConnector)
 	entityDBConnector.Init()
 	return entityDBConnector
@@ -37,7 +30,7 @@ func (self *EntityDBConnector) setEntitySSH() *EntityDBConnector {
 	if !isNeedSSH {
 		return self
 	}
-	entitySSH := ssh.MakeEntityOfSSHForMysql()
+	entitySSH := ssh.MakeEntitySSH()
 	funcDialMysql := entitySSH.DialForMysql
 	networkDialMysql := ssh.NetworkTCPANDSSH
 	mysql.RegisterDialContext(networkDialMysql, funcDialMysql)
@@ -52,6 +45,7 @@ func (self *EntityDBConnector) setEntityConfigMysql() *EntityDBConnector {
 }
 
 func (self *EntityDBConnector) setDBSqlx() *EntityDBConnector {
+	driver := conf.DriverDB
 	dsn := self.initDSN()
 	m, errDB := sqlx.Open(driver, dsn)
 	err.ErrCheck(errDB)

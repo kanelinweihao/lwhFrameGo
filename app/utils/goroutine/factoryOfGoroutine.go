@@ -1,24 +1,15 @@
 package goroutine
 
-/*
-Init
-*/
-
-func MakeEntityOfGoroutine() (entityChannel *EntityChannel) {
-	entityChannel = initEntityChannel()
+func MakeEntityChannel() (entityChannel *EntityChannel) {
+	entityChannel = new(EntityChannel)
+	entityChannel.Init()
 	return entityChannel
 }
 
-func initEntityChannel() (entityChannel *EntityChannel) {
+func (self *EntityChannel) Init() *EntityChannel {
 	channelBase := make(chan interface{})
-	var channelWrite chan<- interface{}
-	channelWrite = channelBase
-	var channelRead <-chan interface{}
-	channelRead = channelBase
-	entityChannel = &EntityChannel{
-		ChannelBase:  channelBase,
-		ChannelWrite: channelWrite,
-		ChannelRead:  channelRead,
-	}
-	return entityChannel
+	self.ChannelBase = channelBase
+	self.ChannelWrite = channelBase
+	self.ChannelRead = channelBase
+	return self
 }

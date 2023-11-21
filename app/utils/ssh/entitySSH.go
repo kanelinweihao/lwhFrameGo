@@ -20,20 +20,12 @@ type EntitySSH struct {
 	EntityConfigSSH *conf.EntityConfigSSH
 }
 
-/*
-ForMysql
-*/
-
 func (self *EntitySSH) DialForMysql(ctx context.Context, address string) (coon net.Conn, errDial error) {
 	network := self.Network
 	coon, errDial = self.ClientDial.Dial(network, address)
 	err.ErrCheck(errDial)
 	return coon, errDial
 }
-
-/*
-ForRedis
-*/
 
 func (self *EntitySSH) DialForRedis(ctx context.Context, network string, address string) (coon net.Conn, errDial error) {
 	coon, errDial = self.ClientDial.Dial(network, address)

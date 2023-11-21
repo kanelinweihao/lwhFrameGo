@@ -35,3 +35,13 @@ func ShowTypeInfo(value interface{}) {
 	fmt.Println()
 	fmt.Println()
 }
+
+func ErrPanicFormat(value interface{}, valueName string, typeNameValid string) {
+	_, typeName, _ := GetTypeInfo(value)
+	msgError := fmt.Sprintf(
+		"The type of |%s| is |%s|, it should be |%s|",
+		valueName,
+		typeName,
+		typeNameValid)
+	err.ErrPanic(msgError)
+}

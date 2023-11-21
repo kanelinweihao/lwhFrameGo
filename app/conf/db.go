@@ -4,6 +4,9 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 )
 
+var DriverDB string = "mysql"
+var FileNameQuery string = "query.sql"
+
 var paramsKeyMysql = base.AttrS1{
 	"Host":     "MysqlHost",
 	"Port":     "MysqlPort",

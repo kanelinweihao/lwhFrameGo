@@ -17,10 +17,10 @@ func GetDomain() (domain string) {
 
 func GetParamsTmpl() (paramsTmpl base.AttrT1) {
 	paramsKeyTmpl := base.AttrS1{
-		"ModTitle": "ModuleNameCN",
+		"ProjectTitle": "ProjectNameCN",
 	}
 	paramsTmpl = getParamsEnvNeed(paramsKeyTmpl)
-	ModVersion := GetModuleVersion()
-	paramsTmpl["ModVersion"] = ModVersion
+	ProjectVersion := GetProjectVersion()
+	paramsTmpl["ProjectVersion"] = ProjectVersion
 	return paramsTmpl
 }

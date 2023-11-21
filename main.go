@@ -38,8 +38,8 @@ func doIt() {
 
 func showTips() {
 	ip.ShowIP()
-	moduleTips := conf.GetModuleTips()
-	time.ShowTimeAndMsg(moduleTips)
+	projectTips := conf.GetProjectTips()
+	time.ShowTimeAndMsg(projectTips)
 	return
 }
 

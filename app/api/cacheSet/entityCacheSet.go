@@ -7,29 +7,25 @@ import (
 )
 
 type EntityCacheSet struct {
-	ParamsOut  base.AttrT1
+	BoxForCache        base.BoxData
+	ArrPathFileExcel   []string
+	CacheKey           string
+	CacheValue         string
+	TTL                time.Duration
+	AttrEntityForCache map[string]*EntityForCache
+}
+
+type EntityForCache struct {
 	CacheKey   string
 	CacheValue string
 	TTL        time.Duration
 }
 
-func (self *EntityCacheSet) SetToRedis() {
-	cacheKey := self.CacheKey
-	cacheValue := self.CacheValue
-	ttl := self.TTL
-	entityCache := cache.MakeEntityOfCache()
+func (self *EntityCacheSet) SetCache() (boxFromCache base.BoxData) {
+	boxForCache := self.BoxForCache
+	entityCache := cache.MakeEntityCache()
 	defer entityCache.CloseCache()
-	entityCache.SetToCache(
-		cacheKey,
-		cacheValue,
-		ttl)
-	return
-}
-
-func (self *EntityCacheSet) GetFromRedis() (cacheValue string) {
-	cacheKey := self.CacheKey
-	entityCache := cache.MakeEntityOfCache()
-	defer entityCache.CloseCache()
-	cacheValue = entityCache.GetFromCache(cacheKey)
-	return cacheValue
+	arrCacheKey := entityCache.BatchSetDataToCache(boxForCache)
+	boxFromCache = entityCache.BatchGetDataFromCache(arrCacheKey)
+	return boxFromCache
 }

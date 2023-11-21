@@ -2,29 +2,36 @@ package cache
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/ssh"
-	"github.com/redis/go-redis/v9"
-	"time"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheReader"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheWriter"
 )
 
+var ctx = conf.CTX
+
 type EntityCache struct {
-	CacheRedis        *redis.Client
-	EntityConfigRedis *conf.EntityConfigRedis
-	IsNeedSSH         bool
-	EntitySSH         *ssh.EntitySSH
+	BoxFromCache         base.BoxData
+	EntityCacheConnector *cacheConnector.EntityCacheConnector
+	EntityCacheWriter    *cacheWriter.EntityCacheWriter
+	EntityCacheReader    *cacheReader.EntityCacheReader
+	BoxForCache          base.BoxData
 }
 
-func (self *EntityCache) SetToCache(cacheKey string, cacheValue string, ttl time.Duration) {
-	r := self.CacheRedis
-	errRedisSet := r.Set(ctx, cacheKey, cacheValue, ttl).Err()
-	err.ErrCheck(errRedisSet)
-	return
+func (self *EntityCache) BatchSetDataToCache(boxForCache base.BoxData) (arrCacheKey []string) {
+	self.BoxForCache = boxForCache
+	entityCacheConnector := self.EntityCacheConnector
+	entityCacheWriter := cacheWriter.MakeEntityCacheWriter(entityCacheConnector, boxForCache)
+	self.EntityCacheWriter = entityCacheWriter
+	arrCacheKey = entityCacheWriter.BatchSetCache()
+	return arrCacheKey
 }
 
-func (self *EntityCache) GetFromCache(cacheKey string) (cacheValue string) {
-	r := self.CacheRedis
-	cacheValue, errRedisGet := r.Get(ctx, cacheKey).Result()
-	err.ErrCheck(errRedisGet)
-	return cacheValue
+func (self *EntityCache) BatchGetDataFromCache(arrCacheKey []string) (boxFromCache base.BoxData) {
+	entityCacheConnector := self.EntityCacheConnector
+	entityCacheReader := cacheReader.MakeEntityCacheReader(entityCacheConnector, arrCacheKey)
+	self.EntityCacheReader = entityCacheReader
+	boxFromCache = entityCacheReader.BatchGetCache()
+	self.BoxFromCache = boxFromCache
+	return boxFromCache
 }

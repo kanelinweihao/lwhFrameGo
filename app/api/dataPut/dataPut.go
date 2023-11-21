@@ -2,10 +2,13 @@ package dataPut
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 )
 
-func PutDataToExcel(paramsOut base.AttrT1, boxExcelData base.AttrS3) {
-	entityDataPut := MakeEntityOfDataPut(paramsOut, boxExcelData)
-	entityDataPut.BatchPutExcel()
-	return
+func PutData(paramsOut base.AttrT1, boxExcelData base.AttrS3) (pathDirExcel string, arrPathFileExcel []string) {
+	entityDataPut := MakeEntityDataPut(paramsOut, boxExcelData)
+	entityDataPut.PutData()
+	pathDirExcel = entityDataPut.PathDirThisTime
+	arrPathFileExcel = conv.ToArrStrFromAttrStr(entityDataPut.ParamsPathFile)
+	return pathDirExcel, arrPathFileExcel
 }

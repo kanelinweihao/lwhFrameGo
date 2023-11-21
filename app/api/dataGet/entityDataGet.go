@@ -1,56 +1,28 @@
 package dataGet
 
 import (
-	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db"
 )
 
+var arrSQLName = []string{
+	"GetMobileNoByUserId",
+	"GetOrgIdByUserId",
+}
+
 type EntityDataGet struct {
+	BoxFromDB        base.AttrS3
 	ParamsOut        base.AttrT1
-	Sign             string
-	ShortUserId      string
-	UserId           string
 	ArrSQLName       []string
 	AttrArgsForQuery base.AttrS1
-	BoxData          base.AttrS3
-	MsgOut           string
+	BoxForDB         base.BoxData
 }
 
-func (self *EntityDataGet) GetData() (boxData base.AttrS3, paramsOut base.AttrT1) {
-	self.getDataFromDB().setMsgOut().setParamsOut()
-	boxData = self.BoxData
-	paramsOut = self.ParamsOut
-	return boxData, paramsOut
-}
-
-func (self *EntityDataGet) getDataFromDB() *EntityDataGet {
-	entityDB := db.MakeEntityOfDB()
+func (self *EntityDataGet) GetData() (boxFromDB base.AttrS3) {
+	boxForDB := self.BoxForDB
+	entityDB := db.MakeEntityDB()
 	defer entityDB.CloseDB()
-	boxData := entityDB.GetDBData(
-		self.ArrSQLName,
-		self.AttrArgsForQuery)
-	self.BoxData = boxData
-	return self
-}
-
-func (self *EntityDataGet) setMsgOut() *EntityDataGet {
-	msgOut := fmt.Sprintf(
-		"\n%s\n%s\n",
-		self.UserId,
-		"Success")
-	self.MsgOut = msgOut
-	return self
-}
-
-func (self *EntityDataGet) setParamsOut() *EntityDataGet {
-	paramsOut := make(base.AttrT1)
-	paramsOut = base.AttrT1{
-		"Sign":        self.Sign,
-		"ShortUserId": self.ShortUserId,
-		"UserId":      self.UserId,
-		"MsgOut":      self.MsgOut,
-	}
-	self.ParamsOut = paramsOut
-	return self
+	boxFromDB = entityDB.BatchGetDataFromDB(boxForDB)
+	self.BoxFromDB = boxFromDB
+	return boxFromDB
 }

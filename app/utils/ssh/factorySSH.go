@@ -13,17 +13,7 @@ import (
 Init
 */
 
-func MakeEntityOfSSHForMysql() (entitySSHMysql *EntitySSH) {
-	entitySSHMysql = initEntitySSH()
-	return entitySSHMysql
-}
-
-func MakeEntityOfSSHForRedis() (entitySSHRedis *EntitySSH) {
-	entitySSHRedis = initEntitySSH()
-	return entitySSHRedis
-}
-
-func initEntitySSH() (entitySSH *EntitySSH) {
+func MakeEntitySSH() (entitySSH *EntitySSH) {
 	entitySSH = new(EntitySSH)
 	entitySSH.Init()
 	return entitySSH

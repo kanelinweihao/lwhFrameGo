@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func GetModuleVersion() (modVersion string) {
+func GetProjectVersion() (modVersion string) {
 	paramsKeyVersion := base.AttrS1{
 		"VersionMajor": "VersionMajor",
 		"VersionMinor": "VersionMinor",
@@ -71,7 +71,7 @@ func GetVersionDescription(version string) (versionDescription string) {
 }
 
 func GetVersionDescriptionNow() (versionDescription string) {
-	version := GetModuleVersion()
+	version := GetProjectVersion()
 	versionDescription = GetVersionDescription(version)
 	return versionDescription
 }
