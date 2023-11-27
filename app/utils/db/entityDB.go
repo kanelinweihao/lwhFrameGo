@@ -7,18 +7,20 @@ import (
 )
 
 type EntityDB struct {
-	BoxFromDB         base.AttrS3
-	BoxForDB          base.BoxData
+	AttrT3DBData      base.AttrT3
+	ArrSQLName        []string
+	AttrArgsForQuery  base.AttrS1
 	EntityDBConnector *dbConnector.EntityDBConnector
 	EntityDBReader    *dbReader.EntityDBReader
 }
 
-func (self *EntityDB) BatchGetDataFromDB(boxForDB base.BoxData) (boxFromDB base.AttrS3) {
-	self.BoxForDB = boxForDB
+func (self *EntityDB) BatchGetDataFromDB(arrSqlName []string, attrArgsForQuery base.AttrS1) (attrT3DBData base.AttrT3) {
+	self.ArrSQLName = arrSqlName
+	self.AttrArgsForQuery = attrArgsForQuery
 	entityDBConnector := self.EntityDBConnector
-	entityDBReader := dbReader.MakeEntityDBReader(entityDBConnector, boxForDB)
+	entityDBReader := dbReader.MakeEntityDBReader(entityDBConnector, arrSqlName, attrArgsForQuery)
 	self.EntityDBReader = entityDBReader
-	boxFromDB = entityDBReader.BatchReadDB()
-	self.BoxFromDB = boxFromDB
-	return boxFromDB
+	attrT3DBData = entityDBReader.BatchReadDB()
+	self.AttrT3DBData = attrT3DBData
+	return attrT3DBData
 }

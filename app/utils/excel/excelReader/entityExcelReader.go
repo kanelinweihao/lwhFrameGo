@@ -7,16 +7,16 @@ import (
 )
 
 type EntityExcelReader struct {
-	BoxFromExcel            base.AttrS3
+	AttrS3ExcelData         base.AttrS3
 	ArrPathFile             []string
 	AttrEntityExcelDataRead map[string]*EntityExcelDataRead
 	AttrEntityChannel       base.AttrT1
 }
 
-func (self *EntityExcelReader) BatchReadExcel() (boxFromExcel base.AttrS3) {
+func (self *EntityExcelReader) BatchReadExcel() (attrS3ExcelData base.AttrS3) {
 	self.writeAttrEntityChannel().readAttrEntityChannel()
-	boxFromExcel = self.BoxFromExcel
-	return boxFromExcel
+	attrS3ExcelData = self.AttrS3ExcelData
+	return attrS3ExcelData
 }
 
 func (self *EntityExcelReader) writeAttrEntityChannel() *EntityExcelReader {
@@ -33,13 +33,13 @@ func (self *EntityExcelReader) writeAttrEntityChannel() *EntityExcelReader {
 
 func (self *EntityExcelReader) readAttrEntityChannel() *EntityExcelReader {
 	attrEntityChannel := self.AttrEntityChannel
-	boxFromExcel := make(base.AttrS3)
+	attrS3ExcelData := make(base.AttrS3)
 	for pathFile, entityChannelToAssign := range attrEntityChannel {
 		entityChannel := entityChannelToAssign.(*goroutine.EntityChannel)
 		attrS2ExcelData := readFromChannelOfReadExcelData(entityChannel)
-		boxFromExcel[pathFile] = attrS2ExcelData
+		attrS3ExcelData[pathFile] = attrS2ExcelData
 	}
-	self.BoxFromExcel = boxFromExcel
+	self.AttrS3ExcelData = attrS3ExcelData
 	return self
 }
 

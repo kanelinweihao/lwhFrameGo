@@ -9,7 +9,7 @@ import (
 
 type EntityCacheWriter struct {
 	ArrCacheKey              []string
-	BoxForCache              base.BoxData
+	BoxToCache               base.BoxData
 	EntityCacheConnector     *cacheConnector.EntityCacheConnector
 	AttrEntityCacheDataWrite map[string]*EntityCacheDataWrite
 	AttrEntityChannel        base.AttrT1

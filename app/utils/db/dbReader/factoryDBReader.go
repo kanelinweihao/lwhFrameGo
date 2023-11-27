@@ -3,43 +3,28 @@ package dbReader
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
 )
 
-func MakeEntityDBReader(entityDBConnector *dbConnector.EntityDBConnector, boxForDB base.BoxData) (entityDBReader *EntityDBReader) {
+func MakeEntityDBReader(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery base.AttrS1) (entityDBReader *EntityDBReader) {
 	entityDBReader = new(EntityDBReader)
-	entityDBReader.Init(entityDBConnector, boxForDB)
+	entityDBReader.Init(entityDBConnector, arrSqlName, attrArgsForQuery)
 	return entityDBReader
 }
 
-func (self *EntityDBReader) Init(entityDBConnector *dbConnector.EntityDBConnector, boxForDB base.BoxData) *EntityDBReader {
-	self.setParamsIn(entityDBConnector, boxForDB).setParamsMore()
+func (self *EntityDBReader) Init(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery base.AttrS1) *EntityDBReader {
+	self.setPropertiesIn(entityDBConnector, arrSqlName, attrArgsForQuery).setPropertiesMore()
 	return self
 }
 
-func (self *EntityDBReader) setParamsIn(entityDBConnector *dbConnector.EntityDBConnector, boxForDB base.BoxData) *EntityDBReader {
+func (self *EntityDBReader) setPropertiesIn(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery base.AttrS1) *EntityDBReader {
 	self.EntityDBConnector = entityDBConnector
-	self.BoxForDB = boxForDB
-	return self
-}
-
-func (self *EntityDBReader) setParamsMore() *EntityDBReader {
-	self.setFromBoxForDB().setAttrEntityDBReader()
-	return self
-}
-
-func (self *EntityDBReader) setFromBoxForDB() *EntityDBReader {
-	boxForDB := self.BoxForDB
-	arrSQLName, ok := boxForDB["ArrSQLName"].([]string)
-	if !ok {
-		rfl.ErrPanicFormat(arrSQLName, "arrSQLName", "[]string")
-	}
-	attrArgsForQuery, ok := boxForDB["AttrArgsForQuery"].(base.AttrS1)
-	if !ok {
-		rfl.ErrPanicFormat(attrArgsForQuery, "attrArgsForQuery", "base.AttrS1")
-	}
-	self.ArrSQLName = arrSQLName
+	self.ArrSQLName = arrSqlName
 	self.AttrArgsForQuery = attrArgsForQuery
+	return self
+}
+
+func (self *EntityDBReader) setPropertiesMore() *EntityDBReader {
+	self.setAttrEntityDBReader()
 	return self
 }
 

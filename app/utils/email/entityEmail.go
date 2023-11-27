@@ -9,13 +9,13 @@ import (
 type EntityEmail struct {
 	EntityEmailConnector *emailConnector.EntityEmailConnector
 	EntityEmailWriter    *emailWriter.EntityEmailWriter
-	BoxForEmail          base.BoxData
+	BoxToEmail           base.BoxData
 }
 
-func (self *EntityEmail) BatchSendEmail(boxForEmail base.BoxData) (arrEmailSubject []string) {
-	self.BoxForEmail = boxForEmail
+func (self *EntityEmail) BatchSendEmail(boxToEmail base.BoxData) (arrEmailSubject []string) {
+	self.BoxToEmail = boxToEmail
 	entityEmailConnector := self.EntityEmailConnector
-	entityEmailWriter := emailWriter.MakeEntityEmailWriter(entityEmailConnector, boxForEmail)
+	entityEmailWriter := emailWriter.MakeEntityEmailWriter(entityEmailConnector, boxToEmail)
 	self.EntityEmailWriter = entityEmailWriter
 	arrEmailSubject = entityEmailWriter.BatchSendEmail()
 	return arrEmailSubject

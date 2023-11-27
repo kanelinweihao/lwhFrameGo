@@ -6,24 +6,24 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/email/emailConnector"
 )
 
-func MakeEntityEmailWriter(entityEmailConnector *emailConnector.EntityEmailConnector, boxForEmail base.BoxData) (entityEmailWriter *EntityEmailWriter) {
+func MakeEntityEmailWriter(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail base.BoxData) (entityEmailWriter *EntityEmailWriter) {
 	entityEmailWriter = new(EntityEmailWriter)
-	entityEmailWriter.Init(entityEmailConnector, boxForEmail)
+	entityEmailWriter.Init(entityEmailConnector, boxToEmail)
 	return entityEmailWriter
 }
 
-func (self *EntityEmailWriter) Init(entityEmailConnector *emailConnector.EntityEmailConnector, boxForEmail base.BoxData) *EntityEmailWriter {
-	self.setParamsIn(entityEmailConnector, boxForEmail).setParamsMore()
+func (self *EntityEmailWriter) Init(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail base.BoxData) *EntityEmailWriter {
+	self.setPropertiesIn(entityEmailConnector, boxToEmail).setPropertiesMore()
 	return self
 }
 
-func (self *EntityEmailWriter) setParamsIn(entityEmailConnector *emailConnector.EntityEmailConnector, boxForEmail base.BoxData) *EntityEmailWriter {
+func (self *EntityEmailWriter) setPropertiesIn(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail base.BoxData) *EntityEmailWriter {
 	self.EntityEmailConnector = entityEmailConnector
-	self.BoxForEmail = boxForEmail
+	self.BoxToEmail = boxToEmail
 	return self
 }
 
-func (self *EntityEmailWriter) setParamsMore() *EntityEmailWriter {
+func (self *EntityEmailWriter) setPropertiesMore() *EntityEmailWriter {
 	self.setEmailFrom().setAttrEntityEmailData()
 	return self
 }
@@ -36,10 +36,10 @@ func (self *EntityEmailWriter) setEmailFrom() *EntityEmailWriter {
 
 func (self *EntityEmailWriter) setAttrEntityEmailData() *EntityEmailWriter {
 	emailSender := self.EntityEmailConnector.EmailSender
-	boxForEmail := self.BoxForEmail
+	boxToEmail := self.BoxToEmail
 	emailFrom := self.EmailFrom
 	attrEntityEmailData := make(map[string]*EntityEmailData)
-	for emailSubject, attrT1ForEmailToAssign := range boxForEmail {
+	for emailSubject, attrT1ForEmailToAssign := range boxToEmail {
 		attrT1ForEmail := attrT1ForEmailToAssign.(base.AttrT1)
 		entityEmailData := MakeEntityEmailData(emailSender, attrT1ForEmail, emailFrom)
 		attrEntityEmailData[emailSubject] = entityEmailData

@@ -12,17 +12,17 @@ func MakeEntityCacheDataRead(cacheRedis *redis.Client, cacheKey string) (entityC
 }
 
 func (self *EntityCacheDataRead) Init(cacheRedis *redis.Client, cacheKey string) *EntityCacheDataRead {
-	self.setParamsIn(cacheRedis, cacheKey).setParamsMore()
+	self.setPropertiesIn(cacheRedis, cacheKey).setPropertiesMore()
 	return self
 }
 
-func (self *EntityCacheDataRead) setParamsIn(cacheRedis *redis.Client, cacheKey string) *EntityCacheDataRead {
+func (self *EntityCacheDataRead) setPropertiesIn(cacheRedis *redis.Client, cacheKey string) *EntityCacheDataRead {
 	self.CacheRedis = cacheRedis
 	self.CacheKey = cacheKey
 	return self
 }
 
-func (self *EntityCacheDataRead) setParamsMore() *EntityCacheDataRead {
+func (self *EntityCacheDataRead) setPropertiesMore() *EntityCacheDataRead {
 	self.setCTX()
 	return self
 }

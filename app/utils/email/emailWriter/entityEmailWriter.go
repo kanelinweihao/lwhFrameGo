@@ -11,7 +11,7 @@ import (
 type EntityEmailWriter struct {
 	ArrEmailSubject      []string
 	EmailFrom            string
-	BoxForEmail          base.BoxData
+	BoxToEmail           base.BoxData
 	EntityEmailConnector *emailConnector.EntityEmailConnector
 	AttrEntityEmailData  map[string]*EntityEmailData
 	AttrEntityChannel    base.AttrT1

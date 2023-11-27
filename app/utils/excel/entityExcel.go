@@ -13,24 +13,24 @@ var SheetNameDefault string = conf.SheetNameDefault
 type EntityExcel struct {
 	EntityExcelWriter *excelWriter.EntityExcelWriter
 	EntityExcelReader *excelReader.EntityExcelReader
-	BoxForExcel       base.BoxData
-	BoxFromExcel      base.AttrS3
+	BoxToExcel        base.BoxData
 	ArrPathFile       []string
+	AttrS3ExcelData   base.AttrS3
 }
 
-func (self *EntityExcel) BatchSetDataToExcel(boxForExcel base.BoxData) (arrPathFile []string) {
-	self.BoxForExcel = boxForExcel
-	entityExcelWriter := excelWriter.MakeEntityExcelWriter(boxForExcel)
+func (self *EntityExcel) BatchSetDataToExcel(boxToExcel base.BoxData) (arrPathFile []string) {
+	self.BoxToExcel = boxToExcel
+	entityExcelWriter := excelWriter.MakeEntityExcelWriter(boxToExcel)
 	self.EntityExcelWriter = entityExcelWriter
 	arrPathFile = entityExcelWriter.BatchWriteExcel()
 	self.ArrPathFile = arrPathFile
 	return arrPathFile
 }
 
-func (self *EntityExcel) BatchGetDataFromExcel(arrPathFile []string) (boxFromExcel base.AttrS3) {
+func (self *EntityExcel) BatchGetDataFromExcel(arrPathFile []string) (attrS3ExcelData base.AttrS3) {
 	entityExcelReader := excelReader.MakeEntityExcelReader(arrPathFile)
 	self.EntityExcelReader = entityExcelReader
-	boxFromExcel = entityExcelReader.BatchReadExcel()
-	self.BoxFromExcel = boxFromExcel
-	return boxFromExcel
+	attrS3ExcelData = entityExcelReader.BatchReadExcel()
+	self.AttrS3ExcelData = attrS3ExcelData
+	return attrS3ExcelData
 }

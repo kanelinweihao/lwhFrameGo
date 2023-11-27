@@ -21,17 +21,17 @@ func MakeEntityExcelDataWrite(attrT1ForExcel base.AttrT1) (entityExcelDataWrite 
 }
 
 func (self *EntityExcelDataWrite) Init(attrT1ForExcel base.AttrT1) *EntityExcelDataWrite {
-	self.setParamsIn(attrT1ForExcel).setParamsMore()
+	self.setPropertiesIn(attrT1ForExcel).setPropertiesMore()
 	return self
 }
 
-func (self *EntityExcelDataWrite) setParamsIn(attrT1ForExcel base.AttrT1) *EntityExcelDataWrite {
+func (self *EntityExcelDataWrite) setPropertiesIn(attrT1ForExcel base.AttrT1) *EntityExcelDataWrite {
 	conv.ToEntityFromAttr(attrT1ForExcel, self)
-	self.checkExt()
+	self.validateExt()
 	return self
 }
 
-func (self *EntityExcelDataWrite) checkExt() *EntityExcelDataWrite {
+func (self *EntityExcelDataWrite) validateExt() *EntityExcelDataWrite {
 	pathFile := self.PathFile
 	ext := file.GetExt(pathFile)
 	extExcel := conf.ExtExcel
@@ -47,7 +47,7 @@ func (self *EntityExcelDataWrite) checkExt() *EntityExcelDataWrite {
 	return self
 }
 
-func (self *EntityExcelDataWrite) setParamsMore() *EntityExcelDataWrite {
+func (self *EntityExcelDataWrite) setPropertiesMore() *EntityExcelDataWrite {
 	self.setSheetName().setExcelFile()
 	return self
 }

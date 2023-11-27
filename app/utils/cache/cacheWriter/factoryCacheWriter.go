@@ -5,33 +5,33 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheConnector"
 )
 
-func MakeEntityCacheWriter(entityCacheConnector *cacheConnector.EntityCacheConnector, boxForCache base.BoxData) (entityCacheWriter *EntityCacheWriter) {
+func MakeEntityCacheWriter(entityCacheConnector *cacheConnector.EntityCacheConnector, boxToCache base.BoxData) (entityCacheWriter *EntityCacheWriter) {
 	entityCacheWriter = new(EntityCacheWriter)
-	entityCacheWriter.Init(entityCacheConnector, boxForCache)
+	entityCacheWriter.Init(entityCacheConnector, boxToCache)
 	return entityCacheWriter
 }
 
-func (self *EntityCacheWriter) Init(entityCacheConnector *cacheConnector.EntityCacheConnector, boxForCache base.BoxData) *EntityCacheWriter {
-	self.setParamsIn(entityCacheConnector, boxForCache).setParamsMore()
+func (self *EntityCacheWriter) Init(entityCacheConnector *cacheConnector.EntityCacheConnector, boxToCache base.BoxData) *EntityCacheWriter {
+	self.setPropertiesIn(entityCacheConnector, boxToCache).setPropertiesMore()
 	return self
 }
 
-func (self *EntityCacheWriter) setParamsIn(entityCacheConnector *cacheConnector.EntityCacheConnector, boxForCache base.BoxData) *EntityCacheWriter {
+func (self *EntityCacheWriter) setPropertiesIn(entityCacheConnector *cacheConnector.EntityCacheConnector, boxToCache base.BoxData) *EntityCacheWriter {
 	self.EntityCacheConnector = entityCacheConnector
-	self.BoxForCache = boxForCache
+	self.BoxToCache = boxToCache
 	return self
 }
 
-func (self *EntityCacheWriter) setParamsMore() *EntityCacheWriter {
+func (self *EntityCacheWriter) setPropertiesMore() *EntityCacheWriter {
 	self.setAttrEntityCacheDataWrite()
 	return self
 }
 
 func (self *EntityCacheWriter) setAttrEntityCacheDataWrite() *EntityCacheWriter {
 	cacheRedis := self.EntityCacheConnector.CacheRedis
-	boxForCache := self.BoxForCache
+	boxToCache := self.BoxToCache
 	attrEntityCacheData := make(map[string]*EntityCacheDataWrite)
-	for cacheKey, attrT1ForCacheToAssign := range boxForCache {
+	for cacheKey, attrT1ForCacheToAssign := range boxToCache {
 		attrT1ForCache := attrT1ForCacheToAssign.(base.AttrT1)
 		entityCacheData := MakeEntityCacheData(cacheRedis, attrT1ForCache)
 		attrEntityCacheData[cacheKey] = entityCacheData

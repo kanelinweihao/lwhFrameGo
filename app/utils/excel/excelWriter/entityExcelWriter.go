@@ -8,7 +8,7 @@ import (
 
 type EntityExcelWriter struct {
 	ArrPathFile              []string
-	BoxForExcel              base.BoxData
+	BoxToExcel               base.BoxData
 	AttrEntityExcelDataWrite map[string]*EntityExcelDataWrite
 	AttrEntityChannel        base.AttrT1
 }

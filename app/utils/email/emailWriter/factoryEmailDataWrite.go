@@ -13,18 +13,18 @@ func MakeEntityEmailData(emailSender gomail.SendCloser, attrT1ForEmail base.Attr
 }
 
 func (self *EntityEmailData) Init(emailSender gomail.SendCloser, attrT1ForEmail base.AttrT1, emailFrom string) *EntityEmailData {
-	self.setParamsIn(emailSender, attrT1ForEmail, emailFrom).setParamsMore()
+	self.setPropertiesIn(emailSender, attrT1ForEmail, emailFrom).setPropertiesMore()
 	return self
 }
 
-func (self *EntityEmailData) setParamsIn(emailSender gomail.SendCloser, attrT1ForEmail base.AttrT1, emailFrom string) *EntityEmailData {
+func (self *EntityEmailData) setPropertiesIn(emailSender gomail.SendCloser, attrT1ForEmail base.AttrT1, emailFrom string) *EntityEmailData {
 	conv.ToEntityFromAttr(attrT1ForEmail, self)
 	self.EmailSender = emailSender
 	self.EmailFrom = emailFrom
 	return self
 }
 
-func (self *EntityEmailData) setParamsMore() *EntityEmailData {
+func (self *EntityEmailData) setPropertiesMore() *EntityEmailData {
 	self.setEmailMessage()
 	return self
 }

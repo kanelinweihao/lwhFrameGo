@@ -28,9 +28,13 @@
 
 ## 3.内部架构
 - | 根目录
-    - app | 程序代码
-        - api | 主体逻辑
-        - conf | 配置
+    - app | 程序文件
+        - boot | 启动入口
+        - conf | 配置信息
+        - controller | 控制器
+        - respInfo | 响应信息
+        - router | 路由器
+        - service | 主要逻辑
         - sqlInfo | 数据表信息
         - utils | 工具
     - res | 静态资源文件
@@ -47,12 +51,12 @@
         - uploads | 已上传
     - .editorconfig | 编辑器格式规范
     - .gitignore | git忽略文件
+    - favicon.syso | 图标文件
     - go.mod | GO依赖目录
     - go.sum | GO依赖哈希
     - main.go | 总入口
     - main_test.go | 测试入口
     - readme.md | 项目描述
-    - rsrc.syso | 图标文件
 
 ## 4.常用命令
 #### 设置环境变量
@@ -89,7 +93,7 @@ go mod init github.com/kanelinweihao/lwhFrameGo
 ```
 创建图标资源文件
 ```
-rsrc -manifest ./res/ico/main.manifest -ico ./res/ico/icon_go.ico -o rsrc.syso
+rsrc -manifest ./res/ico/main.manifest -ico ./res/ico/icon_go.ico -o favicon.syso
 ```
 
 #### 执行代码

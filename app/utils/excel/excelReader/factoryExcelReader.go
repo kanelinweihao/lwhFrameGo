@@ -7,16 +7,16 @@ func MakeEntityExcelReader(arrPathFile []string) (entityExcelReader *EntityExcel
 }
 
 func (self *EntityExcelReader) Init(arrPathFile []string) *EntityExcelReader {
-	self.setParamsIn(arrPathFile).setParamsMore()
+	self.setPropertiesIn(arrPathFile).setPropertiesMore()
 	return self
 }
 
-func (self *EntityExcelReader) setParamsIn(arrPathFile []string) *EntityExcelReader {
+func (self *EntityExcelReader) setPropertiesIn(arrPathFile []string) *EntityExcelReader {
 	self.ArrPathFile = arrPathFile
 	return self
 }
 
-func (self *EntityExcelReader) setParamsMore() *EntityExcelReader {
+func (self *EntityExcelReader) setPropertiesMore() *EntityExcelReader {
 	self.setAttrEntityExcelDataRead()
 	return self
 }

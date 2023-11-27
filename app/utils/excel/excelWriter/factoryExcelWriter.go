@@ -4,31 +4,31 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 )
 
-func MakeEntityExcelWriter(boxForExcel base.BoxData) (entityExcelWriter *EntityExcelWriter) {
+func MakeEntityExcelWriter(boxToExcel base.BoxData) (entityExcelWriter *EntityExcelWriter) {
 	entityExcelWriter = new(EntityExcelWriter)
-	entityExcelWriter.Init(boxForExcel)
+	entityExcelWriter.Init(boxToExcel)
 	return entityExcelWriter
 }
 
-func (self *EntityExcelWriter) Init(boxForExcel base.BoxData) *EntityExcelWriter {
-	self.setParamsIn(boxForExcel).setParamsMore()
+func (self *EntityExcelWriter) Init(boxToExcel base.BoxData) *EntityExcelWriter {
+	self.setPropertiesIn(boxToExcel).setPropertiesMore()
 	return self
 }
 
-func (self *EntityExcelWriter) setParamsIn(boxForExcel base.BoxData) *EntityExcelWriter {
-	self.BoxForExcel = boxForExcel
+func (self *EntityExcelWriter) setPropertiesIn(boxToExcel base.BoxData) *EntityExcelWriter {
+	self.BoxToExcel = boxToExcel
 	return self
 }
 
-func (self *EntityExcelWriter) setParamsMore() *EntityExcelWriter {
+func (self *EntityExcelWriter) setPropertiesMore() *EntityExcelWriter {
 	self.setAttrEntityExcelDataWrite()
 	return self
 }
 
 func (self *EntityExcelWriter) setAttrEntityExcelDataWrite() *EntityExcelWriter {
-	boxForExcel := self.BoxForExcel
+	boxToExcel := self.BoxToExcel
 	attrEntityExcelDataWrite := make(map[string]*EntityExcelDataWrite)
-	for pathFile, attrT1ForExcelToAssign := range boxForExcel {
+	for pathFile, attrT1ForExcelToAssign := range boxToExcel {
 		attrT1ForExcel := attrT1ForExcelToAssign.(base.AttrT1)
 		entityExcelDataWrite := MakeEntityExcelDataWrite(attrT1ForExcel)
 		attrEntityExcelDataWrite[pathFile] = entityExcelDataWrite

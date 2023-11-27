@@ -15,13 +15,13 @@ type EntityCache struct {
 	EntityCacheConnector *cacheConnector.EntityCacheConnector
 	EntityCacheWriter    *cacheWriter.EntityCacheWriter
 	EntityCacheReader    *cacheReader.EntityCacheReader
-	BoxForCache          base.BoxData
+	BoxToCache           base.BoxData
 }
 
-func (self *EntityCache) BatchSetDataToCache(boxForCache base.BoxData) (arrCacheKey []string) {
-	self.BoxForCache = boxForCache
+func (self *EntityCache) BatchSetDataToCache(boxToCache base.BoxData) (arrCacheKey []string) {
+	self.BoxToCache = boxToCache
 	entityCacheConnector := self.EntityCacheConnector
-	entityCacheWriter := cacheWriter.MakeEntityCacheWriter(entityCacheConnector, boxForCache)
+	entityCacheWriter := cacheWriter.MakeEntityCacheWriter(entityCacheConnector, boxToCache)
 	self.EntityCacheWriter = entityCacheWriter
 	arrCacheKey = entityCacheWriter.BatchSetCache()
 	return arrCacheKey

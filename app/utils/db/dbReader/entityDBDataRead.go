@@ -1,15 +1,17 @@
 package dbReader
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
 )
 
 type EntityDBDataRead struct {
-	AttrS2DBData     base.AttrS2
+	AttrT2DBData     base.AttrT2
 	DBSqlx           *sqlx.DB
 	SQLName          string
 	AttrArgsForQuery base.AttrS1
@@ -22,8 +24,8 @@ type EntityDBDataRead struct {
 
 func (self *EntityDBDataRead) writeToChannelOfReadDBData(entityChannel *goroutine.EntityChannel) *EntityDBDataRead {
 	self.ReadDB()
-	attrS2DBData := self.AttrS2DBData
-	entityChannel.WriteOnce(attrS2DBData)
+	attrT2DBData := self.AttrT2DBData
+	entityChannel.WriteOnce(attrT2DBData)
 	return self
 }
 
@@ -33,17 +35,22 @@ func (self *EntityDBDataRead) ReadDB() *EntityDBDataRead {
 	entityDBData := self.EntityDBData
 	ptrRows, errQueryx := d.Queryx(queryWithArgs)
 	err.ErrCheck(errQueryx)
-	attrS2DBData := make(base.AttrS2)
+	attrT2DBData := make(base.AttrT2)
 	num := 0
 	for ptrRows.Next() {
 		errScan := ptrRows.StructScan(entityDBData)
 		err.ErrCheck(errScan)
 		attrT1DBData := conv.ToAttrFromEntity(entityDBData)
-		attrS1DBData := conv.ToAttrStrFromAttr(attrT1DBData)
 		numStr := conv.ToStrFromInt(num)
-		attrS2DBData[numStr] = attrS1DBData
+		attrT2DBData[numStr] = attrT1DBData
 		num++
 	}
-	self.AttrS2DBData = attrS2DBData
+	if len(attrT2DBData) == 0 {
+		msgEmptySQL := fmt.Sprintf(
+			"The sql is invalid :\n|%s|\n",
+			queryWithArgs)
+		time.ShowTimeAndMsg(msgEmptySQL)
+	}
+	self.AttrT2DBData = attrT2DBData
 	return self
 }

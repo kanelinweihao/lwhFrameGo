@@ -19,17 +19,17 @@ func MakeEntityExcelDataRead(pathFile string) (entityExcelDataRead *EntityExcelD
 }
 
 func (self *EntityExcelDataRead) Init(pathFile string) *EntityExcelDataRead {
-	self.setParamsIn(pathFile).setParamsMore()
+	self.setPropertiesIn(pathFile).setPropertiesMore()
 	return self
 }
 
-func (self *EntityExcelDataRead) setParamsIn(pathFile string) *EntityExcelDataRead {
+func (self *EntityExcelDataRead) setPropertiesIn(pathFile string) *EntityExcelDataRead {
 	self.PathFile = pathFile
-	self.checkExt()
+	self.validateExt()
 	return self
 }
 
-func (self *EntityExcelDataRead) checkExt() *EntityExcelDataRead {
+func (self *EntityExcelDataRead) validateExt() *EntityExcelDataRead {
 	pathFile := self.PathFile
 	ext := file.GetExt(pathFile)
 	extExcel := conf.ExtExcel
@@ -45,7 +45,7 @@ func (self *EntityExcelDataRead) checkExt() *EntityExcelDataRead {
 	return self
 }
 
-func (self *EntityExcelDataRead) setParamsMore() *EntityExcelDataRead {
+func (self *EntityExcelDataRead) setPropertiesMore() *EntityExcelDataRead {
 	self.setSheetName().setExcelFile()
 	return self
 }

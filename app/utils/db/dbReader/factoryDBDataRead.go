@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/sqlInfo"
+	"github.com/kanelinweihao/lwhFrameGo/app/sqlInfo/sqlInfo"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
@@ -18,18 +18,18 @@ func MakeEntityDBDataRead(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base
 }
 
 func (self *EntityDBDataRead) Init(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base.AttrS1) *EntityDBDataRead {
-	self.setParamsIn(dbSqlx, sqlName, attrArgsForQuery).setParamsMore()
+	self.setPropertiesIn(dbSqlx, sqlName, attrArgsForQuery).setPropertiesMore()
 	return self
 }
 
-func (self *EntityDBDataRead) setParamsIn(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base.AttrS1) *EntityDBDataRead {
+func (self *EntityDBDataRead) setPropertiesIn(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base.AttrS1) *EntityDBDataRead {
 	self.DBSqlx = dbSqlx
 	self.SQLName = sqlName
 	self.AttrArgsForQuery = attrArgsForQuery
 	return self
 }
 
-func (self *EntityDBDataRead) setParamsMore() *EntityDBDataRead {
+func (self *EntityDBDataRead) setPropertiesMore() *EntityDBDataRead {
 	self.setPathDirSQL().setQueryOriginal().setArrArgsForQuery().setQueryWithArgs().setEntityDBData()
 	return self
 }

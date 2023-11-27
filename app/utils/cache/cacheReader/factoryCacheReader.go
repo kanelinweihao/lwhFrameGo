@@ -11,17 +11,17 @@ func MakeEntityCacheReader(entityCacheConnector *cacheConnector.EntityCacheConne
 }
 
 func (self *EntityCacheReader) Init(entityCacheConnector *cacheConnector.EntityCacheConnector, arrCacheKey []string) *EntityCacheReader {
-	self.setParamsIn(entityCacheConnector, arrCacheKey).setParamsMore()
+	self.setPropertiesIn(entityCacheConnector, arrCacheKey).setPropertiesMore()
 	return self
 }
 
-func (self *EntityCacheReader) setParamsIn(entityCacheConnector *cacheConnector.EntityCacheConnector, arrCacheKey []string) *EntityCacheReader {
+func (self *EntityCacheReader) setPropertiesIn(entityCacheConnector *cacheConnector.EntityCacheConnector, arrCacheKey []string) *EntityCacheReader {
 	self.EntityCacheConnector = entityCacheConnector
 	self.ArrCacheKey = arrCacheKey
 	return self
 }
 
-func (self *EntityCacheReader) setParamsMore() *EntityCacheReader {
+func (self *EntityCacheReader) setPropertiesMore() *EntityCacheReader {
 	self.setAttrEntityCacheDataRead()
 	return self
 }

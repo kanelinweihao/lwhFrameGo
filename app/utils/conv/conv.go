@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
 	"reflect"
@@ -207,7 +206,6 @@ func ToStr(valueOld interface{}) (valueNew string) {
 			"%s",
 			valueStr)
 	default:
-		dd.DD(typeNameOld)
 		errPanicFormat(
 			valueNew,
 			typeNameOld,
@@ -298,7 +296,18 @@ func ToAttrFromEntity(entity base.EntityBase) (attrT1 base.AttrT1) {
 	for i := 0; i < t.NumField(); i++ {
 		key := t.Field(i).Name
 		value := v.Field(i).Interface()
-		attrT1[key] = value
+		var valueNeed interface{}
+		switch value.(type) {
+		case sql.NullInt64:
+			valueInt64, _ := value.(sql.NullInt64).Value()
+			valueNeed = int(valueInt64.(int64))
+		case sql.NullString:
+			valueStr, _ := value.(sql.NullString).Value()
+			valueNeed = valueStr
+		default:
+			valueNeed = value
+		}
+		attrT1[key] = valueNeed
 	}
 	return attrT1
 }

@@ -14,17 +14,17 @@ func MakeEntityCacheData(cacheRedis *redis.Client, attrT1ForCache base.AttrT1) (
 }
 
 func (self *EntityCacheDataWrite) Init(cacheRedis *redis.Client, attrT1ForCache base.AttrT1) *EntityCacheDataWrite {
-	self.setParamsIn(cacheRedis, attrT1ForCache).setParamsMore()
+	self.setPropertiesIn(cacheRedis, attrT1ForCache).setPropertiesMore()
 	return self
 }
 
-func (self *EntityCacheDataWrite) setParamsIn(cacheRedis *redis.Client, attrT1ForCache base.AttrT1) *EntityCacheDataWrite {
+func (self *EntityCacheDataWrite) setPropertiesIn(cacheRedis *redis.Client, attrT1ForCache base.AttrT1) *EntityCacheDataWrite {
 	conv.ToEntityFromAttr(attrT1ForCache, self)
 	self.CacheRedis = cacheRedis
 	return self
 }
 
-func (self *EntityCacheDataWrite) setParamsMore() *EntityCacheDataWrite {
+func (self *EntityCacheDataWrite) setPropertiesMore() *EntityCacheDataWrite {
 	self.setCTX()
 	return self
 }

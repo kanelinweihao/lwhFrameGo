@@ -8,19 +8,18 @@ import (
 )
 
 type EntityDBReader struct {
-	BoxFromDB            base.AttrS3
+	AttrT3DBData         base.AttrT3
 	EntityDBConnector    *dbConnector.EntityDBConnector
-	BoxForDB             base.BoxData
 	ArrSQLName           []string
 	AttrArgsForQuery     base.AttrS1
 	AttrEntityDBDataRead map[string]*EntityDBDataRead
 	AttrEntityChannel    base.AttrT1
 }
 
-func (self *EntityDBReader) BatchReadDB() (boxFromDB base.AttrS3) {
+func (self *EntityDBReader) BatchReadDB() (attrT3DBData base.AttrT3) {
 	self.writeAttrEntityChannel().readAttrEntityChannel()
-	boxFromDB = self.BoxFromDB
-	return boxFromDB
+	attrT3DBData = self.AttrT3DBData
+	return attrT3DBData
 }
 
 func (self *EntityDBReader) writeAttrEntityChannel() *EntityDBReader {
@@ -37,21 +36,21 @@ func (self *EntityDBReader) writeAttrEntityChannel() *EntityDBReader {
 
 func (self *EntityDBReader) readAttrEntityChannel() *EntityDBReader {
 	attrEntityChannel := self.AttrEntityChannel
-	boxFromDB := make(base.AttrS3)
+	attrT3DBData := make(base.AttrT3)
 	for sqlName, entityChannelToAssign := range attrEntityChannel {
 		entityChannel := entityChannelToAssign.(*goroutine.EntityChannel)
-		attrS2DBData := readFromChannelOfReadDBData(entityChannel)
-		boxFromDB[sqlName] = attrS2DBData
+		attrT2DBData := readFromChannelOfReadDBData(entityChannel)
+		attrT3DBData[sqlName] = attrT2DBData
 	}
-	self.BoxFromDB = boxFromDB
+	self.AttrT3DBData = attrT3DBData
 	return self
 }
 
-func readFromChannelOfReadDBData(entityChannel *goroutine.EntityChannel) (attrS2DBData base.AttrS2) {
+func readFromChannelOfReadDBData(entityChannel *goroutine.EntityChannel) (attrT2DBData base.AttrT2) {
 	dataOnce := entityChannel.ReadOnce()
-	attrS2DBData, ok := dataOnce.(base.AttrS2)
+	attrT2DBData, ok := dataOnce.(base.AttrT2)
 	if !ok {
-		rfl.ErrPanicFormat(attrS2DBData, "attrS2DBData", "base.AttrS2")
+		rfl.ErrPanicFormat(attrT2DBData, "attrT2DBData", "base.AttrT2")
 	}
-	return attrS2DBData
+	return attrT2DBData
 }
