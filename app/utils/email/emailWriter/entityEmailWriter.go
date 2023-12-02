@@ -3,10 +3,10 @@ package emailWriter
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/email/emailConnector"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
 	"gopkg.in/gomail.v2"
 )
+
+type typeChanData = *gomail.Message
 
 type EntityEmailWriter struct {
 	ArrEmailSubject      []string
@@ -14,48 +14,34 @@ type EntityEmailWriter struct {
 	BoxToEmail           base.BoxData
 	EntityEmailConnector *emailConnector.EntityEmailConnector
 	AttrEntityEmailData  map[string]*EntityEmailData
-	AttrEntityChannel    base.AttrT1
+	AttrChan             map[string]chan typeChanData
 }
 
 func (self *EntityEmailWriter) BatchSendEmail() (arrEmailSubject []string) {
-	self.writeAttrEntityChannel().readAttrEntityChannel()
+	self.writeAttrChan().readAttrChan()
 	arrEmailSubject = self.ArrEmailSubject
 	return arrEmailSubject
 }
 
-func (self *EntityEmailWriter) writeAttrEntityChannel() *EntityEmailWriter {
+func (self *EntityEmailWriter) writeAttrChan() *EntityEmailWriter {
 	attrEntityEmailData := self.AttrEntityEmailData
-	attrEntityChannel := make(base.AttrT1)
+	attrChan := make(map[string]chan typeChanData, len(attrEntityEmailData))
 	for emailSubject, entityEmailData := range attrEntityEmailData {
-		entityChannel := goroutine.MakeEntityChannel()
-		attrEntityChannel[emailSubject] = entityChannel
-		go entityEmailData.WriteToChannelOfWriteEmailData(entityChannel)
+		chanBase := make(chan typeChanData, 1)
+		attrChan[emailSubject] = chanBase
+		go entityEmailData.WriteToChannelOfWriteEmailData(chanBase)
 	}
-	self.AttrEntityChannel = attrEntityChannel
+	self.AttrChan = attrChan
 	return self
 }
 
-func (self *EntityEmailWriter) readAttrEntityChannel() *EntityEmailWriter {
-	attrEntityChannel := self.AttrEntityChannel
-	arrEmailSubject := make([]string, 0, len(attrEntityChannel))
-	for _, entityChannelToAssign := range attrEntityChannel {
-		entityChannel := entityChannelToAssign.(*goroutine.EntityChannel)
-		emailSubject := readFromChannelOfWriteExcelData(entityChannel)
+func (self *EntityEmailWriter) readAttrChan() *EntityEmailWriter {
+	attrChan := self.AttrChan
+	arrEmailSubject := make([]string, 0, len(attrChan))
+	for _, chanBase := range attrChan {
+		emailSubject := readFromChannelOfWriteExcelData(chanBase)
 		arrEmailSubject = append(arrEmailSubject, emailSubject)
 	}
 	self.ArrEmailSubject = arrEmailSubject
 	return self
-}
-
-func readFromChannelOfWriteExcelData(entityChannel *goroutine.EntityChannel) (emailSubject string) {
-	dataOnce := entityChannel.ReadOnce()
-	m, ok := dataOnce.(*gomail.Message)
-	if !ok {
-		rfl.ErrPanicFormat(m, "emailMessage", "*gomail.Message")
-	}
-	arrEmailSubjectFromEmailMessage := m.GetHeader("Subject")
-	emailSubjectEncoded := arrEmailSubjectFromEmailMessage[0]
-	emailSubject = emailSubjectEncoded
-	m.Reset()
-	return emailSubject
 }

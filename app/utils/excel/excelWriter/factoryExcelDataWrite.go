@@ -10,11 +10,7 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-/*
-Init
-*/
-
-func MakeEntityExcelDataWrite(attrT1ForExcel base.AttrT1) (entityExcelDataWrite *EntityExcelDataWrite) {
+func InitEntityExcelDataWrite(attrT1ForExcel base.AttrT1) (entityExcelDataWrite *EntityExcelDataWrite) {
 	entityExcelDataWrite = new(EntityExcelDataWrite)
 	entityExcelDataWrite.Init(attrT1ForExcel)
 	return entityExcelDataWrite
@@ -67,10 +63,6 @@ func (self *EntityExcelDataWrite) setExcelFile() *EntityExcelDataWrite {
 	return self
 }
 
-/*
-Save
-*/
-
 func (self *EntityExcelDataWrite) SaveFile() *EntityExcelDataWrite {
 	pathFile := self.PathFile
 	f := self.ExcelFile
@@ -78,10 +70,6 @@ func (self *EntityExcelDataWrite) SaveFile() *EntityExcelDataWrite {
 	err.ErrCheck(errExcelSave)
 	return self
 }
-
-/*
-Close
-*/
 
 func (self *EntityExcelDataWrite) CloseExcel() {
 	errExcelClose := self.ExcelFile.Close()

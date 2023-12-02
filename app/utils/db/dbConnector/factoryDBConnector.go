@@ -9,11 +9,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/ssh"
 )
 
-/*
-Init
-*/
-
-func MakeEntityDBConnector() (entityDBConnector *EntityDBConnector) {
+func InitEntityDBConnector() (entityDBConnector *EntityDBConnector) {
 	entityDBConnector = new(EntityDBConnector)
 	entityDBConnector.Init()
 	return entityDBConnector
@@ -30,7 +26,7 @@ func (self *EntityDBConnector) setEntitySSH() *EntityDBConnector {
 	if !isNeedSSH {
 		return self
 	}
-	entitySSH := ssh.MakeEntitySSH()
+	entitySSH := ssh.InitEntitySSH()
 	funcDialMysql := entitySSH.DialForMysql
 	networkDialMysql := ssh.NetworkTCPANDSSH
 	mysql.RegisterDialContext(networkDialMysql, funcDialMysql)
@@ -86,10 +82,6 @@ func (self *EntityDBConnector) pingDBSqlx() *EntityDBConnector {
 	err.ErrCheck(errPing)
 	return self
 }
-
-/*
-Close
-*/
 
 func (self *EntityDBConnector) CloseDBConnector() {
 	self.closeDBSqlx().closeSSH()

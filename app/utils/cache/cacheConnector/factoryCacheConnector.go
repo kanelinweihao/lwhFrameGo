@@ -10,11 +10,7 @@ import (
 
 var ctx = conf.CTX
 
-/*
-Init
-*/
-
-func MakeEntityCacheConnector() (entityCacheConnector *EntityCacheConnector) {
+func InitEntityCacheConnector() (entityCacheConnector *EntityCacheConnector) {
 	entityCacheConnector = new(EntityCacheConnector)
 	entityCacheConnector.Init()
 	return entityCacheConnector
@@ -31,7 +27,7 @@ func (self *EntityCacheConnector) setEntitySSH() *EntityCacheConnector {
 	if !isNeedSSH {
 		return self
 	}
-	entitySSH := ssh.MakeEntitySSH()
+	entitySSH := ssh.InitEntitySSH()
 	self.EntitySSH = entitySSH
 	return self
 }
@@ -92,10 +88,6 @@ func (self *EntityCacheConnector) pingCacheRedis() *EntityCacheConnector {
 	err.ErrCheck(errRedisPing)
 	return self
 }
-
-/*
-Close
-*/
 
 func (self *EntityCacheConnector) CloseCacheConnector() {
 	self.closeCacheRedis().closeSSH()

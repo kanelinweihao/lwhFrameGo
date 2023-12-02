@@ -69,7 +69,7 @@ func getParamsEnvNeed(paramsKey base.AttrS1) (paramsNeed base.AttrT1) {
 	return paramsNeed
 }
 
-func getEntityConfig(paramsKey base.AttrS1, entity base.EntityBase) {
+func getEntityConfig(paramsKey base.AttrS1, entity base.TEntityBase) {
 	paramsNeed := getParamsEnvNeed(paramsKey)
 	conv.ToEntityFromAttr(paramsNeed, entity)
 	return

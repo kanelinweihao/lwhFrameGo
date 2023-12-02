@@ -20,7 +20,7 @@ type EntityExcel struct {
 
 func (self *EntityExcel) BatchSetDataToExcel(boxToExcel base.BoxData) (arrPathFile []string) {
 	self.BoxToExcel = boxToExcel
-	entityExcelWriter := excelWriter.MakeEntityExcelWriter(boxToExcel)
+	entityExcelWriter := excelWriter.InitEntityExcelWriter(boxToExcel)
 	self.EntityExcelWriter = entityExcelWriter
 	arrPathFile = entityExcelWriter.BatchWriteExcel()
 	self.ArrPathFile = arrPathFile
@@ -28,7 +28,7 @@ func (self *EntityExcel) BatchSetDataToExcel(boxToExcel base.BoxData) (arrPathFi
 }
 
 func (self *EntityExcel) BatchGetDataFromExcel(arrPathFile []string) (attrS3ExcelData base.AttrS3) {
-	entityExcelReader := excelReader.MakeEntityExcelReader(arrPathFile)
+	entityExcelReader := excelReader.InitEntityExcelReader(arrPathFile)
 	self.EntityExcelReader = entityExcelReader
 	attrS3ExcelData = entityExcelReader.BatchReadExcel()
 	self.AttrS3ExcelData = attrS3ExcelData

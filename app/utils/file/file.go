@@ -9,16 +9,12 @@ import (
 	"strings"
 )
 
-/*
-Path
-*/
-
 func isFilePathAbs(filePath string) (isAbs bool) {
 	isAbs = filepath.IsAbs(filePath)
 	return isAbs
 }
 
-// 相对路径转绝对路径(实现对windows\分隔符的兼容)
+// GetFilePathAbs 相对路径转绝对路径(实现对windows\分隔符的兼容)
 func GetFilePathAbs(filePath string) (filePathAbs string) {
 	isAbs := isFilePathAbs(filePath)
 	if isAbs {
@@ -30,7 +26,7 @@ func GetFilePathAbs(filePath string) (filePathAbs string) {
 	return filePathAbs
 }
 
-// 绝对路径转相对路径(实现对embed静态文件打包的兼容)
+// GetFilePathRel 绝对路径转相对路径(实现对embed静态文件打包的兼容)
 func GetFilePathRel(filePath string) (filePathRel string) {
 	isAbs := isFilePathAbs(filePath)
 	if !isAbs {
@@ -43,16 +39,12 @@ func GetFilePathRel(filePath string) (filePathRel string) {
 	return filePathRel
 }
 
-// 文件路径强制用/作分隔符(实现对embed静态文件打包的兼容)
+// GetFilePathEmbed 文件路径强制用/作分隔符(实现对embed静态文件打包的兼容)
 func GetFilePathEmbed(filePath string) (filePathEmbed string) {
 	filePathRel := GetFilePathRel(filePath)
 	filePathEmbed = filepath.ToSlash(filePathRel)
 	return filePathEmbed
 }
-
-/*
-FileInfo
-*/
 
 func getFileInfo(filePath string) (fileInfo os.FileInfo, errFileInfo error) {
 	fileInfo, errFileInfo = os.Stat(filePath)
@@ -83,10 +75,6 @@ func GetFilenameWithExt(filePath string) (filenameWithExt string) {
 	return filenameWithExt
 }
 
-/*
-Dir
-*/
-
 func IsDir(filePath string) (isDir bool) {
 	fileInfo, errFileInfo := getFileInfo(filePath)
 	err.ErrCheck(errFileInfo)
@@ -115,10 +103,6 @@ func MakeDir(filePathDir string) {
 	err.ErrCheck(errDirMk)
 	return
 }
-
-/*
-FileRead
-*/
 
 func getFS(filePath string) (f fs.File) {
 	f, errFileOpen := os.OpenFile(

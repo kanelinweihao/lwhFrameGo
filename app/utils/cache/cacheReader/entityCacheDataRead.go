@@ -3,7 +3,6 @@ package cacheReader
 import (
 	"context"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
 	"github.com/redis/go-redis/v9"
 	"time"
 )
@@ -16,18 +15,29 @@ type EntityCacheDataRead struct {
 	TTL        time.Duration
 }
 
-func (self *EntityCacheDataRead) WriteToChannelOfReadCacheData(entityChannel *goroutine.EntityChannel) {
-	cacheValue := self.getCache()
-	entityChannel.WriteOnce(cacheValue)
+func (self *EntityCacheDataRead) WriteToChannelOfReadCacheData(chanWrite chan<- typeChanData) {
+	self.getCache().writeChan(chanWrite)
 	return
 }
 
-func (self *EntityCacheDataRead) getCache() (cacheValue string) {
+func (self *EntityCacheDataRead) getCache() *EntityCacheDataRead {
 	r := self.CacheRedis
 	ctx := self.CTX
 	cacheKey := self.CacheKey
 	cacheValue, errRedisGet := r.Get(ctx, cacheKey).Result()
 	err.ErrCheck(errRedisGet)
 	self.CacheValue = cacheValue
+	return self
+}
+
+func (self *EntityCacheDataRead) writeChan(chanWrite chan<- typeChanData) *EntityCacheDataRead {
+	cacheValue := self.CacheValue
+	chanWrite <- cacheValue
+	close(chanWrite)
+	return self
+}
+
+func readFromChannelOfReadCacheData(chanRead <-chan typeChanData) (cacheValue string) {
+	cacheValue = <-chanRead
 	return cacheValue
 }

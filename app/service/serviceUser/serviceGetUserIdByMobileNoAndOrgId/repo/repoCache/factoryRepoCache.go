@@ -5,10 +5,10 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
-	ttt "github.com/kanelinweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 )
 
-func MakeEntityRepoCache(arrPathFileExcel []string) (entityRepoCache *EntityRepoCache) {
+func InitEntityRepoCache(arrPathFileExcel []string) (entityRepoCache *EntityRepoCache) {
 	entityRepoCache = new(EntityRepoCache)
 	entityRepoCache.Init(arrPathFileExcel)
 	return entityRepoCache
@@ -30,7 +30,7 @@ func (self *EntityRepoCache) setPropertiesMore() *EntityRepoCache {
 }
 
 func (self *EntityRepoCache) setCacheKey() *EntityRepoCache {
-	timeSuffix := ttt.GetTimeSuffix()
+	timeSuffix := times.GetTimeSuffix()
 	cacheKeyPrefix := conf.GetProjectNameEN()
 	cacheKey := fmt.Sprintf(
 		"%s:%s",

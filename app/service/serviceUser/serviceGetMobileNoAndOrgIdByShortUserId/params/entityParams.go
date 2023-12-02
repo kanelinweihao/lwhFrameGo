@@ -6,21 +6,20 @@ import (
 )
 
 type EntityParams struct {
-	ShortUserId int
-	UserId      int
-	Sign        string
-	MobileNo    string
-	OrgId       int
-	MsgShow     string
+	ShortUserId int    `validate:"required,min=1"`
+	Sign        string `validate:"-"`
+	UserId      int    `validate:"required,min=1000001"`
+	MobileNo    string `validate:"omitempty,min=11,max=11"`
+	OrgId       int    `validate:"omitempty,min=31"`
+	MsgShow     string `validate:"-"`
 }
 
-func (self *EntityParams) SetMsgShow() *EntityParams {
-	msgShow := "Success"
-	self.MsgShow = msgShow
+func (self *EntityParams) SetPropertiesAppend(paramsAppend base.AttrT1) base.TEntityParams {
+	conv.ToEntityFromAttr(paramsAppend, self)
 	return self
 }
 
-func (self *EntityParams) GetParams() (paramsOut base.AttrT1) {
+func (self *EntityParams) ToAttr() (paramsOut base.AttrT1) {
 	paramsOut = conv.ToAttrFromEntity(self)
 	return paramsOut
 }

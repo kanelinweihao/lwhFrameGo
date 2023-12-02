@@ -6,7 +6,7 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-func MakeEntityEmailData(emailSender gomail.SendCloser, attrT1ForEmail base.AttrT1, emailFrom string) (entityEmailData *EntityEmailData) {
+func InitEntityEmailData(emailSender gomail.SendCloser, attrT1ForEmail base.AttrT1, emailFrom string) (entityEmailData *EntityEmailData) {
 	entityEmailData = new(EntityEmailData)
 	entityEmailData.Init(emailSender, attrT1ForEmail, emailFrom)
 	return entityEmailData

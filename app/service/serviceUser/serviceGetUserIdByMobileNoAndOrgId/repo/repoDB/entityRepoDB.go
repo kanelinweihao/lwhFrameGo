@@ -9,22 +9,23 @@ import (
 
 type EntityRepoDB struct {
 	AttrT3DBData     base.AttrT3
-	UserId           int
+	ParamsAppend     base.AttrT1
 	ParamsRepoDB     base.AttrT1
 	ArrSQLName       []string
 	AttrArgsForQuery base.AttrS1
 }
 
-func (self *EntityRepoDB) GetDBData() (attrT3DBData base.AttrT3, userId int) {
+func (self *EntityRepoDB) GetDBData() (attrT3DBData base.AttrT3, paramsAppend base.AttrT1) {
 	self.setAttrT3DBData().setPropertiesNeed()
-	attrT3DBData, userId = self.getPropertiesNeed()
-	return attrT3DBData, userId
+	attrT3DBData = self.AttrT3DBData
+	paramsAppend = self.ParamsAppend
+	return attrT3DBData, paramsAppend
 }
 
 func (self *EntityRepoDB) setAttrT3DBData() *EntityRepoDB {
 	arrSqlName := self.ArrSQLName
 	attrArgsForQuery := self.AttrArgsForQuery
-	entityDB := db.MakeEntityDB()
+	entityDB := db.InitEntityDB()
 	defer entityDB.CloseDB()
 	attrT3DBData := entityDB.BatchGetDataFromDB(arrSqlName, attrArgsForQuery)
 	self.AttrT3DBData = attrT3DBData
@@ -32,24 +33,26 @@ func (self *EntityRepoDB) setAttrT3DBData() *EntityRepoDB {
 }
 
 func (self *EntityRepoDB) setPropertiesNeed() *EntityRepoDB {
-	attrT3DBData := self.AttrT3DBData
-	countUserId := len(attrT3DBData["GetUserIdByMobileNoAndOrgId"])
-	if countUserId > 0 {
-		userId, ok := attrT3DBData["GetUserIdByMobileNoAndOrgId"]["0"]["UserId"].(int)
-		if !ok {
-			msgError := fmt.Sprintf(
-				"The userId |%v| of |%v| is invalid",
-				userId,
-				attrT3DBData)
-			err.ErrPanic(msgError)
-		}
-		self.UserId = userId
-	}
+	userId := self.getUserIdFromAttrT3DBData()
+	paramsAppend := make(base.AttrT1, 1)
+	paramsAppend["UserId"] = userId
+	self.ParamsAppend = paramsAppend
 	return self
 }
 
-func (self *EntityRepoDB) getPropertiesNeed() (attrT3DBData base.AttrT3, userId int) {
-	attrT3DBData = self.AttrT3DBData
-	userId = self.UserId
-	return attrT3DBData, userId
+func (self *EntityRepoDB) getUserIdFromAttrT3DBData() (userId int) {
+	attrT3DBData := self.AttrT3DBData
+	countUserId := len(attrT3DBData["GetUserIdByMobileNoAndOrgId"])
+	if countUserId == 0 {
+		return userId
+	}
+	userId, ok := attrT3DBData["GetUserIdByMobileNoAndOrgId"]["0"]["UserId"].(int)
+	if !ok {
+		msgError := fmt.Sprintf(
+			"The userId |%v| of |%v| is invalid",
+			userId,
+			attrT3DBData)
+		err.ErrPanic(msgError)
+	}
+	return userId
 }

@@ -4,11 +4,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheConnector"
 )
 
-/*
-Init
-*/
-
-func MakeEntityCache() (entityCache *EntityCache) {
+func InitEntityCache() (entityCache *EntityCache) {
 	entityCache = new(EntityCache)
 	entityCache.Init()
 	return entityCache
@@ -20,14 +16,10 @@ func (self *EntityCache) Init() *EntityCache {
 }
 
 func (self *EntityCache) setEntityEmailConnector() *EntityCache {
-	entityCacheConnector := cacheConnector.MakeEntityCacheConnector()
+	entityCacheConnector := cacheConnector.InitEntityCacheConnector()
 	self.EntityCacheConnector = entityCacheConnector
 	return self
 }
-
-/*
-Close
-*/
 
 func (self *EntityCache) CloseCache() {
 	entityCacheConnector := self.EntityCacheConnector

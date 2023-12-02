@@ -3,6 +3,7 @@ package err
 import (
 	"errors"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"path"
 	"runtime"
 )
@@ -55,4 +56,20 @@ func getLocationOfErr() (fileName string, funcName string, codeLine int) {
 	funcName = runtime.FuncForPC(pc).Name()
 	codeLine = line
 	return fileName, funcName, codeLine
+}
+
+func ErrValidate(err error) {
+	if err == nil {
+		return
+	}
+	for _, err := range err.(validator.ValidationErrors) {
+		msgError := fmt.Sprintf(
+			"The propertie |%s| of type |%s| should |%s=%s|, but it is |%v|",
+			err.Namespace(),
+			err.Kind(),
+			err.Tag(),
+			err.Param(),
+			err.Value())
+		ErrPanic(msgError)
+	}
 }

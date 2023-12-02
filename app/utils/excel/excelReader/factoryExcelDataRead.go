@@ -8,11 +8,7 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-/*
-Init
-*/
-
-func MakeEntityExcelDataRead(pathFile string) (entityExcelDataRead *EntityExcelDataRead) {
+func InitEntityExcelDataRead(pathFile string) (entityExcelDataRead *EntityExcelDataRead) {
 	entityExcelDataRead = new(EntityExcelDataRead)
 	entityExcelDataRead.Init(pathFile)
 	return entityExcelDataRead
@@ -66,10 +62,6 @@ func (self *EntityExcelDataRead) setExcelFile() *EntityExcelDataRead {
 	self.ExcelFile = f
 	return self
 }
-
-/*
-Close
-*/
 
 func (self *EntityExcelDataRead) CloseExcel() {
 	errExcelClose := self.ExcelFile.Close()

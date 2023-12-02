@@ -15,7 +15,7 @@ type EntityEmail struct {
 func (self *EntityEmail) BatchSendEmail(boxToEmail base.BoxData) (arrEmailSubject []string) {
 	self.BoxToEmail = boxToEmail
 	entityEmailConnector := self.EntityEmailConnector
-	entityEmailWriter := emailWriter.MakeEntityEmailWriter(entityEmailConnector, boxToEmail)
+	entityEmailWriter := emailWriter.InitEntityEmailWriter(entityEmailConnector, boxToEmail)
 	self.EntityEmailWriter = entityEmailWriter
 	arrEmailSubject = entityEmailWriter.BatchSendEmail()
 	return arrEmailSubject

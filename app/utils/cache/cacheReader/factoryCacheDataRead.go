@@ -5,7 +5,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func MakeEntityCacheDataRead(cacheRedis *redis.Client, cacheKey string) (entityCacheDataRead *EntityCacheDataRead) {
+func InitEntityCacheDataRead(cacheRedis *redis.Client, cacheKey string) (entityCacheDataRead *EntityCacheDataRead) {
 	entityCacheDataRead = new(EntityCacheDataRead)
 	entityCacheDataRead.Init(cacheRedis, cacheKey)
 	return entityCacheDataRead

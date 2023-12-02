@@ -2,52 +2,42 @@ package excelWriter
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
 )
+
+type typeChanData = string
 
 type EntityExcelWriter struct {
 	ArrPathFile              []string
 	BoxToExcel               base.BoxData
 	AttrEntityExcelDataWrite map[string]*EntityExcelDataWrite
-	AttrEntityChannel        base.AttrT1
+	AttrChan                 map[string]chan typeChanData
 }
 
 func (self *EntityExcelWriter) BatchWriteExcel() (arrPathFile []string) {
-	self.writeAttrEntityChannel().readAttrEntityChannel()
+	self.writeAttrChan().readAttrChan()
 	arrPathFile = self.ArrPathFile
 	return arrPathFile
 }
 
-func (self *EntityExcelWriter) writeAttrEntityChannel() *EntityExcelWriter {
+func (self *EntityExcelWriter) writeAttrChan() *EntityExcelWriter {
 	attrEntityExcelDataWrite := self.AttrEntityExcelDataWrite
-	attrEntityChannel := make(base.AttrT1)
+	attrChan := make(map[string]chan typeChanData, len(attrEntityExcelDataWrite))
 	for pathFile, entityExcelDataWrite := range attrEntityExcelDataWrite {
-		entityChannel := goroutine.MakeEntityChannel()
-		attrEntityChannel[pathFile] = entityChannel
-		go entityExcelDataWrite.WriteToChannelOfWriteExcelData(entityChannel)
+		chanBase := make(chan typeChanData, 1)
+		attrChan[pathFile] = chanBase
+		go entityExcelDataWrite.WriteToChannelOfWriteExcelData(chanBase)
 	}
-	self.AttrEntityChannel = attrEntityChannel
+	self.AttrChan = attrChan
 	return self
 }
 
-func (self *EntityExcelWriter) readAttrEntityChannel() *EntityExcelWriter {
-	attrEntityChannel := self.AttrEntityChannel
-	arrPathFile := make([]string, 0, len(attrEntityChannel))
-	for _, entityChannelToAssign := range attrEntityChannel {
-		entityChannel := entityChannelToAssign.(*goroutine.EntityChannel)
-		pathFile := readFromChannelOfWriteExcelData(entityChannel)
+func (self *EntityExcelWriter) readAttrChan() *EntityExcelWriter {
+	attrChan := self.AttrChan
+	arrPathFile := make([]string, 0, len(attrChan))
+	for _, chanBase := range attrChan {
+		pathFile := readFromChannelOfWriteExcelData(chanBase)
 		arrPathFile = append(arrPathFile, pathFile)
 	}
 	self.ArrPathFile = arrPathFile
 	return self
-}
-
-func readFromChannelOfWriteExcelData(entityChannel *goroutine.EntityChannel) (pathFile string) {
-	dataOnce := entityChannel.ReadOnce()
-	pathFile, ok := dataOnce.(string)
-	if !ok {
-		rfl.ErrPanicFormat(pathFile, "pathFile", "string")
-	}
-	return pathFile
 }

@@ -19,7 +19,7 @@ type EntityNotifyEmail struct {
 
 func (self *EntityNotifyEmail) SendEmail() (arrEmailSubject []string) {
 	boxToEmail := self.BoxToEmail
-	entityEmail := email.MakeEntityEmail()
+	entityEmail := email.InitEntityEmail()
 	defer entityEmail.CloseEmail()
 	arrEmailSubject = entityEmail.BatchSendEmail(boxToEmail)
 	return arrEmailSubject

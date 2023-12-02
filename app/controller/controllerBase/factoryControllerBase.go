@@ -3,17 +3,14 @@ package controllerBase
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/respInfo/respInfo"
+	"github.com/kanelinweihao/lwhFrameGo/app/dict/dictRoute"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/funcAttr"
 	"net/http"
 )
 
-/*
-Init
-*/
-
-func MakeEntityController(resp http.ResponseWriter, req *http.Request, routeName string) (entityController *EntityController) {
+func InitEntityController(resp http.ResponseWriter, req *http.Request, routeName string) (entityController *EntityController) {
 	entityController = new(EntityController)
 	entityController.Init(resp, req, routeName)
 	return entityController
@@ -36,7 +33,7 @@ func (self *EntityController) setPropertiesIn(resp http.ResponseWriter, req *htt
 func (self *EntityController) validateRoute() *EntityController {
 	routeNameReal := self.Req.URL.Path
 	attrRouteIgnoreValidate := conf.AttrRouteIgnoreValidate
-	isIgnoreValidate := base.IsKeyOfAttrStr(routeNameReal, attrRouteIgnoreValidate)
+	isIgnoreValidate := funcAttr.IsKeyOfAttrStr(routeNameReal, attrRouteIgnoreValidate)
 	if isIgnoreValidate {
 		self.IsIgnore = true
 		return self
@@ -67,7 +64,7 @@ func (self *EntityController) setPropertiesMore() *EntityController {
 
 func (self *EntityController) setRouteInfo() *EntityController {
 	routeName := self.RouteName
-	routeType, paramsInDefault, paramsOutDefault, funcService, pathTmpl := respInfo.GetRespInfoByRouteName(routeName)
+	routeType, paramsInDefault, paramsOutDefault, funcService, pathTmpl := dictRoute.GetDictRouteByRouteName(routeName)
 	self.RouteType = routeType
 	self.ParamsInDefault = paramsInDefault
 	self.ParamsOutDefault = paramsOutDefault
@@ -108,11 +105,7 @@ func (self *EntityController) setParamsIn() *EntityController {
 	return self
 }
 
-/*
-Close
-*/
-
-func (self *EntityController) CloseEntityController() {
+func (self *EntityController) CloseController() {
 	if self.Req == nil {
 		return
 	}

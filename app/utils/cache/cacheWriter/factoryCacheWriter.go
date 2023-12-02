@@ -5,7 +5,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheConnector"
 )
 
-func MakeEntityCacheWriter(entityCacheConnector *cacheConnector.EntityCacheConnector, boxToCache base.BoxData) (entityCacheWriter *EntityCacheWriter) {
+func InitEntityCacheWriter(entityCacheConnector *cacheConnector.EntityCacheConnector, boxToCache base.BoxData) (entityCacheWriter *EntityCacheWriter) {
 	entityCacheWriter = new(EntityCacheWriter)
 	entityCacheWriter.Init(entityCacheConnector, boxToCache)
 	return entityCacheWriter
@@ -33,7 +33,7 @@ func (self *EntityCacheWriter) setAttrEntityCacheDataWrite() *EntityCacheWriter 
 	attrEntityCacheData := make(map[string]*EntityCacheDataWrite)
 	for cacheKey, attrT1ForCacheToAssign := range boxToCache {
 		attrT1ForCache := attrT1ForCacheToAssign.(base.AttrT1)
-		entityCacheData := MakeEntityCacheData(cacheRedis, attrT1ForCache)
+		entityCacheData := InitEntityCacheData(cacheRedis, attrT1ForCache)
 		attrEntityCacheData[cacheKey] = entityCacheData
 	}
 	self.AttrEntityCacheDataWrite = attrEntityCacheData

@@ -86,7 +86,6 @@ func (self *EntityController) setJsonRes() *EntityController {
 
 func (self *EntityController) execApi() *EntityController {
 	self.execRes()
-	// time.ShowTimeAndMsg("API response success")
 	return self
 }
 
@@ -100,7 +99,6 @@ func (self *EntityController) execRes() *EntityController {
 
 func (self *EntityController) execWeb() *EntityController {
 	self.setParamsToTmpl().setTmpl().execTmpl()
-	// time.ShowTimeAndMsg("Tmpl set success")
 	return self
 }
 

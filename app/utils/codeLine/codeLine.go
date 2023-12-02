@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/funcAttr"
 	"os"
 	"path/filepath"
 )
@@ -67,7 +68,7 @@ func isValidFile(path string) (isValidFile bool) {
 		return false
 	}
 	ext := file.GetExt(path)
-	isValidExt := base.IsKeyOfAttrStr(ext, attrValidExt)
+	isValidExt := funcAttr.IsKeyOfAttrStr(ext, attrValidExt)
 	if !isValidExt {
 		return false
 	}

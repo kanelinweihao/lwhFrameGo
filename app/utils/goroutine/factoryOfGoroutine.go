@@ -1,6 +1,6 @@
 package goroutine
 
-func MakeEntityChannel() (entityChannel *EntityChannel) {
+func InitEntityChannel() (entityChannel *EntityChannel) {
 	entityChannel = new(EntityChannel)
 	entityChannel.Init()
 	return entityChannel

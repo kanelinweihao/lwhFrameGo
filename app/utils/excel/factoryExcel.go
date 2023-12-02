@@ -1,6 +1,6 @@
 package excel
 
-func MakeEntityExcel() (entityExcel *EntityExcel) {
+func InitEntityExcel() (entityExcel *EntityExcel) {
 	entityExcel = new(EntityExcel)
 	entityExcel.Init()
 	return entityExcel

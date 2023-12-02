@@ -4,7 +4,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheConnector"
 )
 
-func MakeEntityCacheReader(entityCacheConnector *cacheConnector.EntityCacheConnector, arrCacheKey []string) (entityCacheReader *EntityCacheReader) {
+func InitEntityCacheReader(entityCacheConnector *cacheConnector.EntityCacheConnector, arrCacheKey []string) (entityCacheReader *EntityCacheReader) {
 	entityCacheReader = new(EntityCacheReader)
 	entityCacheReader.Init(entityCacheConnector, arrCacheKey)
 	return entityCacheReader
@@ -31,7 +31,7 @@ func (self *EntityCacheReader) setAttrEntityCacheDataRead() *EntityCacheReader {
 	arrCacheKey := self.ArrCacheKey
 	attrEntityCacheDataRead := make(map[string]*EntityCacheDataRead)
 	for _, cacheKey := range arrCacheKey {
-		entityCacheDataRead := MakeEntityCacheDataRead(cacheRedis, cacheKey)
+		entityCacheDataRead := InitEntityCacheDataRead(cacheRedis, cacheKey)
 		attrEntityCacheDataRead[cacheKey] = entityCacheDataRead
 	}
 	self.AttrEntityCacheDataRead = attrEntityCacheDataRead

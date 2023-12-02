@@ -6,7 +6,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/dd"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/regex"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"testing"
 )
 
@@ -61,7 +61,7 @@ func BenchmarkToValidType(b *testing.B) {
 // go test -bench="BenchmarkIsTime"
 func BenchmarkIsTime(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		now := time.GetNow()
+		now := times.GetNow()
 		regex.IsTime(now)
 	}
 }

@@ -6,6 +6,8 @@
 !/res/env/.gitkeep
 /res/privateKey/*
 !/res/privateKey/.gitkeep
+/res/sql/*
+!/res/sql/.gitkeep
 # tmp
 /tmp/bak/*
 !/tmp/bak/.gitkeep

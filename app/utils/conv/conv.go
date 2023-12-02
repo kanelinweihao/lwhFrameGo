@@ -59,11 +59,7 @@ func errPanicFormat(value interface{}, typeNameOld string, typeNameNew string) {
 	err.ErrPanic(msgError)
 }
 
-/*
-ToBool
-*/
-
-// interface{}->bool
+// ToBool interface{}->bool
 func ToBool(valueOld interface{}) (valueNew bool) {
 	typeNameNew := "bool"
 	isPtr, typeNameOld, typeKindNameOld := rfl.GetTypeInfo(valueOld)
@@ -94,7 +90,7 @@ func ToBool(valueOld interface{}) (valueNew bool) {
 	return valueNew
 }
 
-// int->bool
+// ToBoolFromInt int->bool
 func ToBoolFromInt(num int) (ok bool) {
 	if num == 0 {
 		ok = false
@@ -104,18 +100,14 @@ func ToBoolFromInt(num int) (ok bool) {
 	return ok
 }
 
-// string->bool
+// ToBoolFromStr string->bool
 func ToBoolFromStr(str string) (ok bool) {
 	ok, errParseBool := strconv.ParseBool(str)
 	err.ErrCheck(errParseBool)
 	return ok
 }
 
-/*
-ToInt
-*/
-
-// interface{}->int
+// ToInt interface{}->int
 func ToInt(valueOld interface{}) (valueNew int) {
 	typeNameNew := "int"
 	isPtr, typeNameOld, typeKindNameOld := rfl.GetTypeInfo(valueOld)
@@ -146,7 +138,7 @@ func ToInt(valueOld interface{}) (valueNew int) {
 	return valueNew
 }
 
-// bool->int
+// ToIntFromBool bool->int
 func ToIntFromBool(ok bool) (num int) {
 	if ok {
 		num = 1
@@ -156,18 +148,14 @@ func ToIntFromBool(ok bool) (num int) {
 	return num
 }
 
-// string->int
+// ToIntFromStr string->int
 func ToIntFromStr(str string) (num int) {
 	num, errAtoi := strconv.Atoi(str)
 	err.ErrCheck(errAtoi)
 	return num
 }
 
-/*
-ToStr
-*/
-
-// interface{}->string
+// ToStr interface{}->string
 func ToStr(valueOld interface{}) (valueNew string) {
 	typeNameNew := "string"
 	isPtr, typeNameOld, typeKindNameOld := rfl.GetTypeInfo(valueOld)
@@ -214,23 +202,19 @@ func ToStr(valueOld interface{}) (valueNew string) {
 	return valueNew
 }
 
-// bool->string
+// ToStrFromBool bool->string
 func ToStrFromBool(ok bool) (str string) {
 	str = strconv.FormatBool(ok)
 	return str
 }
 
-// int->string
+// ToStrFromInt int->string
 func ToStrFromInt(num int) (str string) {
 	str = strconv.Itoa(num)
 	return str
 }
 
-/*
-ToJson
-*/
-
-// slice->json
+// ToJsonFromSlice slice->json
 func ToJsonFromSlice(arrT []string) (strJson string) {
 	arrByte, errTo := json.Marshal(arrT)
 	err.ErrCheck(errTo)
@@ -238,7 +222,7 @@ func ToJsonFromSlice(arrT []string) (strJson string) {
 	return strJson
 }
 
-// map->json
+// ToJsonFromAttr map->json
 func ToJsonFromAttr(attrT1 base.AttrT1) (strJson string) {
 	arrByte, errTo := json.Marshal(attrT1)
 	err.ErrCheck(errTo)
@@ -246,18 +230,14 @@ func ToJsonFromAttr(attrT1 base.AttrT1) (strJson string) {
 	return strJson
 }
 
-// struct->json
-func ToJsonFromEntity(entity base.EntityBase) (strJson string) {
+// ToJsonFromEntity struct->json
+func ToJsonFromEntity(entity base.TEntityBase) (strJson string) {
 	attrT1 := ToAttrFromEntity(entity)
 	strJson = ToJsonFromAttr(attrT1)
 	return strJson
 }
 
-/*
-ToSlice
-*/
-
-// map->slice
+// ToArrFromAttr map->slice
 func ToArrFromAttr(attrT1 base.AttrT1) (arrT []interface{}) {
 	len := len(attrT1)
 	arrT = make([]interface{}, len)
@@ -267,7 +247,7 @@ func ToArrFromAttr(attrT1 base.AttrT1) (arrT []interface{}) {
 	return arrT
 }
 
-// map->slice
+// ToArrStrFromAttrStr map->slice
 func ToArrStrFromAttrStr(attrS1 base.AttrS1) (arrS []string) {
 	arrS = make([]string, 0, len(attrS1))
 	for _, v := range attrS1 {
@@ -276,11 +256,7 @@ func ToArrStrFromAttrStr(attrS1 base.AttrS1) (arrS []string) {
 	return arrS
 }
 
-/*
-ToMap
-*/
-
-// json->map
+// ToAttrFromJson json->map
 func ToAttrFromJson(strJson string) (attrT1 base.AttrT1) {
 	arrByte := []byte(strJson)
 	errTo := json.Unmarshal(arrByte, &attrT1)
@@ -288,8 +264,8 @@ func ToAttrFromJson(strJson string) (attrT1 base.AttrT1) {
 	return attrT1
 }
 
-// struct->map
-func ToAttrFromEntity(entity base.EntityBase) (attrT1 base.AttrT1) {
+// ToAttrFromEntity struct->map
+func ToAttrFromEntity(entity base.TEntityBase) (attrT1 base.AttrT1) {
 	attrT1 = make(base.AttrT1)
 	t := reflect.TypeOf(entity).Elem()
 	v := reflect.ValueOf(entity).Elem()
@@ -312,12 +288,8 @@ func ToAttrFromEntity(entity base.EntityBase) (attrT1 base.AttrT1) {
 	return attrT1
 }
 
-/*
-ToStruct
-*/
-
-// map->struct
-func ToEntityFromAttr(attrT1 base.AttrT1, entity base.EntityBase) {
+// ToEntityFromAttr map->struct
+func ToEntityFromAttr(attrT1 base.AttrT1, entity base.TEntityBase) {
 	structValue := reflect.ValueOf(entity).Elem()
 	for k, v := range attrT1 {
 		structFieldValue := structValue.FieldByName(k)
@@ -345,11 +317,7 @@ func ToEntityFromAttr(attrT1 base.AttrT1, entity base.EntityBase) {
 	return
 }
 
-/*
-ToMapNeed
-*/
-
-// AttrS1->AttrT1
+// ToAttrFromAttrStr AttrS1->AttrT1
 func ToAttrFromAttrStr(attrS1 base.AttrS1) (attrT1 base.AttrT1) {
 	attrT1 = make(base.AttrT1, len(attrS1))
 	for key, value := range attrS1 {
@@ -358,7 +326,7 @@ func ToAttrFromAttrStr(attrS1 base.AttrS1) (attrT1 base.AttrT1) {
 	return attrT1
 }
 
-// AttrT1->AttrS1
+// ToAttrStrFromAttr AttrT1->AttrS1
 func ToAttrStrFromAttr(attrT1 base.AttrT1) (attrS1 base.AttrS1) {
 	attrS1 = make(base.AttrS1, len(attrT1))
 	for key, value := range attrT1 {
@@ -368,7 +336,7 @@ func ToAttrStrFromAttr(attrT1 base.AttrT1) (attrS1 base.AttrS1) {
 	return attrS1
 }
 
-// AttrT2->AttrS2
+// ToAttrS2FromAttrT2 AttrT2->AttrS2
 func ToAttrS2FromAttrT2(attrT2 base.AttrT2) (attrS2 base.AttrS2) {
 	attrS2 = make(base.AttrS2, len(attrT2))
 	for k, attrT1 := range attrT2 {

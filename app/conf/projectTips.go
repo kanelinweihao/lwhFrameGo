@@ -2,9 +2,35 @@ package conf
 
 import (
 	"fmt"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/codeLine"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/os"
 )
 
 func GetProjectTips() (projectTips string) {
+	osName := os.GetOSName()
+	switch osName {
+	case "linux":
+		projectTips = GetProjectTipsLinux()
+	case "windows":
+		projectTips = GetProjectTipsBase()
+	default:
+		projectTips = GetProjectTipsBase()
+	}
+	return projectTips
+}
+
+func GetProjectTipsLinux() (projectTips string) {
+	projectTipsBase := GetProjectTipsBase()
+	pathDirRel := "./app"
+	msgCodeLine := codeLine.GetMsgCodeLine(pathDirRel)
+	projectTips = fmt.Sprintf(
+		"\n%s%s",
+		msgCodeLine,
+		projectTipsBase)
+	return projectTips
+}
+
+func GetProjectTipsBase() (projectTips string) {
 	projectDesc := GetProjectDesc()
 	webTips := getWebTips()
 	projectTips = fmt.Sprintf(

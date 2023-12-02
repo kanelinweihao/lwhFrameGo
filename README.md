@@ -15,16 +15,17 @@
 
 ## 2.外部依赖
 
-| 路径 | 备注         |
-| :-- |:-----------|
+| 路径 | 备注  |
+| :-- |:----|
 | github.com/akavel/rsrc | rsrc打包指定图标 |
+| github.com/go-playground/validator/v10 | validator |
 | github.com/go-sql-driver/mysql | mysql_base |
 | github.com/jmoiron/sqlx | mysql_sqlx |
-| github.com/redis/go-redis/v9 | redis      |
+| github.com/redis/go-redis/v9 | redis |
 | github.com/shopspring/decimal | decimal高精度 |
-| github.com/xuri/excelize/v2 | excel      |
-| golang.org/x/crypto/ssh | ssh        |
-| gopkg.in/gomail.v2 | email      |
+| github.com/xuri/excelize/v2 | excel |
+| golang.org/x/crypto/ssh | ssh |
+| gopkg.in/gomail.v2 | email |
 
 ## 3.内部架构
 - | 根目录
@@ -32,10 +33,9 @@
         - boot | 启动入口
         - conf | 配置信息
         - controller | 控制器
-        - respInfo | 响应信息
+        - dict | 字典
         - router | 路由器
         - service | 主要逻辑
-        - sqlInfo | 数据表信息
         - utils | 工具
     - res | 静态资源文件
         - env | 环境配置

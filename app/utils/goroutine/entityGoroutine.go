@@ -11,53 +11,25 @@ type EntityChannel struct {
 	ChannelRead  <-chan interface{}
 }
 
-/*
-Write
-*/
-
 func (self *EntityChannel) WriteOnce(dataOnce interface{}) {
 	err.ThrowError()
-	channelWrite := self.getChannelWrite()
-	channelWrite <- dataOnce
-	self.closeChannel()
-	return
-}
-
-func (self *EntityChannel) getChannelWrite() (channelWrite chan<- interface{}) {
-	channelWrite = self.ChannelWrite
-	return channelWrite
-}
-
-func (self *EntityChannel) closeChannel() {
 	channelWrite := self.ChannelWrite
+	channelWrite <- dataOnce
 	close(channelWrite)
-	self.checkIsClosed()
-	return
-}
-
-func (self *EntityChannel) checkIsClosed() {
 	channelRead := self.ChannelRead
 	_, ok := <-channelRead
 	if ok {
 		msgError := fmt.Sprintf(
-			"Fail to close channel",
-			1)
+			"Fail to close channel |%s|",
+			"interface{}")
 		err.ErrPanic(msgError)
 	}
+	return
 }
-
-/*
-Read
-*/
 
 func (self *EntityChannel) ReadOnce() (dataOnce interface{}) {
 	err.ThrowError()
-	channelRead := self.getChannelRead()
+	channelRead := self.ChannelRead
 	dataOnce = <-channelRead
 	return dataOnce
-}
-
-func (self *EntityChannel) getChannelRead() (channelRead <-chan interface{}) {
-	channelRead = self.ChannelRead
-	return channelRead
 }

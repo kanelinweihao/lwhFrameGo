@@ -3,16 +3,16 @@ package notifyExcel
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/sqlInfo/sqlInfo"
+	"github.com/kanelinweihao/lwhFrameGo/app/dict/dictSQL"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/excel"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 )
 
-func MakeEntityNotifyExcel(paramsToNotify base.AttrT1, attrT3DBData base.AttrT3) (entityNotifyExcel *EntityNotifyExcel) {
+func InitEntityNotifyExcel(paramsToNotify base.AttrT1, attrT3DBData base.AttrT3) (entityNotifyExcel *EntityNotifyExcel) {
 	entityNotifyExcel = new(EntityNotifyExcel)
 	entityNotifyExcel.Init(paramsToNotify, attrT3DBData)
 	return entityNotifyExcel
@@ -74,7 +74,7 @@ func (self *EntityNotifyExcel) setBoxExcelTitle() *EntityNotifyExcel {
 }
 
 func getParamsExcelTitle(sqlName string) (paramsExcelTitle base.AttrS2) {
-	paramsExcelTitle = sqlInfo.GetParamsExcelTitleBySQLName(sqlName)
+	paramsExcelTitle = dictSQL.GetParamsExcelTitleBySQLName(sqlName)
 	return paramsExcelTitle
 }
 
@@ -84,7 +84,7 @@ func (self *EntityNotifyExcel) setPathDirThisTime() *EntityNotifyExcel {
 	strUserId := self.StrUserId
 	remarkUser := "用户" + strUserId
 	dirNamePrefix := "数据导出"
-	suffix := time.GetTimeSuffix()
+	suffix := times.GetTimeSuffix()
 	dirName := fmt.Sprintf(
 		"%s_%s_%s",
 		dirNamePrefix,
@@ -124,7 +124,7 @@ func getPathFile(sqlName string, strUserId string, pathDirThisTime string) (path
 func getFileName(sqlName string, userId string) (fileName string) {
 	fileNamePrefix := getFileNamePrefix(sqlName)
 	remarkUser := "用户" + userId
-	timeSuffix := time.GetTimeSuffix()
+	timeSuffix := times.GetTimeSuffix()
 	ext := excel.ExtExcel
 	fileName = fmt.Sprintf(
 		"%s_%s_%s.%s",
@@ -136,7 +136,7 @@ func getFileName(sqlName string, userId string) (fileName string) {
 }
 
 func getFileNamePrefix(sqlName string) (fileNamePrefix string) {
-	fileNamePrefix = sqlInfo.GetFileNamePrefixBySQLName(sqlName)
+	fileNamePrefix = dictSQL.GetFileNamePrefixBySQLName(sqlName)
 	return fileNamePrefix
 }
 

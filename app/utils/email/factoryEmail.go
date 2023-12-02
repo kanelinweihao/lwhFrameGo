@@ -4,11 +4,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/email/emailConnector"
 )
 
-/*
-Init
-*/
-
-func MakeEntityEmail() (entityEmail *EntityEmail) {
+func InitEntityEmail() (entityEmail *EntityEmail) {
 	entityEmail = new(EntityEmail)
 	entityEmail.Init()
 	return entityEmail
@@ -20,14 +16,10 @@ func (self *EntityEmail) Init() *EntityEmail {
 }
 
 func (self *EntityEmail) setEntityEmailConnector() *EntityEmail {
-	entityEmailConnector := emailConnector.MakeEntityEmailConnector()
+	entityEmailConnector := emailConnector.InitEntityEmailConnector()
 	self.EntityEmailConnector = entityEmailConnector
 	return self
 }
-
-/*
-Close
-*/
 
 func (self *EntityEmail) CloseEmail() {
 	entityEmailConnector := self.EntityEmailConnector

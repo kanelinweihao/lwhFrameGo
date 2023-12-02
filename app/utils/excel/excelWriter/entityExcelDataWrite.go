@@ -6,7 +6,6 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
 	"github.com/xuri/excelize/v2"
 )
 
@@ -26,15 +25,13 @@ type EntityExcelDataWrite struct {
 	AttrS2ExcelData  base.AttrS2
 }
 
-func (self *EntityExcelDataWrite) WriteToChannelOfWriteExcelData(entityChannel *goroutine.EntityChannel) {
+func (self *EntityExcelDataWrite) WriteToChannelOfWriteExcelData(chanWrite chan<- typeChanData) {
 	defer self.CloseExcel()
-	self.WriteExcel().SaveFile()
-	pathFile := self.PathFile
-	entityChannel.WriteOnce(pathFile)
+	self.writeExcel().SaveFile().writeChan(chanWrite)
 	return
 }
 
-func (self *EntityExcelDataWrite) WriteExcel() *EntityExcelDataWrite {
+func (self *EntityExcelDataWrite) writeExcel() *EntityExcelDataWrite {
 	self.setSheetNew().batchSetCellOfTitle().batchSetCellOfData()
 	return self
 }
@@ -128,4 +125,16 @@ func (self *EntityExcelDataWrite) setCellValue(cellPosition string, value string
 	errSetCellValue := f.SetCellValue(sheetName, cellPosition, value)
 	err.ErrCheck(errSetCellValue)
 	return self
+}
+
+func (self *EntityExcelDataWrite) writeChan(chanWrite chan<- typeChanData) *EntityExcelDataWrite {
+	pathFile := self.PathFile
+	chanWrite <- pathFile
+	close(chanWrite)
+	return self
+}
+
+func readFromChannelOfWriteExcelData(chanRead <-chan typeChanData) (pathFile string) {
+	pathFile = <-chanRead
+	return pathFile
 }

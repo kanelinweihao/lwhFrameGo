@@ -5,7 +5,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/router"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/ip"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"net/http"
 )
 
@@ -18,15 +18,15 @@ func Boot() {
 func showTips() {
 	ip.ShowIP()
 	projectTips := conf.GetProjectTips()
-	time.ShowTimeAndMsg(projectTips)
+	times.ShowTimeAndMsg(projectTips)
 	return
 }
 
 func showWeb() {
 	router.SetRouterApi()
-	time.Sleep(100, "ms")
+	times.Sleep(100, "ms")
 	router.SetRouterWeb()
-	time.Sleep(100, "ms")
+	times.Sleep(100, "ms")
 	setServerToListen()
 	return
 }

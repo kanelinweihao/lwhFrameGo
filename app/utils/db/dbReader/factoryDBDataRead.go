@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/sqlInfo/sqlInfo"
+	"github.com/kanelinweihao/lwhFrameGo/app/dict/dictSQL"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
 	"strings"
 )
 
-func MakeEntityDBDataRead(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base.AttrS1) (entityDBDataRead *EntityDBDataRead) {
+func InitEntityDBDataRead(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base.AttrS1) (entityDBDataRead *EntityDBDataRead) {
 	entityDBDataRead = new(EntityDBDataRead)
 	entityDBDataRead.Init(dbSqlx, sqlName, attrArgsForQuery)
 	return entityDBDataRead
@@ -55,7 +55,7 @@ func (self *EntityDBDataRead) setQueryOriginal() *EntityDBDataRead {
 
 func (self *EntityDBDataRead) setArrArgsForQuery() *EntityDBDataRead {
 	sqlName := self.SQLName
-	arrArgName := sqlInfo.GetArrArgNameBySQLName(sqlName)
+	arrArgName := dictSQL.GetArrArgNameBySQLName(sqlName)
 	attrArgsForQuery := self.AttrArgsForQuery
 	arrArgsForQuery := make([]string, 0)
 	for _, argName := range arrArgName {
@@ -88,7 +88,7 @@ func (self *EntityDBDataRead) setQueryWithArgs() *EntityDBDataRead {
 
 func (self *EntityDBDataRead) setEntityDBData() *EntityDBDataRead {
 	sqlName := self.SQLName
-	entityDBData := sqlInfo.GetEntityDBDataBySQLName(sqlName)
+	entityDBData := dictSQL.GetEntityDBDataBySQLName(sqlName)
 	self.EntityDBData = entityDBData
 	return self
 }

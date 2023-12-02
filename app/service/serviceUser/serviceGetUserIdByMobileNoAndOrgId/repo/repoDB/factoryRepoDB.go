@@ -9,7 +9,7 @@ var arrSQLName = []string{
 	"GetUserIdByMobileNoAndOrgId",
 }
 
-func MakeEntityRepoDB(paramsRepoDB base.AttrT1) (entityRepoDB *EntityRepoDB) {
+func InitEntityRepoDB(paramsRepoDB base.AttrT1) (entityRepoDB *EntityRepoDB) {
 	entityRepoDB = initRepoDB(paramsRepoDB)
 	return entityRepoDB
 }

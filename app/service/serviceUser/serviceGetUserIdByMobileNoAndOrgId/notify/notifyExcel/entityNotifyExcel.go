@@ -30,7 +30,7 @@ type EntityForExcel struct {
 
 func (self *EntityNotifyExcel) PutExcel() (attrS3ExcelData base.AttrS3, pathDirExcel string, arrPathFileExcel []string) {
 	boxToExcel := self.BoxToExcel
-	entityExcel := excel.MakeEntityExcel()
+	entityExcel := excel.InitEntityExcel()
 	arrPathFileExcel = entityExcel.BatchSetDataToExcel(boxToExcel)
 	self.ArrPathFileExcel = arrPathFileExcel
 	attrS3ExcelData = entityExcel.BatchGetDataFromExcel(arrPathFileExcel)

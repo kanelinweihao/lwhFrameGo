@@ -3,9 +3,9 @@ package dbReader
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
 )
+
+type typeChanData = base.AttrT2
 
 type EntityDBReader struct {
 	AttrT3DBData         base.AttrT3
@@ -13,44 +13,34 @@ type EntityDBReader struct {
 	ArrSQLName           []string
 	AttrArgsForQuery     base.AttrS1
 	AttrEntityDBDataRead map[string]*EntityDBDataRead
-	AttrEntityChannel    base.AttrT1
+	AttrChan             map[string]chan typeChanData
 }
 
 func (self *EntityDBReader) BatchReadDB() (attrT3DBData base.AttrT3) {
-	self.writeAttrEntityChannel().readAttrEntityChannel()
+	self.writeAttrChan().readAttrChan()
 	attrT3DBData = self.AttrT3DBData
 	return attrT3DBData
 }
 
-func (self *EntityDBReader) writeAttrEntityChannel() *EntityDBReader {
+func (self *EntityDBReader) writeAttrChan() *EntityDBReader {
 	attrEntityDBDataRead := self.AttrEntityDBDataRead
-	attrEntityChannel := make(base.AttrT1)
+	attrChan := make(map[string]chan typeChanData, len(attrEntityDBDataRead))
 	for sqlName, entityDBDataRead := range attrEntityDBDataRead {
-		entityChannel := goroutine.MakeEntityChannel()
-		attrEntityChannel[sqlName] = entityChannel
-		go entityDBDataRead.writeToChannelOfReadDBData(entityChannel)
+		chanBase := make(chan typeChanData, 1)
+		attrChan[sqlName] = chanBase
+		go entityDBDataRead.writeToChannelOfReadDBData(chanBase)
 	}
-	self.AttrEntityChannel = attrEntityChannel
+	self.AttrChan = attrChan
 	return self
 }
 
-func (self *EntityDBReader) readAttrEntityChannel() *EntityDBReader {
-	attrEntityChannel := self.AttrEntityChannel
+func (self *EntityDBReader) readAttrChan() *EntityDBReader {
+	attrChan := self.AttrChan
 	attrT3DBData := make(base.AttrT3)
-	for sqlName, entityChannelToAssign := range attrEntityChannel {
-		entityChannel := entityChannelToAssign.(*goroutine.EntityChannel)
-		attrT2DBData := readFromChannelOfReadDBData(entityChannel)
+	for sqlName, chanBase := range attrChan {
+		attrT2DBData := readFromChannelOfReadDBData(chanBase)
 		attrT3DBData[sqlName] = attrT2DBData
 	}
 	self.AttrT3DBData = attrT3DBData
 	return self
-}
-
-func readFromChannelOfReadDBData(entityChannel *goroutine.EntityChannel) (attrT2DBData base.AttrT2) {
-	dataOnce := entityChannel.ReadOnce()
-	attrT2DBData, ok := dataOnce.(base.AttrT2)
-	if !ok {
-		rfl.ErrPanicFormat(attrT2DBData, "attrT2DBData", "base.AttrT2")
-	}
-	return attrT2DBData
 }

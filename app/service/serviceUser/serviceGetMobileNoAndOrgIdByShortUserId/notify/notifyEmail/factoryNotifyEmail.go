@@ -7,7 +7,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 )
 
-func MakeEntityNotifyEmail(pathDirExcel string, arrPathFileExcel []string) (entityNotifyEmail *EntityNotifyEmail) {
+func InitEntityNotifyEmail(pathDirExcel string, arrPathFileExcel []string) (entityNotifyEmail *EntityNotifyEmail) {
 	entityNotifyEmail = new(EntityNotifyEmail)
 	entityNotifyEmail.Init(pathDirExcel, arrPathFileExcel)
 	return entityNotifyEmail

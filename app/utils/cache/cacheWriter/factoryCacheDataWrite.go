@@ -7,7 +7,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func MakeEntityCacheData(cacheRedis *redis.Client, attrT1ForCache base.AttrT1) (entityCacheData *EntityCacheDataWrite) {
+func InitEntityCacheData(cacheRedis *redis.Client, attrT1ForCache base.AttrT1) (entityCacheData *EntityCacheDataWrite) {
 	entityCacheData = new(EntityCacheDataWrite)
 	entityCacheData.Init(cacheRedis, attrT1ForCache)
 	return entityCacheData

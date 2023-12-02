@@ -3,7 +3,6 @@ package cacheWriter
 import (
 	"context"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
 	"github.com/redis/go-redis/v9"
 	"time"
 )
@@ -16,14 +15,12 @@ type EntityCacheDataWrite struct {
 	TTL        time.Duration
 }
 
-func (self *EntityCacheDataWrite) WriteToChannelOfWriteCacheData(entityChannel *goroutine.EntityChannel) {
-	self.setCache()
-	cacheKey := self.CacheKey
-	entityChannel.WriteOnce(cacheKey)
+func (self *EntityCacheDataWrite) WriteToChannelOfWriteCacheData(chanWrite chan<- typeChanData) {
+	self.setCache().writeChan(chanWrite)
 	return
 }
 
-func (self *EntityCacheDataWrite) setCache() {
+func (self *EntityCacheDataWrite) setCache() *EntityCacheDataWrite {
 	r := self.CacheRedis
 	ctx := self.CTX
 	cacheKey := self.CacheKey
@@ -31,5 +28,17 @@ func (self *EntityCacheDataWrite) setCache() {
 	ttl := self.TTL
 	errRedisSet := r.Set(ctx, cacheKey, cacheValue, ttl).Err()
 	err.ErrCheck(errRedisSet)
-	return
+	return self
+}
+
+func (self *EntityCacheDataWrite) writeChan(chanWrite chan<- typeChanData) *EntityCacheDataWrite {
+	cacheKey := self.CacheKey
+	chanWrite <- cacheKey
+	close(chanWrite)
+	return self
+}
+
+func readFromChannelOfWriteCacheData(chanRead <-chan typeChanData) (cacheKey string) {
+	cacheKey = <-chanRead
+	return cacheKey
 }

@@ -1,14 +1,14 @@
 package controllerBase
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"net/http"
 )
 
 func Exec(resp http.ResponseWriter, req *http.Request, routeName string) {
-	entityController := MakeEntityController(resp, req, routeName)
-	defer entityController.CloseEntityController()
+	entityController := InitEntityController(resp, req, routeName)
+	defer entityController.CloseController()
 	entityController.Exec()
-	time.ShowTimeAndMsg("OK")
+	times.ShowTimeAndMsg("OK")
 	return
 }

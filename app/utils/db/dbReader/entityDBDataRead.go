@@ -6,8 +6,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 )
 
 type EntityDBDataRead struct {
@@ -19,17 +18,15 @@ type EntityDBDataRead struct {
 	PathDirSQL       string
 	QueryWithoutArgs string
 	QueryWithArgs    string
-	EntityDBData     base.EntityDBData
+	EntityDBData     base.TEntityDBData
 }
 
-func (self *EntityDBDataRead) writeToChannelOfReadDBData(entityChannel *goroutine.EntityChannel) *EntityDBDataRead {
-	self.ReadDB()
-	attrT2DBData := self.AttrT2DBData
-	entityChannel.WriteOnce(attrT2DBData)
+func (self *EntityDBDataRead) writeToChannelOfReadDBData(chanWrite chan<- typeChanData) *EntityDBDataRead {
+	self.readDB().writeChan(chanWrite)
 	return self
 }
 
-func (self *EntityDBDataRead) ReadDB() *EntityDBDataRead {
+func (self *EntityDBDataRead) readDB() *EntityDBDataRead {
 	d := self.DBSqlx
 	queryWithArgs := self.QueryWithArgs
 	entityDBData := self.EntityDBData
@@ -49,8 +46,20 @@ func (self *EntityDBDataRead) ReadDB() *EntityDBDataRead {
 		msgEmptySQL := fmt.Sprintf(
 			"The sql is invalid :\n|%s|\n",
 			queryWithArgs)
-		time.ShowTimeAndMsg(msgEmptySQL)
+		times.ShowTimeAndMsg(msgEmptySQL)
 	}
 	self.AttrT2DBData = attrT2DBData
 	return self
+}
+
+func (self *EntityDBDataRead) writeChan(chanWrite chan<- typeChanData) *EntityDBDataRead {
+	attrT2DBData := self.AttrT2DBData
+	chanWrite <- attrT2DBData
+	close(chanWrite)
+	return self
+}
+
+func readFromChannelOfReadDBData(chanRead <-chan typeChanData) (attrT2DBData base.AttrT2) {
+	attrT2DBData = <-chanRead
+	return attrT2DBData
 }

@@ -18,7 +18,7 @@ func (self *EntityDB) BatchGetDataFromDB(arrSqlName []string, attrArgsForQuery b
 	self.ArrSQLName = arrSqlName
 	self.AttrArgsForQuery = attrArgsForQuery
 	entityDBConnector := self.EntityDBConnector
-	entityDBReader := dbReader.MakeEntityDBReader(entityDBConnector, arrSqlName, attrArgsForQuery)
+	entityDBReader := dbReader.InitEntityDBReader(entityDBConnector, arrSqlName, attrArgsForQuery)
 	self.EntityDBReader = entityDBReader
 	attrT3DBData = entityDBReader.BatchReadDB()
 	self.AttrT3DBData = attrT3DBData

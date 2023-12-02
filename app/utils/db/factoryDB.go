@@ -4,11 +4,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
 )
 
-/*
-Init
-*/
-
-func MakeEntityDB() (entityDB *EntityDB) {
+func InitEntityDB() (entityDB *EntityDB) {
 	entityDB = new(EntityDB)
 	entityDB.Init()
 	return entityDB
@@ -20,13 +16,9 @@ func (self *EntityDB) Init() *EntityDB {
 }
 
 func (self *EntityDB) setEntityDBConnector() *EntityDB {
-	self.EntityDBConnector = dbConnector.MakeEntityDBConnector()
+	self.EntityDBConnector = dbConnector.InitEntityDBConnector()
 	return self
 }
-
-/*
-Close
-*/
 
 func (self *EntityDB) CloseDB() {
 	self.closeDBConnector()

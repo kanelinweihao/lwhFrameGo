@@ -6,11 +6,7 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-/*
-Init
-*/
-
-func MakeEntityEmailConnector() (entityEmailConnector *EntityEmailConnector) {
+func InitEntityEmailConnector() (entityEmailConnector *EntityEmailConnector) {
 	entityEmailConnector = new(EntityEmailConnector)
 	entityEmailConnector.Init()
 	return entityEmailConnector
@@ -49,10 +45,6 @@ func (self *EntityEmailConnector) setEmailSender() *EntityEmailConnector {
 	self.EmailSender = s
 	return self
 }
-
-/*
-Close
-*/
 
 func (self *EntityEmailConnector) CloseEmailConnector() {
 	self.closeEmailSender()

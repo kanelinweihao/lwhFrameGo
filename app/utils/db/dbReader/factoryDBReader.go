@@ -5,7 +5,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
 )
 
-func MakeEntityDBReader(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery base.AttrS1) (entityDBReader *EntityDBReader) {
+func InitEntityDBReader(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery base.AttrS1) (entityDBReader *EntityDBReader) {
 	entityDBReader = new(EntityDBReader)
 	entityDBReader.Init(entityDBConnector, arrSqlName, attrArgsForQuery)
 	return entityDBReader
@@ -34,7 +34,7 @@ func (self *EntityDBReader) setAttrEntityDBReader() *EntityDBReader {
 	attrArgsForQuery := self.AttrArgsForQuery
 	attrEntityDBReader := make(map[string]*EntityDBDataRead)
 	for _, sqlName := range arrSQLName {
-		entityDBDataRead := MakeEntityDBDataRead(dbSqlx, sqlName, attrArgsForQuery)
+		entityDBDataRead := InitEntityDBDataRead(dbSqlx, sqlName, attrArgsForQuery)
 		attrEntityDBReader[sqlName] = entityDBDataRead
 	}
 	self.AttrEntityDBDataRead = attrEntityDBReader

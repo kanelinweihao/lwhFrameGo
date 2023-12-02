@@ -5,7 +5,6 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/goroutine"
 	"github.com/xuri/excelize/v2"
 )
 
@@ -16,15 +15,13 @@ type EntityExcelDataRead struct {
 	ExcelFile       *excelize.File
 }
 
-func (self *EntityExcelDataRead) WriteToChannelOfReadExcelData(entityChannel *goroutine.EntityChannel) *EntityExcelDataRead {
+func (self *EntityExcelDataRead) WriteToChannelOfReadExcelData(chanWrite chan<- typeChanData) *EntityExcelDataRead {
 	defer self.CloseExcel()
-	self.ReadExcel()
-	attrS2ExcelData := self.AttrS2ExcelData
-	entityChannel.WriteOnce(attrS2ExcelData)
+	self.readExcel().writeChan(chanWrite)
 	return self
 }
 
-func (self *EntityExcelDataRead) ReadExcel() *EntityExcelDataRead {
+func (self *EntityExcelDataRead) readExcel() *EntityExcelDataRead {
 	self.batchGetCell()
 	return self
 }
@@ -74,4 +71,16 @@ func (self *EntityExcelDataRead) getCellValue(sheetName string, cellPosition str
 	cellValue, errExcelGetCell := f.GetCellValue(sheetName, cellPosition)
 	err.ErrCheck(errExcelGetCell)
 	return cellValue
+}
+
+func (self *EntityExcelDataRead) writeChan(chanWrite chan<- typeChanData) *EntityExcelDataRead {
+	attrS2ExcelData := self.AttrS2ExcelData
+	chanWrite <- attrS2ExcelData
+	close(chanWrite)
+	return self
+}
+
+func readFromChannelOfReadExcelData(chanRead <-chan typeChanData) (attrS2ExcelData base.AttrS2) {
+	attrS2ExcelData = <-chanRead
+	return attrS2ExcelData
 }

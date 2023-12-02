@@ -1,4 +1,4 @@
-package time
+package times
 
 import (
 	"fmt"
@@ -6,13 +6,8 @@ import (
 	"time"
 )
 
-var (
-	t             time.Time
-	formateBase   string = "2006-01-02 15:04:05"
-	formateSuffix string = "20060102150405"
-	now           string
-	suffix        string
-)
+var formatBase string = "2006-01-02 15:04:05"
+var formatSuffix string = "20060102150405"
 
 func getLocal() (localCn *time.Location) {
 	localCn, errTime := time.LoadLocation("Asia/Shanghai")
@@ -22,18 +17,18 @@ func getLocal() (localCn *time.Location) {
 
 func GetNow() (now string) {
 	localCn := getLocal()
-	now = time.Now().UTC().In(localCn).Format(formateBase)
+	now = time.Now().UTC().In(localCn).Format(formatBase)
 	return now
 }
 
 func ShowTime() {
-	now = GetNow()
+	now := GetNow()
 	fmt.Println(now)
 	return
 }
 
 func ShowTimeAndMsg(msg string) {
-	now = GetNow()
+	now := GetNow()
 	msgFull := now + "    " + msg + "\n"
 	fmt.Println(msgFull)
 	return
@@ -41,7 +36,7 @@ func ShowTimeAndMsg(msg string) {
 
 func GetTimeSuffix() (suffix string) {
 	localCn := getLocal()
-	suffix = time.Now().UTC().In(localCn).Format(formateSuffix)
+	suffix = time.Now().UTC().In(localCn).Format(formatSuffix)
 	return suffix
 }
 

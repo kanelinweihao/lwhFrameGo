@@ -23,7 +23,7 @@ type EntityForCache struct {
 
 func (self *EntityRepoCache) SetCache() (boxFromCache base.BoxData) {
 	boxToCache := self.BoxToCache
-	entityCache := cache.MakeEntityCache()
+	entityCache := cache.InitEntityCache()
 	defer entityCache.CloseCache()
 	arrCacheKey := entityCache.BatchSetDataToCache(boxToCache)
 	boxFromCache = entityCache.BatchGetDataFromCache(arrCacheKey)

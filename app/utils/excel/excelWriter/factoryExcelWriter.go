@@ -4,7 +4,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 )
 
-func MakeEntityExcelWriter(boxToExcel base.BoxData) (entityExcelWriter *EntityExcelWriter) {
+func InitEntityExcelWriter(boxToExcel base.BoxData) (entityExcelWriter *EntityExcelWriter) {
 	entityExcelWriter = new(EntityExcelWriter)
 	entityExcelWriter.Init(boxToExcel)
 	return entityExcelWriter
@@ -30,7 +30,7 @@ func (self *EntityExcelWriter) setAttrEntityExcelDataWrite() *EntityExcelWriter 
 	attrEntityExcelDataWrite := make(map[string]*EntityExcelDataWrite)
 	for pathFile, attrT1ForExcelToAssign := range boxToExcel {
 		attrT1ForExcel := attrT1ForExcelToAssign.(base.AttrT1)
-		entityExcelDataWrite := MakeEntityExcelDataWrite(attrT1ForExcel)
+		entityExcelDataWrite := InitEntityExcelDataWrite(attrT1ForExcel)
 		attrEntityExcelDataWrite[pathFile] = entityExcelDataWrite
 	}
 	self.AttrEntityExcelDataWrite = attrEntityExcelDataWrite

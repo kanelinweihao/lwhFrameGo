@@ -5,15 +5,11 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/time"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"golang.org/x/crypto/ssh"
 )
 
-/*
-Init
-*/
-
-func MakeEntitySSH() (entitySSH *EntitySSH) {
+func InitEntitySSH() (entitySSH *EntitySSH) {
 	entitySSH = new(EntitySSH)
 	entitySSH.Init()
 	return entitySSH
@@ -57,7 +53,7 @@ func (self *EntitySSH) dialSSH() *EntitySSH {
 		self.Address = address
 		return self
 	}
-	time.Sleep(2, "s")
+	times.Sleep(2, "s")
 	clientDial, errDialAgain := ssh.Dial(
 		network,
 		address,
@@ -115,10 +111,6 @@ func getConfigSSHAuth(sshTypeAuth string, sshPassword string, sshPathPrivateKey 
 	}
 	return sshAuth
 }
-
-/*
-Close
-*/
 
 func (self *EntitySSH) CloseSSH() {
 	self.ClientDial.Close()
