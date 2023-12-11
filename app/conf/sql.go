@@ -2,14 +2,14 @@ package conf
 
 import (
 	"fmt"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"strings"
 )
 
-func GetParamsDirSQL() (paramsDirSQL base.AttrS1) {
-	paramsDirSQL = make(base.AttrS1)
+func GetParamsDirSQL() (paramsDirSQL typeMap.AttrS1) {
+	paramsDirSQL = make(typeMap.AttrS1)
 	pathSQL := getPathSQL()
 	strFromEnv := pack.ReadFileEmbedAsString(pathSQL)
 	arrLine := strings.Split(strFromEnv, "\n")

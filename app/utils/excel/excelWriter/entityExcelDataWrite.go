@@ -3,9 +3,9 @@ package excelWriter
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/xuri/excelize/v2"
 )
 
@@ -21,8 +21,8 @@ type EntityExcelDataWrite struct {
 	ExcelFile        *excelize.File
 	PathFile         string
 	SheetName        string
-	AttrS2ExcelTitle base.AttrS2
-	AttrS2ExcelData  base.AttrS2
+	AttrS2ExcelTitle typeMap.AttrS2
+	AttrS2ExcelData  typeMap.AttrS2
 }
 
 func (self *EntityExcelDataWrite) WriteToChannelOfWriteExcelData(chanWrite chan<- typeChanData) {
@@ -90,13 +90,13 @@ func getCellRowBySortRow(sortRow string) (cellRow int) {
 	return cellRow
 }
 
-func getCellColumnByField(attrS2ExcelTitle base.AttrS2, field string) (cellColumn string) {
+func getCellColumnByField(attrS2ExcelTitle typeMap.AttrS2, field string) (cellColumn string) {
 	sort := getSortByField(attrS2ExcelTitle, field)
 	cellColumn = getCellColumnBySort(sort)
 	return cellColumn
 }
 
-func getSortByField(attrS2ExcelTitle base.AttrS2, field string) (sort string) {
+func getSortByField(attrS2ExcelTitle typeMap.AttrS2, field string) (sort string) {
 	sort, ok := attrS2ExcelTitle[field]["sort"]
 	if !ok {
 		msgError := fmt.Sprintf(

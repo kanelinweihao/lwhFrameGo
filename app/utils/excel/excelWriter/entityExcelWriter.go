@@ -1,14 +1,14 @@
 package excelWriter
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
 type typeChanData = string
 
 type EntityExcelWriter struct {
 	ArrPathFile              []string
-	BoxToExcel               base.BoxData
+	BoxToExcel               typeMap.BoxData
 	AttrEntityExcelDataWrite map[string]*EntityExcelDataWrite
 	AttrChan                 map[string]chan typeChanData
 }

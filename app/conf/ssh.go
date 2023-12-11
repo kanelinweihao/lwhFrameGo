@@ -1,11 +1,11 @@
 package conf
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
-var paramsKeySSH = base.AttrS1{
+var paramsKeySSH = typeMap.AttrS1{
 	"Host":           "SSHHost",
 	"Port":           "SSHPort",
 	"User":           "SSHUser",

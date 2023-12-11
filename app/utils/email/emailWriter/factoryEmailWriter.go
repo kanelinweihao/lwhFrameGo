@@ -2,22 +2,22 @@ package emailWriter
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/email/emailConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
-func InitEntityEmailWriter(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail base.BoxData) (entityEmailWriter *EntityEmailWriter) {
+func InitEntityEmailWriter(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail typeMap.BoxData) (entityEmailWriter *EntityEmailWriter) {
 	entityEmailWriter = new(EntityEmailWriter)
 	entityEmailWriter.Init(entityEmailConnector, boxToEmail)
 	return entityEmailWriter
 }
 
-func (self *EntityEmailWriter) Init(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail base.BoxData) *EntityEmailWriter {
+func (self *EntityEmailWriter) Init(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail typeMap.BoxData) *EntityEmailWriter {
 	self.setPropertiesIn(entityEmailConnector, boxToEmail).setPropertiesMore()
 	return self
 }
 
-func (self *EntityEmailWriter) setPropertiesIn(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail base.BoxData) *EntityEmailWriter {
+func (self *EntityEmailWriter) setPropertiesIn(entityEmailConnector *emailConnector.EntityEmailConnector, boxToEmail typeMap.BoxData) *EntityEmailWriter {
 	self.EntityEmailConnector = entityEmailConnector
 	self.BoxToEmail = boxToEmail
 	return self
@@ -40,7 +40,7 @@ func (self *EntityEmailWriter) setAttrEntityEmailData() *EntityEmailWriter {
 	emailFrom := self.EmailFrom
 	attrEntityEmailData := make(map[string]*EntityEmailData)
 	for emailSubject, attrT1ForEmailToAssign := range boxToEmail {
-		attrT1ForEmail := attrT1ForEmailToAssign.(base.AttrT1)
+		attrT1ForEmail := attrT1ForEmailToAssign.(typeMap.AttrT1)
 		entityEmailData := InitEntityEmailData(emailSender, attrT1ForEmail, emailFrom)
 		attrEntityEmailData[emailSubject] = entityEmailData
 	}

@@ -2,14 +2,14 @@ package conf
 
 import (
 	"fmt"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"strings"
 )
 
 func GetProjectVersion() (modVersion string) {
-	paramsKeyVersion := base.AttrS1{
+	paramsKeyVersion := typeMap.AttrS1{
 		"VersionMajor": "VersionMajor",
 		"VersionMinor": "VersionMinor",
 		"VersionPatch": "VersionPatch",
@@ -26,8 +26,8 @@ func GetProjectVersion() (modVersion string) {
 	return modVersion
 }
 
-func GetParamsVersion() (paramsVersion base.AttrS1) {
-	paramsVersion = make(base.AttrS1)
+func GetParamsVersion() (paramsVersion typeMap.AttrS1) {
+	paramsVersion = make(typeMap.AttrS1)
 	pathVersion := getPathVersion()
 	strFromEnv := pack.ReadFileEmbedAsString(pathVersion)
 	arrLine := strings.Split(strFromEnv, "\n")

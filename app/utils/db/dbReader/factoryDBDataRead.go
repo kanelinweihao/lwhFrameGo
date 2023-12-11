@@ -4,25 +4,25 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/dict/dictSQL"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/dict/dictSQL/dictSQL"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"strings"
 )
 
-func InitEntityDBDataRead(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base.AttrS1) (entityDBDataRead *EntityDBDataRead) {
+func InitEntityDBDataRead(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery typeMap.AttrS1) (entityDBDataRead *EntityDBDataRead) {
 	entityDBDataRead = new(EntityDBDataRead)
 	entityDBDataRead.Init(dbSqlx, sqlName, attrArgsForQuery)
 	return entityDBDataRead
 }
 
-func (self *EntityDBDataRead) Init(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base.AttrS1) *EntityDBDataRead {
+func (self *EntityDBDataRead) Init(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery typeMap.AttrS1) *EntityDBDataRead {
 	self.setPropertiesIn(dbSqlx, sqlName, attrArgsForQuery).setPropertiesMore()
 	return self
 }
 
-func (self *EntityDBDataRead) setPropertiesIn(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery base.AttrS1) *EntityDBDataRead {
+func (self *EntityDBDataRead) setPropertiesIn(dbSqlx *sqlx.DB, sqlName string, attrArgsForQuery typeMap.AttrS1) *EntityDBDataRead {
 	self.DBSqlx = dbSqlx
 	self.SQLName = sqlName
 	self.AttrArgsForQuery = attrArgsForQuery

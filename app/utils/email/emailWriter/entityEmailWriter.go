@@ -1,8 +1,8 @@
 package emailWriter
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/email/emailConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"gopkg.in/gomail.v2"
 )
 
@@ -11,7 +11,7 @@ type typeChanData = *gomail.Message
 type EntityEmailWriter struct {
 	ArrEmailSubject      []string
 	EmailFrom            string
-	BoxToEmail           base.BoxData
+	BoxToEmail           typeMap.BoxData
 	EntityEmailConnector *emailConnector.EntityEmailConnector
 	AttrEntityEmailData  map[string]*EntityEmailData
 	AttrChan             map[string]chan typeChanData

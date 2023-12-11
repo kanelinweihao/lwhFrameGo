@@ -4,9 +4,10 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 	"reflect"
 	"strconv"
 )
@@ -223,7 +224,7 @@ func ToJsonFromSlice(arrT []string) (strJson string) {
 }
 
 // ToJsonFromAttr map->json
-func ToJsonFromAttr(attrT1 base.AttrT1) (strJson string) {
+func ToJsonFromAttr(attrT1 typeMap.AttrT1) (strJson string) {
 	arrByte, errTo := json.Marshal(attrT1)
 	err.ErrCheck(errTo)
 	strJson = string(arrByte)
@@ -231,14 +232,14 @@ func ToJsonFromAttr(attrT1 base.AttrT1) (strJson string) {
 }
 
 // ToJsonFromEntity struct->json
-func ToJsonFromEntity(entity base.TEntityBase) (strJson string) {
+func ToJsonFromEntity(entity typeStruct.EntityBase) (strJson string) {
 	attrT1 := ToAttrFromEntity(entity)
 	strJson = ToJsonFromAttr(attrT1)
 	return strJson
 }
 
 // ToArrFromAttr map->slice
-func ToArrFromAttr(attrT1 base.AttrT1) (arrT []interface{}) {
+func ToArrFromAttr(attrT1 typeMap.AttrT1) (arrT []interface{}) {
 	len := len(attrT1)
 	arrT = make([]interface{}, len)
 	for _, v := range attrT1 {
@@ -248,7 +249,7 @@ func ToArrFromAttr(attrT1 base.AttrT1) (arrT []interface{}) {
 }
 
 // ToArrStrFromAttrStr map->slice
-func ToArrStrFromAttrStr(attrS1 base.AttrS1) (arrS []string) {
+func ToArrStrFromAttrStr(attrS1 typeMap.AttrS1) (arrS []string) {
 	arrS = make([]string, 0, len(attrS1))
 	for _, v := range attrS1 {
 		arrS = append(arrS, v)
@@ -257,7 +258,7 @@ func ToArrStrFromAttrStr(attrS1 base.AttrS1) (arrS []string) {
 }
 
 // ToAttrFromJson json->map
-func ToAttrFromJson(strJson string) (attrT1 base.AttrT1) {
+func ToAttrFromJson(strJson string) (attrT1 typeMap.AttrT1) {
 	arrByte := []byte(strJson)
 	errTo := json.Unmarshal(arrByte, &attrT1)
 	err.ErrCheck(errTo)
@@ -265,8 +266,8 @@ func ToAttrFromJson(strJson string) (attrT1 base.AttrT1) {
 }
 
 // ToAttrFromEntity struct->map
-func ToAttrFromEntity(entity base.TEntityBase) (attrT1 base.AttrT1) {
-	attrT1 = make(base.AttrT1)
+func ToAttrFromEntity(entity typeStruct.EntityBase) (attrT1 typeMap.AttrT1) {
+	attrT1 = make(typeMap.AttrT1)
 	t := reflect.TypeOf(entity).Elem()
 	v := reflect.ValueOf(entity).Elem()
 	for i := 0; i < t.NumField(); i++ {
@@ -289,7 +290,7 @@ func ToAttrFromEntity(entity base.TEntityBase) (attrT1 base.AttrT1) {
 }
 
 // ToEntityFromAttr map->struct
-func ToEntityFromAttr(attrT1 base.AttrT1, entity base.TEntityBase) {
+func ToEntityFromAttr(attrT1 typeMap.AttrT1, entity typeStruct.EntityBase) {
 	structValue := reflect.ValueOf(entity).Elem()
 	for k, v := range attrT1 {
 		structFieldValue := structValue.FieldByName(k)
@@ -318,8 +319,8 @@ func ToEntityFromAttr(attrT1 base.AttrT1, entity base.TEntityBase) {
 }
 
 // ToAttrFromAttrStr AttrS1->AttrT1
-func ToAttrFromAttrStr(attrS1 base.AttrS1) (attrT1 base.AttrT1) {
-	attrT1 = make(base.AttrT1, len(attrS1))
+func ToAttrFromAttrStr(attrS1 typeMap.AttrS1) (attrT1 typeMap.AttrT1) {
+	attrT1 = make(typeMap.AttrT1, len(attrS1))
 	for key, value := range attrS1 {
 		attrT1[key] = value
 	}
@@ -327,8 +328,8 @@ func ToAttrFromAttrStr(attrS1 base.AttrS1) (attrT1 base.AttrT1) {
 }
 
 // ToAttrStrFromAttr AttrT1->AttrS1
-func ToAttrStrFromAttr(attrT1 base.AttrT1) (attrS1 base.AttrS1) {
-	attrS1 = make(base.AttrS1, len(attrT1))
+func ToAttrStrFromAttr(attrT1 typeMap.AttrT1) (attrS1 typeMap.AttrS1) {
+	attrS1 = make(typeMap.AttrS1, len(attrT1))
 	for key, value := range attrT1 {
 		valueStr := ToStr(value)
 		attrS1[key] = valueStr
@@ -337,8 +338,8 @@ func ToAttrStrFromAttr(attrT1 base.AttrT1) (attrS1 base.AttrS1) {
 }
 
 // ToAttrS2FromAttrT2 AttrT2->AttrS2
-func ToAttrS2FromAttrT2(attrT2 base.AttrT2) (attrS2 base.AttrS2) {
-	attrS2 = make(base.AttrS2, len(attrT2))
+func ToAttrS2FromAttrT2(attrT2 typeMap.AttrT2) (attrS2 typeMap.AttrS2) {
+	attrS2 = make(typeMap.AttrS2, len(attrT2))
 	for k, attrT1 := range attrT2 {
 		attrS := ToAttrStrFromAttr(attrT1)
 		attrS2[k] = attrS

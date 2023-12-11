@@ -3,22 +3,23 @@ package dbReader
 import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
 type EntityDBDataRead struct {
-	AttrT2DBData     base.AttrT2
+	AttrT2DBData     typeMap.AttrT2
 	DBSqlx           *sqlx.DB
 	SQLName          string
-	AttrArgsForQuery base.AttrS1
+	AttrArgsForQuery typeMap.AttrS1
 	ArrArgsForQuery  []string
 	PathDirSQL       string
 	QueryWithoutArgs string
 	QueryWithArgs    string
-	EntityDBData     base.TEntityDBData
+	EntityDBData     typeStruct.EntityDBData
 }
 
 func (self *EntityDBDataRead) writeToChannelOfReadDBData(chanWrite chan<- typeChanData) *EntityDBDataRead {
@@ -32,7 +33,7 @@ func (self *EntityDBDataRead) readDB() *EntityDBDataRead {
 	entityDBData := self.EntityDBData
 	ptrRows, errQueryx := d.Queryx(queryWithArgs)
 	err.ErrCheck(errQueryx)
-	attrT2DBData := make(base.AttrT2)
+	attrT2DBData := make(typeMap.AttrT2)
 	num := 0
 	for ptrRows.Next() {
 		errScan := ptrRows.StructScan(entityDBData)
@@ -59,7 +60,7 @@ func (self *EntityDBDataRead) writeChan(chanWrite chan<- typeChanData) *EntityDB
 	return self
 }
 
-func readFromChannelOfReadDBData(chanRead <-chan typeChanData) (attrT2DBData base.AttrT2) {
+func readFromChannelOfReadDBData(chanRead <-chan typeChanData) (attrT2DBData typeMap.AttrT2) {
 	attrT2DBData = <-chanRead
 	return attrT2DBData
 }

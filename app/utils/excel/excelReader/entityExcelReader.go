@@ -1,19 +1,19 @@
 package excelReader
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
-type typeChanData = base.AttrS2
+type typeChanData = typeMap.AttrS2
 
 type EntityExcelReader struct {
-	AttrS3ExcelData         base.AttrS3
+	AttrS3ExcelData         typeMap.AttrS3
 	ArrPathFile             []string
 	AttrEntityExcelDataRead map[string]*EntityExcelDataRead
 	AttrChan                map[string]chan typeChanData
 }
 
-func (self *EntityExcelReader) BatchReadExcel() (attrS3ExcelData base.AttrS3) {
+func (self *EntityExcelReader) BatchReadExcel() (attrS3ExcelData typeMap.AttrS3) {
 	self.writeAttrChan().readAttrChan()
 	attrS3ExcelData = self.AttrS3ExcelData
 	return attrS3ExcelData
@@ -33,7 +33,7 @@ func (self *EntityExcelReader) writeAttrChan() *EntityExcelReader {
 
 func (self *EntityExcelReader) readAttrChan() *EntityExcelReader {
 	attrChan := self.AttrChan
-	attrS3ExcelData := make(base.AttrS3)
+	attrS3ExcelData := make(typeMap.AttrS3)
 	for pathFile, chanBase := range attrChan {
 		attrS2ExcelData := readFromChannelOfReadExcelData(chanBase)
 		attrS3ExcelData[pathFile] = attrS2ExcelData

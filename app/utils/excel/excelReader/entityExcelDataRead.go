@@ -2,14 +2,14 @@ package excelReader
 
 import (
 	"fmt"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/xuri/excelize/v2"
 )
 
 type EntityExcelDataRead struct {
-	AttrS2ExcelData base.AttrS2
+	AttrS2ExcelData typeMap.AttrS2
 	PathFile        string
 	SheetName       string
 	ExcelFile       *excelize.File
@@ -42,12 +42,12 @@ func (self *EntityExcelDataRead) batchGetCell() *EntityExcelDataRead {
 	arrRowTitle := arrRows[0]
 	countColumn := len(arrRowTitle)
 	numColumnMax := countColumn - 1
-	attrS2ExcelData := make(base.AttrS2)
+	attrS2ExcelData := make(typeMap.AttrS2)
 	for numRow, arrRow := range arrRows {
 		if numRow == 0 {
 			continue
 		}
-		attrS1ExcelData := make(base.AttrS1)
+		attrS1ExcelData := make(typeMap.AttrS1)
 		for numColumn, value := range arrRow {
 			if numColumn > numColumnMax {
 				msgError := fmt.Sprintf(
@@ -80,7 +80,7 @@ func (self *EntityExcelDataRead) writeChan(chanWrite chan<- typeChanData) *Entit
 	return self
 }
 
-func readFromChannelOfReadExcelData(chanRead <-chan typeChanData) (attrS2ExcelData base.AttrS2) {
+func readFromChannelOfReadExcelData(chanRead <-chan typeChanData) (attrS2ExcelData typeMap.AttrS2) {
 	attrS2ExcelData = <-chanRead
 	return attrS2ExcelData
 }

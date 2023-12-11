@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/controller/controllerWeb/controllerWebCommon"
-	"github.com/kanelinweihao/lwhFrameGo/app/controller/controllerWeb/controllerWebUser"
+	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebCommon"
+	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/user/controllerWebUser"
 	"net/http"
 )
 

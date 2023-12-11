@@ -1,22 +1,22 @@
 package dbReader
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
-func InitEntityDBReader(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery base.AttrS1) (entityDBReader *EntityDBReader) {
+func InitEntityDBReader(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery typeMap.AttrS1) (entityDBReader *EntityDBReader) {
 	entityDBReader = new(EntityDBReader)
 	entityDBReader.Init(entityDBConnector, arrSqlName, attrArgsForQuery)
 	return entityDBReader
 }
 
-func (self *EntityDBReader) Init(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery base.AttrS1) *EntityDBReader {
+func (self *EntityDBReader) Init(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery typeMap.AttrS1) *EntityDBReader {
 	self.setPropertiesIn(entityDBConnector, arrSqlName, attrArgsForQuery).setPropertiesMore()
 	return self
 }
 
-func (self *EntityDBReader) setPropertiesIn(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery base.AttrS1) *EntityDBReader {
+func (self *EntityDBReader) setPropertiesIn(entityDBConnector *dbConnector.EntityDBConnector, arrSqlName []string, attrArgsForQuery typeMap.AttrS1) *EntityDBReader {
 	self.EntityDBConnector = entityDBConnector
 	self.ArrSQLName = arrSqlName
 	self.AttrArgsForQuery = attrArgsForQuery

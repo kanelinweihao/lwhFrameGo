@@ -1,10 +1,10 @@
 package conf
 
-import "github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+import "github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 
 var ExtExcel string = "xlsx"
 var SheetNameDefault string = "Sheet1"
-var AttrCellColumn = base.AttrS1{
+var AttrCellColumn = typeMap.AttrS1{
 	"1":  "A",
 	"2":  "B",
 	"3":  "C",

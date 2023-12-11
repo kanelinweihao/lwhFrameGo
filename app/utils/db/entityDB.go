@@ -1,20 +1,20 @@
 package db
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbReader"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
 type EntityDB struct {
-	AttrT3DBData      base.AttrT3
+	AttrT3DBData      typeMap.AttrT3
 	ArrSQLName        []string
-	AttrArgsForQuery  base.AttrS1
+	AttrArgsForQuery  typeMap.AttrS1
 	EntityDBConnector *dbConnector.EntityDBConnector
 	EntityDBReader    *dbReader.EntityDBReader
 }
 
-func (self *EntityDB) BatchGetDataFromDB(arrSqlName []string, attrArgsForQuery base.AttrS1) (attrT3DBData base.AttrT3) {
+func (self *EntityDB) BatchGetDataFromDB(arrSqlName []string, attrArgsForQuery typeMap.AttrS1) (attrT3DBData typeMap.AttrT3) {
 	self.ArrSQLName = arrSqlName
 	self.AttrArgsForQuery = attrArgsForQuery
 	entityDBConnector := self.EntityDBConnector

@@ -2,7 +2,7 @@ package conf
 
 import (
 	"fmt"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
 func GetDomain() (domain string) {
@@ -15,12 +15,17 @@ func GetDomain() (domain string) {
 	return domain
 }
 
-func GetParamsTmpl() (paramsTmpl base.AttrT1) {
-	paramsKeyTmpl := base.AttrS1{
+func GetParamsTmpl(isReqValid bool) (paramsTmpl typeMap.AttrT1) {
+	paramsKeyTmpl := typeMap.AttrS1{
 		"ProjectTitle": "ProjectNameCN",
 	}
 	paramsTmpl = getParamsEnvNeed(paramsKeyTmpl)
 	ProjectVersion := GetProjectVersion()
 	paramsTmpl["ProjectVersion"] = ProjectVersion
+	msgShow := "Ready"
+	if isReqValid {
+		msgShow = "Success"
+	}
+	paramsTmpl["MsgShow"] = msgShow
 	return paramsTmpl
 }

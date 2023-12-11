@@ -1,22 +1,22 @@
 package dbReader
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
-type typeChanData = base.AttrT2
+type typeChanData = typeMap.AttrT2
 
 type EntityDBReader struct {
-	AttrT3DBData         base.AttrT3
+	AttrT3DBData         typeMap.AttrT3
 	EntityDBConnector    *dbConnector.EntityDBConnector
 	ArrSQLName           []string
-	AttrArgsForQuery     base.AttrS1
+	AttrArgsForQuery     typeMap.AttrS1
 	AttrEntityDBDataRead map[string]*EntityDBDataRead
 	AttrChan             map[string]chan typeChanData
 }
 
-func (self *EntityDBReader) BatchReadDB() (attrT3DBData base.AttrT3) {
+func (self *EntityDBReader) BatchReadDB() (attrT3DBData typeMap.AttrT3) {
 	self.writeAttrChan().readAttrChan()
 	attrT3DBData = self.AttrT3DBData
 	return attrT3DBData
@@ -36,7 +36,7 @@ func (self *EntityDBReader) writeAttrChan() *EntityDBReader {
 
 func (self *EntityDBReader) readAttrChan() *EntityDBReader {
 	attrChan := self.AttrChan
-	attrT3DBData := make(base.AttrT3)
+	attrT3DBData := make(typeMap.AttrT3)
 	for sqlName, chanBase := range attrChan {
 		attrT2DBData := readFromChannelOfReadDBData(chanBase)
 		attrT3DBData[sqlName] = attrT2DBData

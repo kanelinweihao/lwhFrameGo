@@ -1,8 +1,8 @@
 package conf
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
 var EmailBodyTypeHtml string = "text/html"
@@ -15,7 +15,7 @@ var ArrEmailCcDefault = []string{
 	// "1842112845@qq.com",
 }
 
-var paramsKeyEmail = base.AttrS1{
+var paramsKeyEmail = typeMap.AttrS1{
 	"Host":      "EmailHost",
 	"Port":      "EmailPort",
 	"Username":  "EmailUsername",

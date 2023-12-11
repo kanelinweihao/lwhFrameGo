@@ -2,17 +2,17 @@ package codeLine
 
 import (
 	"fmt"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/funcAttr"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"os"
 	"path/filepath"
 )
 
-var attrValidExt = base.AttrS1{
+var attrValidExt = typeMap.AttrS1{
 	"go": "",
 }
-var attrValidFilePath = make(base.AttrS1)
+var attrValidFilePath = make(typeMap.AttrS1)
 
 func GetMsgCodeLine(pathDirRel string) (msgCodeLine string) {
 	countCodeLine := GetCountCodeLine(pathDirRel)

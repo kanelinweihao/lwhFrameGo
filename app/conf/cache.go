@@ -2,7 +2,7 @@ package conf
 
 import (
 	"context"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"time"
 )
 
@@ -17,7 +17,7 @@ var TTL60s = time.Second * time.Duration(60)
 var TTL1h = time.Hour * time.Duration(1)
 var TTL24h = time.Hour * time.Duration(24)
 
-var paramsKeyRedis = base.AttrS1{
+var paramsKeyRedis = typeMap.AttrS1{
 	"Host":     "RedisHost",
 	"Port":     "RedisPort",
 	"Password": "RedisPassword",

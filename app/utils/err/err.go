@@ -63,12 +63,15 @@ func ErrValidate(err error) {
 		return
 	}
 	for _, err := range err.(validator.ValidationErrors) {
+		msgTagAndParam := err.Tag()
+		if err.Param() != "" {
+			msgTagAndParam += "=" + err.Param()
+		}
 		msgError := fmt.Sprintf(
-			"The propertie |%s| of type |%s| should |%s=%s|, but it is |%v|",
+			"The property |%s| of type |%s| should |%s|, but it is |%v|",
 			err.Namespace(),
 			err.Kind(),
-			err.Tag(),
-			err.Param(),
+			msgTagAndParam,
 			err.Value())
 		ErrPanic(msgError)
 	}

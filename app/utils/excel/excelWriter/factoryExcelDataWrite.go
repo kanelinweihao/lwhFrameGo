@@ -3,25 +3,25 @@ package excelWriter
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/xuri/excelize/v2"
 )
 
-func InitEntityExcelDataWrite(attrT1ForExcel base.AttrT1) (entityExcelDataWrite *EntityExcelDataWrite) {
+func InitEntityExcelDataWrite(attrT1ForExcel typeMap.AttrT1) (entityExcelDataWrite *EntityExcelDataWrite) {
 	entityExcelDataWrite = new(EntityExcelDataWrite)
 	entityExcelDataWrite.Init(attrT1ForExcel)
 	return entityExcelDataWrite
 }
 
-func (self *EntityExcelDataWrite) Init(attrT1ForExcel base.AttrT1) *EntityExcelDataWrite {
+func (self *EntityExcelDataWrite) Init(attrT1ForExcel typeMap.AttrT1) *EntityExcelDataWrite {
 	self.setPropertiesIn(attrT1ForExcel).setPropertiesMore()
 	return self
 }
 
-func (self *EntityExcelDataWrite) setPropertiesIn(attrT1ForExcel base.AttrT1) *EntityExcelDataWrite {
+func (self *EntityExcelDataWrite) setPropertiesIn(attrT1ForExcel typeMap.AttrT1) *EntityExcelDataWrite {
 	conv.ToEntityFromAttr(attrT1ForExcel, self)
 	self.validateExt()
 	return self

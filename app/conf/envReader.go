@@ -2,15 +2,16 @@ package conf
 
 import (
 	"fmt"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 	"strings"
 )
 
-func getParamsEnv() (paramsEnv base.AttrS1) {
-	paramsEnv = make(base.AttrS1)
+func getParamsEnv() (paramsEnv typeMap.AttrS1) {
+	paramsEnv = make(typeMap.AttrS1)
 	pathEnv := getPathEnv()
 	strFromEnv := pack.ReadFileEmbedAsString(pathEnv)
 	arrLine := strings.Split(strFromEnv, "\n")
@@ -53,8 +54,8 @@ func getEnvValue(envKey string) (envValue string) {
 	return envValue
 }
 
-func getParamsEnvNeed(paramsKey base.AttrS1) (paramsNeed base.AttrT1) {
-	paramsNeed = make(base.AttrT1)
+func getParamsEnvNeed(paramsKey typeMap.AttrS1) (paramsNeed typeMap.AttrT1) {
+	paramsNeed = make(typeMap.AttrT1)
 	paramsEnv := getParamsEnv()
 	for needKey, envKey := range paramsKey {
 		envValue, ok := paramsEnv[envKey]
@@ -69,7 +70,7 @@ func getParamsEnvNeed(paramsKey base.AttrS1) (paramsNeed base.AttrT1) {
 	return paramsNeed
 }
 
-func getEntityConfig(paramsKey base.AttrS1, entity base.TEntityBase) {
+func getEntityConfig(paramsKey typeMap.AttrS1, entity typeStruct.EntityBase) {
 	paramsNeed := getParamsEnvNeed(paramsKey)
 	conv.ToEntityFromAttr(paramsNeed, entity)
 	return

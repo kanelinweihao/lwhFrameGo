@@ -1,21 +1,21 @@
 package cacheReader
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
 type typeChanData = string
 
 type EntityCacheReader struct {
-	BoxFromCache            base.BoxData
+	BoxFromCache            typeMap.BoxData
 	EntityCacheConnector    *cacheConnector.EntityCacheConnector
 	ArrCacheKey             []string
 	AttrEntityCacheDataRead map[string]*EntityCacheDataRead
 	AttrChan                map[string]chan typeChanData
 }
 
-func (self *EntityCacheReader) BatchGetCache() (boxFromCache base.BoxData) {
+func (self *EntityCacheReader) BatchGetCache() (boxFromCache typeMap.BoxData) {
 	self.writeAttrChan().readAttrChan()
 	boxFromCache = self.BoxFromCache
 	return boxFromCache
@@ -35,7 +35,7 @@ func (self *EntityCacheReader) writeAttrChan() *EntityCacheReader {
 
 func (self *EntityCacheReader) readAttrChan() *EntityCacheReader {
 	attrChan := self.AttrChan
-	boxFromCache := make(base.BoxData)
+	boxFromCache := make(typeMap.BoxData)
 	for cacheKey, chanBase := range attrChan {
 		cacheValue := readFromChannelOfReadCacheData(chanBase)
 		boxFromCache[cacheKey] = cacheValue

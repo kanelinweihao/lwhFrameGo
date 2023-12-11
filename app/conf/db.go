@@ -1,13 +1,13 @@
 package conf
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
 var DriverDB string = "mysql"
 var FileNameQuery string = "query.sql"
 
-var paramsKeyMysql = base.AttrS1{
+var paramsKeyMysql = typeMap.AttrS1{
 	"Host":     "MysqlHost",
 	"Port":     "MysqlPort",
 	"User":     "MysqlUser",

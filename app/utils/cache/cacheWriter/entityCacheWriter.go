@@ -1,15 +1,15 @@
 package cacheWriter
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
 type typeChanData = string
 
 type EntityCacheWriter struct {
 	ArrCacheKey              []string
-	BoxToCache               base.BoxData
+	BoxToCache               typeMap.BoxData
 	EntityCacheConnector     *cacheConnector.EntityCacheConnector
 	AttrEntityCacheDataWrite map[string]*EntityCacheDataWrite
 	AttrChan                 map[string]chan typeChanData

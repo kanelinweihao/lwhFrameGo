@@ -1,21 +1,21 @@
 package cache
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/base"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheConnector"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheReader"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache/cacheWriter"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
 type EntityCache struct {
-	BoxFromCache         base.BoxData
+	BoxFromCache         typeMap.BoxData
 	EntityCacheConnector *cacheConnector.EntityCacheConnector
 	EntityCacheWriter    *cacheWriter.EntityCacheWriter
 	EntityCacheReader    *cacheReader.EntityCacheReader
-	BoxToCache           base.BoxData
+	BoxToCache           typeMap.BoxData
 }
 
-func (self *EntityCache) BatchSetDataToCache(boxToCache base.BoxData) (arrCacheKey []string) {
+func (self *EntityCache) BatchSetDataToCache(boxToCache typeMap.BoxData) (arrCacheKey []string) {
 	self.BoxToCache = boxToCache
 	entityCacheConnector := self.EntityCacheConnector
 	entityCacheWriter := cacheWriter.InitEntityCacheWriter(entityCacheConnector, boxToCache)
@@ -24,7 +24,7 @@ func (self *EntityCache) BatchSetDataToCache(boxToCache base.BoxData) (arrCacheK
 	return arrCacheKey
 }
 
-func (self *EntityCache) BatchGetDataFromCache(arrCacheKey []string) (boxFromCache base.BoxData) {
+func (self *EntityCache) BatchGetDataFromCache(arrCacheKey []string) (boxFromCache typeMap.BoxData) {
 	entityCacheConnector := self.EntityCacheConnector
 	entityCacheReader := cacheReader.InitEntityCacheReader(entityCacheConnector, arrCacheKey)
 	self.EntityCacheReader = entityCacheReader
