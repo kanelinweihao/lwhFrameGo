@@ -23,20 +23,27 @@ type EntityController interface {
 }
 type FuncService func(paramsIn typeMap.AttrT1) (paramsOut typeMap.AttrT1)
 
-type EntityService interface {
-	Load(entityServiceBaseOrDerived EntityService) EntityService
-	Init(serviceName string) EntityService
+type EntityService1 interface {
+	Load(entityServiceBaseOrDerived EntityService1) EntityService1
+	Init(serviceName string) EntityService1
 	Exec(paramsIn typeMap.AttrT1) (paramsOut typeMap.AttrT1)
-	InitParams() EntityService
+	InitParams() EntityService1
 	GetFuncInitEntityParams() (funcInitEntityParams FuncInitEntityParams)
-	GetDBData() EntityService
+	GetDBData() EntityService1
 	GetFuncInitEntityRepoDB() (funcInitEntityRepoDB FuncInitEntityRepoDB)
-	PutExcel() EntityService
+	PutExcel() EntityService1
 	GetFuncInitEntityNotifyExcel() (funcInitEntityNotifyExcel FuncInitEntityNotifyExcel)
-	SendEmail() EntityService
+	SendEmail() EntityService1
 	GetFuncInitEntityNotifyEmail() (funcInitEntityNotifyEmail FuncInitEntityNotifyEmail)
-	SetCache() EntityService
+	SetCache() EntityService1
 	GetFuncInitEntityRepoCache() (funcInitEntityRepoCache FuncInitEntityRepoCache)
+}
+type EntityService2 interface {
+	Load(entityServiceBaseOrDerived EntityService2) EntityService2
+	Init(serviceName string) EntityService2
+	Exec(paramsIn typeMap.AttrT1) (paramsOut typeMap.AttrT1)
+	InitParams() EntityService2
+	GetFuncInitEntityParams() (funcInitEntityParams FuncInitEntityParams)
 }
 type FuncInitEntityParams func(paramsIn typeMap.AttrT1) (entityParams EntityParams)
 type FuncInitEntityRepoDB func(paramsRepoDB typeMap.AttrT1) (entityRepoDB EntityRepoDB)

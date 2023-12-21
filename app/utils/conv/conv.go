@@ -10,6 +10,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 func ToValidType(valueOld interface{}, typeNameNew string) (valueNew interface{}) {
@@ -240,12 +241,18 @@ func ToJsonFromEntity(entity typeStruct.EntityBase) (strJson string) {
 
 // ToArrFromAttr map->slice
 func ToArrFromAttr(attrT1 typeMap.AttrT1) (arrT []interface{}) {
-	len := len(attrT1)
-	arrT = make([]interface{}, len)
+	length := len(attrT1)
+	arrT = make([]interface{}, length)
 	for _, v := range attrT1 {
 		arrT = append(arrT, v)
 	}
 	return arrT
+}
+
+// ToArrStrFromStr str->slice
+func ToArrStrFromStr(str string, sep string) (arrS []string) {
+	arrS = strings.Split(str, sep)
+	return arrS
 }
 
 // ToArrStrFromAttrStr map->slice

@@ -36,20 +36,18 @@ func (self *EntityDBDataRead) setPropertiesMore() *EntityDBDataRead {
 
 func (self *EntityDBDataRead) setPathDirSQL() *EntityDBDataRead {
 	sqlName := self.SQLName
-	pathDirSQL := conf.GetPathDirSQL(sqlName)
-	self.PathDirSQL = pathDirSQL
+	pathQuery := conf.GetPathQuery(sqlName)
+	self.PathQuery = pathQuery
 	return self
 }
 
 func (self *EntityDBDataRead) setQueryOriginal() *EntityDBDataRead {
-	pathDirSQL := self.PathDirSQL
-	fileNameQuery := conf.FileNameQuery
-	pathQuery := pathDirSQL + fileNameQuery
+	pathQuery := self.PathQuery
 	queryOriginal := pack.ReadFileEmbedAsString(pathQuery)
 	queryTrimEnter := strings.Replace(queryOriginal, "\n", " ", -1)
 	queryTrimSemicolon := strings.Replace(queryTrimEnter, ";", "", -1)
-	queryFormated := strings.TrimSpace(queryTrimSemicolon)
-	self.QueryWithoutArgs = queryFormated
+	queryFormatted := strings.TrimSpace(queryTrimSemicolon)
+	self.QueryWithoutArgs = queryFormatted
 	return self
 }
 

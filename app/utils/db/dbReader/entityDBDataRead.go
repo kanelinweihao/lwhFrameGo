@@ -16,7 +16,7 @@ type EntityDBDataRead struct {
 	SQLName          string
 	AttrArgsForQuery typeMap.AttrS1
 	ArrArgsForQuery  []string
-	PathDirSQL       string
+	PathQuery        string
 	QueryWithoutArgs string
 	QueryWithArgs    string
 	EntityDBData     typeStruct.EntityDBData

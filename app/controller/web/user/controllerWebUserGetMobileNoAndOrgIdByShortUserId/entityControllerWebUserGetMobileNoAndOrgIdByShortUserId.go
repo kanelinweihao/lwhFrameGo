@@ -20,7 +20,7 @@ var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"OrgId":       0,
 }
 var FuncService typeStruct.FuncService = serviceUser.GetMobileNoAndOrgIdByShortUserId
-var PathTmpl string = "./res/view/getMobileNoAndOrgIdByShortUserId.tmpl"
+var PathTmpl string = "./res/view/user/getMobileNoAndOrgIdByShortUserId.tmpl"
 
 type EntityController struct {
 	typeStruct.EntityController

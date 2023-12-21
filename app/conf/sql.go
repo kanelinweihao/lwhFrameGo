@@ -8,9 +8,9 @@ import (
 	"strings"
 )
 
-func GetParamsDirSQL() (paramsDirSQL typeMap.AttrS1) {
-	paramsDirSQL = make(typeMap.AttrS1)
-	pathSQL := getPathSQL()
+func GetParamsPathQuery() (paramsPathQuery typeMap.AttrS1) {
+	paramsPathQuery = make(typeMap.AttrS1)
+	pathSQL := GetPathSQL()
 	strFromEnv := pack.ReadFileEmbedAsString(pathSQL)
 	arrLine := strings.Split(strFromEnv, "\n")
 	strAnnotation := "#"
@@ -28,26 +28,26 @@ func GetParamsDirSQL() (paramsDirSQL typeMap.AttrS1) {
 			continue
 		}
 		sqlName := arrPart[0]
-		pathDirSQLRel := arrPart[1]
-		paramsDirSQL[sqlName] = pathDirSQLRel
+		pathQueryRel := arrPart[1]
+		paramsPathQuery[sqlName] = pathQueryRel
 	}
-	return paramsDirSQL
+	return paramsPathQuery
 }
 
-func GetPathDirSQL(sqlName string) (pathDirSQL string) {
-	paramsDirSQL := GetParamsDirSQL()
-	pathDirSQL, ok := paramsDirSQL[sqlName]
+func GetPathQuery(sqlName string) (pathQuery string) {
+	paramsPathQuery := GetParamsPathQuery()
+	pathQuery, ok := paramsPathQuery[sqlName]
 	if !ok {
 		msgError := fmt.Sprintf(
 			"The sql |%s| not found in sql.env",
 			sqlName)
 		err.ErrPanic(msgError)
 	}
-	if len(pathDirSQL) == 0 {
+	if len(pathQuery) == 0 {
 		msgError := fmt.Sprintf(
 			"The sql of |%s| is empty in sql.env",
 			sqlName)
 		err.ErrPanic(msgError)
 	}
-	return pathDirSQL
+	return pathQuery
 }

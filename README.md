@@ -104,6 +104,7 @@ go run main.go
 逻辑测试
 ```
 go test
+go test -v -run="TestGetCountCodeLine"
 ```
 基准测试
 ```
@@ -129,5 +130,6 @@ go list -m -json all
 ```
 执行编译
 ```
-GOOS=windows GOARCH=amd64 go build -o 林为豪自用框架GO.exe
+GOOS=windows GOARCH=amd64 go build -o LwhFrameGo.exe
+GOOS=linux GOARCH=amd64 go build -o LwhFrameGo.linux
 ```

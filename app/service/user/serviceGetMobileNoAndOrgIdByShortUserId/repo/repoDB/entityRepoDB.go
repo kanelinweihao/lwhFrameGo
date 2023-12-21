@@ -23,11 +23,12 @@ func (self *EntityRepoDB) GetPropertiesNeed() (paramsAppend typeMap.AttrT1) {
 }
 
 func (self *EntityRepoDB) getMobileNoFromAttrT3DBData(attrT3DBData typeMap.AttrT3) (mobileNo string) {
-	countMobileNo := len(attrT3DBData["GetMobileNoByUserId"])
-	if countMobileNo == 0 {
+	sqlName := "GetMobileNoByUserId"
+	row := len(attrT3DBData[sqlName])
+	if row == 0 {
 		return mobileNo
 	}
-	mobileNo, ok := attrT3DBData["GetMobileNoByUserId"]["0"]["MobileNo"].(string)
+	mobileNo, ok := attrT3DBData[sqlName]["0"]["MobileNo"].(string)
 	if !ok {
 		msgError := fmt.Sprintf(
 			"The mobileNo |%v| of |%v| is invalid",
@@ -39,11 +40,12 @@ func (self *EntityRepoDB) getMobileNoFromAttrT3DBData(attrT3DBData typeMap.AttrT
 }
 
 func (self *EntityRepoDB) getOrgIdFromAttrT3DBData(attrT3DBData typeMap.AttrT3) (orgId int) {
-	countOrgId := len(attrT3DBData["GetOrgIdByUserId"])
-	if countOrgId == 0 {
+	sqlName := "GetOrgIdByUserId"
+	row := len(attrT3DBData[sqlName])
+	if row == 0 {
 		return orgId
 	}
-	orgId, ok := attrT3DBData["GetOrgIdByUserId"]["0"]["OrgId"].(int)
+	orgId, ok := attrT3DBData[sqlName]["0"]["OrgId"].(int)
 	if !ok {
 		msgError := fmt.Sprintf(
 			"The orgId |%v| of |%v| is invalid",

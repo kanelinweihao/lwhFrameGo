@@ -5,7 +5,6 @@ import (
 )
 
 var DriverDB string = "mysql"
-var FileNameQuery string = "query.sql"
 
 var paramsKeyMysql = typeMap.AttrS1{
 	"Host":     "MysqlHost",

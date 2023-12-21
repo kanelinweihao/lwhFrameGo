@@ -10,7 +10,7 @@ import (
 )
 
 type EntityService struct {
-	typeStruct.EntityService
+	typeStruct.EntityService1
 }
 
 func (self *EntityService) GetFuncInitEntityParams() (funcInitEntityParams typeStruct.FuncInitEntityParams) {

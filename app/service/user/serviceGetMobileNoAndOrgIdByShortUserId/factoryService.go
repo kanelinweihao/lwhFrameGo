@@ -7,15 +7,15 @@ import (
 
 var serviceName = "GetMobileNoAndOrgIdByShortUserId"
 
-func InitEntityService() (entityService typeStruct.EntityService) {
+func InitEntityService() (entityService typeStruct.EntityService1) {
 	entityService = new(EntityService)
-	entityServiceBase := new(serviceBase.EntityServiceBase)
+	entityServiceBase := new(serviceBase.EntityServiceBase1)
 	entityService.Load(entityServiceBase).Init(serviceName)
 	return entityService
 }
 
-func (self *EntityService) Load(entityServiceBase typeStruct.EntityService) typeStruct.EntityService {
-	self.EntityService = entityServiceBase
+func (self *EntityService) Load(entityServiceBase typeStruct.EntityService1) typeStruct.EntityService1 {
+	self.EntityService1 = entityServiceBase
 	entityServiceBase.Load(self)
 	return self
 }

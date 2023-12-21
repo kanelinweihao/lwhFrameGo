@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/funcAttr"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
@@ -34,33 +33,23 @@ type EntityControllerBase struct {
 }
 
 func (self *EntityControllerBase) Exec(resp http.ResponseWriter, req *http.Request) {
+	times.ShowTimeAndMsg("request " + self.RouteName)
 	self.Resp = resp
 	self.Req = req
-	isRouteNameIgnore := self.isRouteNameIgnore()
-	if isRouteNameIgnore {
-		self.IsReqValid = false
-		return
-	}
-	isReqValuesEmpty := self.isReqValuesEmpty()
-	if isReqValuesEmpty {
-		self.IsReqValid = false
-		self.setResDefault()
-	} else {
-		self.IsReqValid = true
+	self.checkRouteNameValid()
+	isReqValid := self.isReqValid()
+	if isReqValid {
 		self.setRes()
+	} else {
+		self.setResDefault()
 	}
 	self.execFront()
-	times.ShowTimeAndMsg("OK")
+	times.ShowTimeAndMsg("response " + self.RouteName)
 	return
 }
 
-func (self *EntityControllerBase) isRouteNameIgnore() (isRouteNameIgnore bool) {
+func (self *EntityControllerBase) checkRouteNameValid() {
 	routeNameReal := self.Req.URL.Path
-	attrRouteNameIgnoreValidate := conf.AttrRouteNameIgnoreValidate
-	isRouteNameIgnore = funcAttr.IsKeyOfAttrStr(routeNameReal, attrRouteNameIgnoreValidate)
-	if isRouteNameIgnore {
-		return true
-	}
 	routeNameExpected := self.RouteName
 	if routeNameReal != routeNameExpected {
 		msgError := fmt.Sprintf(
@@ -69,23 +58,27 @@ func (self *EntityControllerBase) isRouteNameIgnore() (isRouteNameIgnore bool) {
 			routeNameExpected)
 		err.ErrPanic(msgError)
 	}
-	return false
+	return
 }
 
-func (self *EntityControllerBase) isReqValuesEmpty() (isReqValuesEmpty bool) {
+func (self *EntityControllerBase) isReqValid() (isReqValid bool) {
 	valuesFromReq := self.Req.URL.Query()
 	if len(valuesFromReq) == 0 {
 		self.ValuesFromReq = nil
-		return true
+		self.IsReqValid = false
+		return self.IsReqValid
 	}
 	self.ValuesFromReq = valuesFromReq
-	return false
+	self.IsReqValid = true
+	return self.IsReqValid
 }
 
 func (self *EntityControllerBase) execFront() {
 	routeType := self.Derived.GetRouteType()
 	self.RouteType = routeType
 	switch routeType {
+	case conf.RouteTypeFile:
+		self.execFile()
 	case conf.RouteTypeApi:
 		self.execApi()
 	case conf.RouteTypeWeb:

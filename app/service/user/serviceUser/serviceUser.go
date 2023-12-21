@@ -7,7 +7,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-var entityService typeStruct.EntityService
+var entityService typeStruct.EntityService1
 
 func GetMobileNoAndOrgIdByShortUserId(paramsIn typeMap.AttrT1) (paramsOut typeMap.AttrT1) {
 	entityService = serviceGetMobileNoAndOrgIdByShortUserId.InitEntityService()

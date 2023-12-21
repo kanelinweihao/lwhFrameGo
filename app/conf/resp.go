@@ -5,13 +5,9 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-const RouteTypeApi int = 1
-const RouteTypeWeb int = 2
-
-var AttrRouteNameIgnoreValidate = typeMap.AttrS1{
-	"/favicon.ico": "",
-	"/502.html":    "",
-}
+const RouteTypeFile int = 1
+const RouteTypeApi int = 2
+const RouteTypeWeb int = 3
 
 var RouteTypeDefault int = RouteTypeWeb
 var ParamsInDefaultDefault typeMap.AttrT1 = typeMap.AttrT1{}

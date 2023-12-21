@@ -21,11 +21,12 @@ func (self *EntityRepoDB) GetPropertiesNeed() (paramsAppend typeMap.AttrT1) {
 }
 
 func (self *EntityRepoDB) getUserIdFromAttrT3DBData(attrT3DBData typeMap.AttrT3) (userId int) {
-	countUserId := len(attrT3DBData["GetUserIdByMobileNoAndOrgId"])
-	if countUserId == 0 {
+	sqlName := "GetUserIdByMobileNoAndOrgId"
+	row := len(attrT3DBData[sqlName])
+	if row == 0 {
 		return userId
 	}
-	userId, ok := attrT3DBData["GetUserIdByMobileNoAndOrgId"]["0"]["UserId"].(int)
+	userId, ok := attrT3DBData[sqlName]["0"]["UserId"].(int)
 	if !ok {
 		msgError := fmt.Sprintf(
 			"The userId |%v| of |%v| is invalid",

@@ -13,7 +13,7 @@ var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"ProjectVersion": "v1.0.0",
 }
 var FuncService typeStruct.FuncService = nil
-var PathTmpl string = "./res/view/projectInfo.tmpl"
+var PathTmpl string = "./res/view/common/projectInfo.tmpl"
 
 type EntityController struct {
 	typeStruct.EntityController

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>计算内部收益率IRR</title>
+</head>
+<body>
+    {{/*参数显示*/}}
+    <div>
+        项目名称Title : {{.ProjectTitle}}
+    </div>
+    <div>
+        项目版本Version : {{.ProjectVersion}}
+    </div>
+    <p></p>
+    {{/*提交表单*/}}
+    <form>
+        <div>
+            每期变化值StrArrAmount
+            (用英文逗号隔开,负数为支出,正数为收入)
+            <input type="text" name="StrArrAmount" value={{.StrArrAmount}} onkeyup="value=value.replace(/[^\d\.\,\-]/g,'')">
+        </div>
+        <div>
+            误差精度ErrorPrecision
+            (IRR小数表示时,小数点后保留位数)
+            <input type="text" name="ErrorPrecision" value={{.ErrorPrecision}} onkeyup="value=value.replace(/[^\d]/g,'')">
+        </div>
+        <div style="display:none;">
+            隐藏标识Sign
+            <input type="text" name="Sign" value={{.Sign}}>
+        </div>
+        <div>
+            <input type="submit">
+        </div>
+    </form>
+    <p></p>
+    {{/*结果显示*/}}
+    <div>
+        <b>{{.MsgShow}}</b>
+    </div>
+    <div>
+        内部收益率IRR
+        <input type="text" name="IRR" value={{.IRR}} onkeyup="value=value.replace(/[^\d]/g,'')" disabled>
+    </div>
+    <p></p>
+    <div>
+        <i>{{.JsonRes}}</i>
+    </div>
+</body>
+</html>
