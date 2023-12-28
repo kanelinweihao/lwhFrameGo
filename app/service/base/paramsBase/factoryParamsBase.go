@@ -25,11 +25,11 @@ func (self *EntityParamsBase) setPropertiesIn(paramsIn typeMap.AttrT1) *EntityPa
 }
 
 func (self *EntityParamsBase) setPropertiesMore() *EntityParamsBase {
-	self.Derived.SetUserId()
+	self.Derived.SetParamsExec()
 	return self
 }
 
-func (self *EntityParamsBase) SetUserId() typeStruct.EntityParams {
+func (self *EntityParamsBase) SetParamsExec() typeStruct.EntityParams {
 	return self.Derived
 }
 

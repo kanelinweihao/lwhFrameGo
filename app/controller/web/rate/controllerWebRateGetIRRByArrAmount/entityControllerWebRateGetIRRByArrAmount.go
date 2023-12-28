@@ -14,6 +14,7 @@ var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"Sign":           "LessIsMore",
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
+	"RouteNameCN":    "计算内部收益率IRR",
 	"StrArrAmount":   "0,0,-1,-1.5,0,0,5,0,0",
 	"ErrorPrecision": 4,
 	"Sign":           "LessIsMore",

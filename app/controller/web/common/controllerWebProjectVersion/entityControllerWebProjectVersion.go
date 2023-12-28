@@ -11,6 +11,7 @@ var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{}
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"ProjectTitle":   "未知项目名称",
 	"ProjectVersion": "v1.0.0",
+	"RouteNameCN":    "项目版本",
 }
 var FuncService typeStruct.FuncService = nil
 var PathTmpl string = "./res/view/common/projectInfo.tmpl"

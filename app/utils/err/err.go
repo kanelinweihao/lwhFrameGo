@@ -6,6 +6,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"path"
 	"runtime"
+	"strconv"
 )
 
 func ErrCheck(err error) {
@@ -31,19 +32,16 @@ func ThrowError() {
 		return
 	}
 	fileName, funcName, codeLine := getLocationOfErr()
-	fmt.Println("\n")
-	fmt.Println("----------")
-	fmt.Print("fileName = ")
-	fmt.Println(fileName)
-	fmt.Print("funcName = ")
-	fmt.Println(funcName)
-	fmt.Print("codeLine = ")
-	fmt.Println(codeLine)
-	fmt.Print("msgError = ")
-	fmt.Println(err)
-	fmt.Println("----------")
-	fmt.Println("\n")
-	fmt.Println("\n")
+	strCodeLine := strconv.Itoa(codeLine)
+	strErr := fmt.Sprintln(err)
+	msgError := "\n"
+	msgError += "----------" + "\n"
+	msgError += "fileName = " + fileName + "\n"
+	msgError += "funcName = " + funcName + "\n"
+	msgError += "codeLine = " + strCodeLine + "\n"
+	msgError += "msgError = " + strErr
+	msgError += "----------" + "\n"
+	fmt.Println(msgError)
 }
 
 func getLocationOfErr() (fileName string, funcName string, codeLine int) {

@@ -54,7 +54,7 @@ type FuncInitEntityRepoCache func(arrPathFileExcel []string) (entityRepoCache En
 type EntityParams interface {
 	Load(entityParamsBaseOrDerived EntityParams) EntityParams
 	Init(paramsIn typeMap.AttrT1) EntityParams
-	SetUserId() EntityParams
+	SetParamsExec() EntityParams
 	Validate() EntityParams
 	SetPropertiesAppend(paramsAppend typeMap.AttrT1) EntityParams
 	ToAttr() (paramsOut typeMap.AttrT1)

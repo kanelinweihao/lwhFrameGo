@@ -33,6 +33,23 @@ func GetPathFavicon() (pathFavicon string) {
 	return pathFavicon
 }
 
+func GetPathLog() (pathLog string) {
+	pathLog = getPathFromEnv("PathLog")
+	return pathLog
+}
+
+func GetPathViewHeader() (pathViewHeader string) {
+	pathViewHeader = getPathFromEnv("PathViewHeader")
+	pathViewHeader = file.GetFilePathEmbed(pathViewHeader)
+	return pathViewHeader
+}
+
+func GetPathViewFooter() (pathViewFooter string) {
+	pathViewFooter = getPathFromEnv("PathViewFooter")
+	pathViewFooter = file.GetFilePathEmbed(pathViewFooter)
+	return pathViewFooter
+}
+
 func GetPathPrivateKey() (pathPrivateKey string) {
 	pathPrivateKey = getPathFromEnv("PathPrivateKey")
 	return pathPrivateKey

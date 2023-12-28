@@ -2,6 +2,7 @@ package controllerBase
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/logs"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/res"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
@@ -86,5 +87,6 @@ func (self *EntityControllerBase) setJsonRes() *EntityControllerBase {
 	paramsOut := self.ParamsOut
 	jsonRes := res.GetResSuccess(paramsOut)
 	self.JsonRes = jsonRes
+	logs.SetLog(jsonRes)
 	return self
 }

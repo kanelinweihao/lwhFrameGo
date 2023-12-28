@@ -13,6 +13,7 @@ var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"Sign":   "LessIsMore",
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
+	"RouteNameCN":              "获取客诉数据",
 	"UserId":                   1005704,
 	"Sign":                     "LessIsMore",
 	"CountProductOrderPoolNFT": 0,

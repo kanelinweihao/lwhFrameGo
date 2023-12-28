@@ -25,7 +25,7 @@ func (self *EntityParams) Load(entityParamsBase typeStruct.EntityParams) typeStr
 	return self
 }
 
-func (self *EntityParams) SetUserId() typeStruct.EntityParams {
+func (self *EntityParams) SetParamsExec() typeStruct.EntityParams {
 	strArrAmount := self.StrArrAmount
 	precision := self.ErrorPrecision + 8
 	arrAmountWithZero := conv.ToArrStrFromStr(strArrAmount, ",")

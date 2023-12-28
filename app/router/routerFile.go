@@ -6,6 +6,7 @@ import (
 )
 
 func SetRouterFile() {
+	// 网页图标
 	http.HandleFunc(
 		"/favicon.ico",
 		controllerFileCommon.Favicon)

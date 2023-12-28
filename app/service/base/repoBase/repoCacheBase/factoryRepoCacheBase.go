@@ -30,7 +30,7 @@ func (self *EntityRepoCacheBase) setPropertiesMore() *EntityRepoCacheBase {
 }
 
 func (self *EntityRepoCacheBase) setCacheKey() *EntityRepoCacheBase {
-	timeSuffix := times.GetTimeSuffix()
+	timeSuffix := times.GetTimeSuffixSecond()
 	cacheKeyPrefix := conf.GetProjectNameEN()
 	cacheKey := fmt.Sprintf(
 		"%s:%s",

@@ -216,6 +216,12 @@ func ToStrFromInt(num int) (str string) {
 	return str
 }
 
+// ToStrBinFromDec dec->strBin
+func ToStrBinFromDec(dec int) (strBin string) {
+	strBin = strconv.FormatInt(int64(dec), 2)
+	return strBin
+}
+
 // ToJsonFromSlice slice->json
 func ToJsonFromSlice(arrT []string) (strJson string) {
 	arrByte, errTo := json.Marshal(arrT)

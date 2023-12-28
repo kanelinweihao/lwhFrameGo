@@ -7,7 +7,8 @@ import (
 )
 
 var formatBase string = "2006-01-02 15:04:05"
-var formatSuffix string = "20060102150405"
+var formatSuffixSecond string = "20060102150405"
+var formatSuffixDate string = "20060102"
 
 func getLocal() (localCn *time.Location) {
 	localCn, errTime := time.LoadLocation("Asia/Shanghai")
@@ -34,9 +35,15 @@ func ShowTimeAndMsg(msg string) {
 	return
 }
 
-func GetTimeSuffix() (suffix string) {
+func GetTimeSuffixSecond() (suffix string) {
 	localCn := getLocal()
-	suffix = time.Now().UTC().In(localCn).Format(formatSuffix)
+	suffix = time.Now().UTC().In(localCn).Format(formatSuffixSecond)
+	return suffix
+}
+
+func GetTimeSuffixDate() (suffix string) {
+	localCn := getLocal()
+	suffix = time.Now().UTC().In(localCn).Format(formatSuffixDate)
 	return suffix
 }
 

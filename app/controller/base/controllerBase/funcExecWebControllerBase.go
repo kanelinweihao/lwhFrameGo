@@ -27,8 +27,14 @@ func (self *EntityControllerBase) setParamsToTmpl() *EntityControllerBase {
 func (self *EntityControllerBase) setTmpl() *EntityControllerBase {
 	pathTmpl := self.Derived.GetPathTmpl()
 	self.PathTmpl = pathTmpl
-	fsResource, patternsTmpl := pack.GetFSAndPath(pathTmpl)
-	tmpl, errTmplParse := template.ParseFS(fsResource, patternsTmpl)
+	fsResource, pathEmbedTmpl := pack.GetFSAndPath(pathTmpl)
+	pathViewHeader := conf.GetPathViewHeader()
+	pathViewFooter := conf.GetPathViewFooter()
+	tmpl, errTmplParse := template.ParseFS(
+		fsResource,
+		pathEmbedTmpl,
+		pathViewHeader,
+		pathViewFooter)
 	err.ErrCheck(errTmplParse)
 	self.Tmpl = tmpl
 	return self

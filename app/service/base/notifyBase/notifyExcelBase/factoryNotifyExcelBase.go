@@ -84,7 +84,7 @@ func (self *EntityNotifyExcelBase) setPathDirThisTime() *EntityNotifyExcelBase {
 	strUserId := self.StrUserId
 	remarkUser := "用户" + strUserId
 	dirNamePrefix := "数据导出"
-	suffix := times.GetTimeSuffix()
+	suffix := times.GetTimeSuffixSecond()
 	dirName := fmt.Sprintf(
 		"%s_%s_%s",
 		dirNamePrefix,
@@ -124,7 +124,7 @@ func getPathFile(sqlName string, strUserId string, pathDirThisTime string) (path
 func getFileName(sqlName string, userId string) (fileName string) {
 	fileNamePrefix := getFileNamePrefix(sqlName)
 	remarkUser := "用户" + userId
-	timeSuffix := times.GetTimeSuffix()
+	timeSuffix := times.GetTimeSuffixSecond()
 	ext := excel.ExtExcel
 	fileName = fmt.Sprintf(
 		"%s_%s_%s.%s",

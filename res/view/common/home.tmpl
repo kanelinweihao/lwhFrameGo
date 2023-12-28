@@ -1,0 +1,9 @@
+{{template "header.tmpl" .}}
+{{/*参数显示*/}}
+{{range $routeMsg, $routeName := .AttrS1Router}}
+    <div>
+        <a href={{$routeName}}>{{$routeMsg}}</a>
+    </div>
+    <p></p>
+{{end}}
+{{template "footer.tmpl"}}

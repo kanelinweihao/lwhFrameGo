@@ -1,27 +1,26 @@
-package controllerWebUserGetMobileNoAndOrgIdByShortUserId
+package controllerWebRateGetRateExactlyHalf
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/service/user/serviceUser"
+	"github.com/kanelinweihao/lwhFrameGo/app/service/rate/serviceRate"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
 var RouteType int = conf.RouteTypeWeb
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"ShortUserId": 0,
-	"Sign":        "LessIsMore",
+	"X":    10,
+	"Sign": "LessIsMore",
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"RouteNameCN": "获取用户手机号和所属机构",
-	"ShortUserId": 1,
+	"RouteNameCN": "计算抽中次数正好是总次数一半的概率",
+	"X":           10,
 	"Sign":        "LessIsMore",
-	"UserId":      0,
-	"MobileNo":    "0",
-	"OrgId":       0,
+	"Rate":        "0",
 }
-var FuncService typeStruct.FuncService = serviceUser.GetMobileNoAndOrgIdByShortUserId
-var PathTmpl string = "./res/view/user/getMobileNoAndOrgIdByShortUserId.tmpl"
+
+var FuncService typeStruct.FuncService = serviceRate.GetRateExactlyHalf
+var PathTmpl string = "./res/view/rate/getRateExactlyHalf.tmpl"
 
 type EntityController struct {
 	typeStruct.EntityController

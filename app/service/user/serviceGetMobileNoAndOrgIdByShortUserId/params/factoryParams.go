@@ -21,7 +21,7 @@ func (self *EntityParams) Load(entityParamsBase typeStruct.EntityParams) typeStr
 	return self
 }
 
-func (self *EntityParams) SetUserId() typeStruct.EntityParams {
+func (self *EntityParams) SetParamsExec() typeStruct.EntityParams {
 	strShortUserId := conv.ToStrFromInt(self.ShortUserId)
 	strUserId := calc.Add(strShortUserId, "1000000")
 	userId := conv.ToIntFromStr(strUserId)

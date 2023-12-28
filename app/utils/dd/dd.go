@@ -7,6 +7,7 @@ import (
 	"path"
 	"reflect"
 	"runtime"
+	"strconv"
 )
 
 func IGNORE(args ...interface{}) {}
@@ -47,27 +48,34 @@ func ddMsgLine() {
 }
 
 func ddMsg(arg interface{}) {
-	fileName, funcName, codeLine := getLocationOfDD()
 	ddMsgLine()
-	fmt.Print("fileName = ")
-	fmt.Println(fileName)
-	fmt.Print("funcName = ")
-	fmt.Println(funcName)
-	fmt.Print("codeLine = ")
-	fmt.Println(codeLine)
+	ddMsgSource()
+	ddMsgArg(arg)
+}
+
+func ddMsgSource() {
+	fileName, funcName, codeLine := getLocationOfDD()
+	strCodeLine := strconv.Itoa(codeLine)
+	msgSource := ""
+	msgSource += "fileName = " + fileName + "\n"
+	msgSource += "funcName = " + funcName + "\n"
+	msgSource += "codeLine = " + strCodeLine + "\n"
+	fmt.Print(msgSource)
+}
+
+func ddMsgArg(arg interface{}) {
 	_, typeName, typeKindName := getTypeInfoOfDD(arg)
-	fmt.Print("type = ")
-	fmt.Println(typeName)
-	fmt.Print("kind = ")
-	fmt.Println(typeKindName)
-	fmt.Print("value = ")
-	fmt.Printf("%#v", arg)
-	fmt.Println()
+	strArg := fmt.Sprintf("%#v", arg)
+	msgArg := ""
+	msgArg += "type = " + typeName + "\n"
+	msgArg += "kind = " + typeKindName + "\n"
+	msgArg += "value = " + strArg + "\n"
+	fmt.Print(msgArg)
 }
 
 // ->err.getLocationOfErr()
 func getLocationOfDD() (fileName string, funcName string, codeLine int) {
-	skip := 3
+	skip := 4
 	pc, file, line, ok := runtime.Caller(skip)
 	if !ok {
 		return

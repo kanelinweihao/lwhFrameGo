@@ -3,7 +3,9 @@ package controllerBase
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/logs"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
@@ -33,7 +35,7 @@ type EntityControllerBase struct {
 }
 
 func (self *EntityControllerBase) Exec(resp http.ResponseWriter, req *http.Request) {
-	times.ShowTimeAndMsg("request " + self.RouteName)
+	self.setLog("req")
 	self.Resp = resp
 	self.Req = req
 	self.checkRouteNameValid()
@@ -44,7 +46,19 @@ func (self *EntityControllerBase) Exec(resp http.ResponseWriter, req *http.Reque
 		self.setResDefault()
 	}
 	self.execFront()
-	times.ShowTimeAndMsg("response " + self.RouteName)
+	self.setLog("resp")
+	return
+}
+
+func (self *EntityControllerBase) setLog(action string) {
+	routeName := self.RouteName
+	times.ShowTimeAndMsg(action + " " + routeName)
+	attrReq := typeMap.AttrT1{
+		"action": action,
+		"data":   routeName,
+	}
+	jsonReq := conv.ToJsonFromAttr(attrReq)
+	logs.SetLog(jsonReq)
 	return
 }
 
