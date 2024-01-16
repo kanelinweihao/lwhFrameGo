@@ -10,18 +10,22 @@ import (
 var RouteType int = conf.RouteTypeWeb
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"UserId": 0,
-	"Sign":   "LessIsMore",
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"RouteNameCN":              "获取客诉数据",
 	"UserId":                   1005704,
-	"Sign":                     "LessIsMore",
 	"CountProductOrderPoolNFT": 0,
 	"CountProductOrderNFTBuy":  0,
 	"CountProductOrderNFTSell": 0,
 	"SumAmountGot":             "0",
 }
-
+var ArrEntitySectionIn []typeStruct.EntitySection = nil
+var ArrEntitySectionOut []typeStruct.EntitySection = nil
+var ParamsOutAppendWeb typeMap.AttrT1 = typeMap.AttrT1{
+	"RouteNameCN":         "获取客诉数据",
+	"ArrEntitySectionIn":  ArrEntitySectionIn,
+	"ArrEntitySectionOut": ArrEntitySectionOut,
+}
 var FuncService typeStruct.FuncService = serviceCustomerBehavior.GetCustomerBehaviorByUserId
 var PathTmpl string = "./res/view/customerBehavior/getCustomerBehaviorByUserId.tmpl"
 
@@ -48,4 +52,29 @@ func (self *EntityController) GetFuncService() (funcService typeStruct.FuncServi
 func (self *EntityController) GetPathTmpl() (pathTmpl string) {
 	pathTmpl = PathTmpl
 	return pathTmpl
+}
+
+func (self *EntityController) GetArrEntitySectionIn() (arrEntitySectionIn []typeStruct.EntitySection) {
+	arrEntitySectionIn = ArrEntitySectionIn
+	return arrEntitySectionIn
+}
+
+func (self *EntityController) GetArrEntitySectionOut() (arrEntitySectionOut []typeStruct.EntitySection) {
+	arrEntitySectionOut = ArrEntitySectionOut
+	return arrEntitySectionOut
+}
+
+func (self *EntityController) SetArrEntitySectionIn(arrEntitySectionIn []typeStruct.EntitySection) {
+	ArrEntitySectionIn = arrEntitySectionIn
+	return
+}
+
+func (self *EntityController) SetArrEntitySectionOut(arrEntitySectionOut []typeStruct.EntitySection) {
+	ArrEntitySectionOut = arrEntitySectionOut
+	return
+}
+
+func (self *EntityController) GetParamsOutAppendWeb() (paramsOutAppendWeb typeMap.AttrT1) {
+	paramsOutAppendWeb = ParamsOutAppendWeb
+	return paramsOutAppendWeb
 }

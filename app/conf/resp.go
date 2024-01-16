@@ -11,9 +11,13 @@ const RouteTypeWeb int = 3
 
 var RouteTypeDefault int = RouteTypeWeb
 var ParamsInDefaultDefault typeMap.AttrT1 = typeMap.AttrT1{}
-var ParamsOutDefaultDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"ProjectTitle":   "未知项目名称",
-	"ProjectVersion": "v1.0.0",
+var ParamsOutDefaultDefault typeMap.AttrT1 = typeMap.AttrT1{}
+var ArrEntitySectionIn []typeStruct.EntitySection = nil
+var ArrEntitySectionOut []typeStruct.EntitySection = nil
+var ParamsOutAppendWeb typeMap.AttrT1 = typeMap.AttrT1{
+	"RouteNameCN":         "",
+	"ArrEntitySectionIn":  ArrEntitySectionIn,
+	"ArrEntitySectionOut": ArrEntitySectionOut,
 }
 var FuncServiceDefault typeStruct.FuncService = nil
 var PathTmplDefault string = "./res/view/projectInfo.tmpl"

@@ -11,12 +11,10 @@ var RouteType int = conf.RouteTypeApi
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"MobileNo": 0,
 	"OrgId":    0,
-	"Sign":     "LessIsMore",
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"MobileNo": 13683012872,
 	"OrgId":    41,
-	"Sign":     "LessIsMore",
 	"UserId":   0,
 }
 var FuncService typeStruct.FuncService = serviceUser.GetUserIdByMobileNoAndOrgId

@@ -10,11 +10,9 @@ import (
 var RouteType int = conf.RouteTypeApi
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"ShortUserId": 0,
-	"Sign":        "LessIsMore",
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"ShortUserId": 1,
-	"Sign":        "LessIsMore",
 	"UserId":      0,
 	"MobileNo":    "0",
 	"OrgId":       0,

@@ -1,0 +1,42 @@
+{{/*header*/}}
+{{template "header.tmpl" .}}
+{{/*提交表单*/}}
+<section>
+    <form id="formReq">
+        <div>
+            <label for="AdminUserName">用户名AdminUserName</label>
+            <input id="AdminUserName" type="text" name="AdminUserName" value={{.AdminUserName}}>
+        </div>
+        <div>
+            <label for="AdminUserPassword">密码AdminUserPassword</label>
+            <input id="AdminUserPassword" type="password" name="AdminUserPassword" value={{.AdminUserPassword}}>
+        </div>
+        <div>
+            <button id="buttonSubmitReq">提交</button>
+        </div>
+    </form>
+</section>
+{{/*结果显示*/}}
+<section>
+    <div>
+        <b id="msgShow">{{.MsgShow}}</b>
+    </div>
+    <div>
+        <i id="jsonRes">{{.JsonRes}}</i>
+    </div>
+    <div>
+        <label for="AdminUserId">管理员编号AdminUserId</label>
+        <input id="AdminUserId" type="text" name="AdminUserId" value={{.AdminUserId}} onkeyup="value=value.replace(/[^\d]/g,'')" disabled>
+    </div>
+    <div>
+        <label for="AdminUserRole">管理员角色AdminUserRole</label>
+        <input id="AdminUserRole" type="text" name="AdminUserRole" value={{.AdminUserRole}} onkeyup="value=value.replace(/[^\d]/g,'')" disabled>
+    </div>
+    <div>
+        <label for="JwtToken">登录凭证JwtToken</label>
+        <input id="JwtToken" type="text" name="JwtToken" value={{.JwtToken}} disabled>
+    </div>
+</section>
+{{/*footer*/}}
+{{template "footer.tmpl"}}
+

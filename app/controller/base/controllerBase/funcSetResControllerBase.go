@@ -87,6 +87,6 @@ func (self *EntityControllerBase) setJsonRes() *EntityControllerBase {
 	paramsOut := self.ParamsOut
 	jsonRes := res.GetResSuccess(paramsOut)
 	self.JsonRes = jsonRes
-	logs.SetLog(jsonRes)
+	logs.SetLog(jsonRes, "res")
 	return self
 }

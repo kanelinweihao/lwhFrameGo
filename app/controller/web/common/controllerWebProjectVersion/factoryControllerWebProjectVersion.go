@@ -5,7 +5,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-var routeName = "/web/projectVersion"
+var routeName = "/projectVersion"
 
 func InitEntityController() (entityController typeStruct.EntityController) {
 	entityController = new(EntityController)

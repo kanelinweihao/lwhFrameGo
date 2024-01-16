@@ -8,17 +8,31 @@ import (
 
 var RouteType int = conf.RouteTypeWeb
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{}
-var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"ProjectTitle":   "未知项目名称",
-	"ProjectVersion": "v1.0.0",
-	"RouteNameCN":    "列表主页",
-	"AttrS1Router": typeMap.AttrS1{
-		"1.1 获取客诉数据":            "/web/customerBehavior/getCustomerBehaviorByUserId",
-		"2.1 获取用户手机号和所属机构":      "/web/user/getMobileNoAndOrgIdByShortUserId",
-		"2.2 获取UID":             "/web/user/getUserIdByMobileNoAndOrgId",
-		"3.1 计算内部收益率IRR":        "/web/rate/getIRRByArrAmount",
-		"3.2 计算抽中次数正好是总次数一半的概率": "/web/rate/getRateExactlyHalf",
+var arrAttrS1ForSectionListRouter []typeMap.AttrS1 = []typeMap.AttrS1{
+	typeMap.AttrS1{
+		"RouteNameCN": "1.1 获取客诉数据",
+		"RouteName":   "/web/customerBehavior/getCustomerBehaviorByUserId",
 	},
+	typeMap.AttrS1{
+		"RouteNameCN": "2.1 获取用户手机号和所属机构",
+		"RouteName":   "/web/user/getMobileNoAndOrgIdByShortUserId",
+	},
+	typeMap.AttrS1{
+		"RouteNameCN": "2.2 获取UID",
+		"RouteName":   "/web/user/getUserIdByMobileNoAndOrgId",
+	},
+	typeMap.AttrS1{
+		"RouteNameCN": "3.1 计算内部收益率IRR",
+		"RouteName":   "/web/rate/getIRRByArrAmount",
+	},
+	typeMap.AttrS1{
+		"RouteNameCN": "3.2 计算抽中次数正好是总次数一半的概率",
+		"RouteName":   "/web/rate/getRateExactlyHalf",
+	},
+}
+var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
+	"RouteNameCN":                   "列表主页",
+	"ArrAttrS1ForSectionListRouter": arrAttrS1ForSectionListRouter,
 }
 var FuncService typeStruct.FuncService = nil
 var PathTmpl string = "./res/view/common/home.tmpl"

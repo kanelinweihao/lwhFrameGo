@@ -1,6 +1,7 @@
 package controllerWebCommon
 
 import (
+	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebClientIP"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebHome"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebProjectName"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebProjectVersion"
@@ -20,6 +21,13 @@ func Root(resp http.ResponseWriter, req *http.Request) {
 
 func Home(resp http.ResponseWriter, req *http.Request) {
 	entityController = controllerWebHome.InitEntityController()
+	defer entityController.Close()
+	entityController.Exec(resp, req)
+	return
+}
+
+func ClientIP(resp http.ResponseWriter, req *http.Request) {
+	entityController = controllerWebClientIP.InitEntityController()
 	defer entityController.Close()
 	entityController.Exec(resp, req)
 	return

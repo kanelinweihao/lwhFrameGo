@@ -23,11 +23,16 @@ func (self *EntityExcelDataWrite) Init(attrT1ForExcel typeMap.AttrT1) *EntityExc
 
 func (self *EntityExcelDataWrite) setPropertiesIn(attrT1ForExcel typeMap.AttrT1) *EntityExcelDataWrite {
 	conv.ToEntityFromAttr(attrT1ForExcel, self)
-	self.validateExt()
+	self.validate()
 	return self
 }
 
-func (self *EntityExcelDataWrite) validateExt() *EntityExcelDataWrite {
+func (self *EntityExcelDataWrite) validate() *EntityExcelDataWrite {
+	self.validatePathFile().validateTitle().validateData()
+	return self
+}
+
+func (self *EntityExcelDataWrite) validatePathFile() *EntityExcelDataWrite {
 	pathFile := self.PathFile
 	ext := file.GetExt(pathFile)
 	extExcel := conf.ExtExcel
@@ -35,10 +40,34 @@ func (self *EntityExcelDataWrite) validateExt() *EntityExcelDataWrite {
 		return self
 	}
 	msgError := fmt.Sprintf(
-		"文件[%s]格式错误,正确后缀应是[%s],当前实际是[%s]",
+		"The ext |%s| of pathFile |%s| is invalid, it shoule be |%s|",
+		ext,
 		pathFile,
-		extExcel,
-		ext)
+		extExcel)
+	err.ErrPanic(msgError)
+	return self
+}
+
+func (self *EntityExcelDataWrite) validateTitle() *EntityExcelDataWrite {
+	if len(self.AttrS2ExcelTitle) > 0 {
+		return self
+	}
+	pathFile := self.PathFile
+	msgError := fmt.Sprintf(
+		"The title of |%s| is required",
+		pathFile)
+	err.ErrPanic(msgError)
+	return self
+}
+
+func (self *EntityExcelDataWrite) validateData() *EntityExcelDataWrite {
+	if len(self.AttrS2ExcelData) > 0 {
+		return self
+	}
+	pathFile := self.PathFile
+	msgError := fmt.Sprintf(
+		"The data of |%s| is required",
+		pathFile)
 	err.ErrPanic(msgError)
 	return self
 }

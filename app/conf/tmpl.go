@@ -2,7 +2,8 @@ package conf
 
 import (
 	"fmt"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
+	"html"
+	"html/template"
 )
 
 func GetDomain() (domain string) {
@@ -15,17 +16,36 @@ func GetDomain() (domain string) {
 	return domain
 }
 
-func GetParamsTmpl(isReqValid bool) (paramsTmpl typeMap.AttrT1) {
-	paramsKeyTmpl := typeMap.AttrS1{
-		"ProjectTitle": "ProjectNameCN",
+func divDisplay(isDivDisplay string) (msgDivDisplay string) {
+	msgDivDisplay = "block"
+	if isDivDisplay == "FALSE" {
+		msgDivDisplay = "none"
 	}
-	paramsTmpl = getParamsEnvNeed(paramsKeyTmpl)
-	ProjectVersion := GetProjectVersion()
-	paramsTmpl["ProjectVersion"] = ProjectVersion
-	msgShow := "Ready"
-	if isReqValid {
-		msgShow = "Success"
+	return msgDivDisplay
+}
+
+func inputDisabled(isInputDisabled string) (msgInputDisabled string) {
+	msgInputDisabled = "false"
+	if isInputDisabled == "TRUE" {
+		msgInputDisabled = "disabled"
 	}
-	paramsTmpl["MsgShow"] = msgShow
-	return paramsTmpl
+	return msgInputDisabled
+}
+
+func inputOnkeyup(isInputOnkeyup string) (msgInputOnkeyup string) {
+	msgInputOnkeyup = ""
+	if isInputOnkeyup == "onlyNumber" {
+		msgInputOnkeyup = `onkeyup="value=value.replace(/[^\d]/g,'')"`
+		msgInputOnkeyup = html.EscapeString(msgInputOnkeyup)
+	}
+	return msgInputOnkeyup
+}
+
+func GetTmplFuncMap() (tmplFuncMap template.FuncMap) {
+	tmplFuncMap = template.FuncMap{
+		"funcDivDisplay":    divDisplay,
+		"funcInputDisabled": inputDisabled,
+		"funcInputOnkeyup":  inputOnkeyup,
+	}
+	return tmplFuncMap
 }

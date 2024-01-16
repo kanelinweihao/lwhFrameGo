@@ -1,0 +1,120 @@
+<script>
+let btn = document.getElementById("buttonSubmitReq");
+btn.onclick = function (e) {
+    e.preventDefault()
+    submitReq()
+}
+
+function toJson(obj) {
+    return JSON.stringify(obj)
+}
+
+function toObj(json) {
+    return JSON.parse(json)
+}
+
+function submitReq() {
+    let urlApi = getUrlApi();
+    console.log('urlApi : ' + urlApi)
+    let paramsFull = getParamsWithSign();
+    console.log('jsonReq : ' + toJson(paramsFull));
+    let urlGet = getUrlGet(urlApi, paramsFull)
+    console.log('urlGet : ' +urlGet)
+    submitGet(urlGet)
+}
+
+function getUrlApi() {
+    let pathname = window.location.pathname;
+    return pathname.replace('web', 'api')
+}
+
+function getParamsReq(form) {
+    let params = {};
+    for (let i = 0; i < form.elements.length; i++) {
+        let element = form.elements[i];
+        let key = element.name;
+        let value = element.value;
+        if (key.length === 0) {
+            continue;
+        }
+        params[key] = value;
+    }
+    return params;
+}
+
+function getParamsSorted(params) {
+    let paramsSorted = {};
+    Object.keys(params).sort().forEach((key) => {
+        paramsSorted[key] = params[key];
+    });
+    return paramsSorted;
+}
+
+function getParamsWithSign() {
+    let form = document.getElementById("formReq");
+    let params = getParamsReq(form);
+    let paramsSorted = getParamsSorted(params);
+    let jsonSign = toJson(paramsSorted);
+    params["Sign"] = sm3Digest(jsonSign);
+    return params;
+}
+
+function getUrlGet(urlApi, params) {
+    let query = '';
+    for (let key in params) {
+        if (query !== '') {
+            query += '&';
+        }
+        query += encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+    }
+    return urlApi + '?' + query
+}
+
+function handleResp(strResp) {
+    let jsonResp = strResp;
+    let bMsgShow = document.getElementById("msgShow");
+    bMsgShow.innerHTML = "Executing"
+    let iJsonRes = document.getElementById("jsonRes");
+    iJsonRes.innerHTML = jsonResp
+    console.log('jsonResp : ' + jsonResp);
+    let objResp = toObj(jsonResp);
+    console.log('objResp : ' + toJson(objResp));
+    let data = objResp.Data;
+    console.log('data : ' + toJson(data));
+    for (let key in data) {
+        let input = document.getElementById(key);
+        input.value = data[key];
+    }
+    bMsgShow.innerHTML = "Success"
+    console.log('success');
+}
+
+function submitGet(urlGet) {
+    // 创建XMLHttpRequest对象
+    let xhr = new XMLHttpRequest();
+    // 设置请求类型、URL和异步标志
+    xhr.open(
+        'GET',
+        urlGet,
+        true
+    );
+    // 设置请求头信息
+    // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // 注册回调函数
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) {
+            return;
+        }
+        if (xhr.status !== 200) {
+            let formatError = "Fail to send data, the urlApi is |{urlApi}|, the networkCode is |{networkCode}|"
+            let msgError = formatError.replace("{urlApi}", urlGet).replace("{networkCode}", xhr.status);
+            console.error(msgError);
+            return;
+        }
+        handleResp(xhr.responseText);
+    };
+    // 发送请求
+    xhr.send();
+}
+</script>

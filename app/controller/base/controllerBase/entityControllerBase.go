@@ -3,10 +3,8 @@ package controllerBase
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/logs"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/ip"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 	"html/template"
@@ -20,6 +18,7 @@ type EntityControllerBase struct {
 	Resp             http.ResponseWriter
 	Req              *http.Request
 	IsReqValid       bool
+	IPClient         string
 	ParamsInDefault  typeMap.AttrT1
 	ParamsOutDefault typeMap.AttrT1
 	ValuesFromReq    url.Values
@@ -35,10 +34,10 @@ type EntityControllerBase struct {
 }
 
 func (self *EntityControllerBase) Exec(resp http.ResponseWriter, req *http.Request) {
-	self.setLog("req")
 	self.Resp = resp
 	self.Req = req
 	self.checkRouteNameValid()
+	self.setIPOfClient()
 	isReqValid := self.isReqValid()
 	if isReqValid {
 		self.setRes()
@@ -46,19 +45,6 @@ func (self *EntityControllerBase) Exec(resp http.ResponseWriter, req *http.Reque
 		self.setResDefault()
 	}
 	self.execFront()
-	self.setLog("resp")
-	return
-}
-
-func (self *EntityControllerBase) setLog(action string) {
-	routeName := self.RouteName
-	times.ShowTimeAndMsg(action + " " + routeName)
-	attrReq := typeMap.AttrT1{
-		"action": action,
-		"data":   routeName,
-	}
-	jsonReq := conv.ToJsonFromAttr(attrReq)
-	logs.SetLog(jsonReq)
 	return
 }
 
@@ -72,6 +58,13 @@ func (self *EntityControllerBase) checkRouteNameValid() {
 			routeNameExpected)
 		err.ErrPanic(msgError)
 	}
+	return
+}
+
+func (self *EntityControllerBase) setIPOfClient() {
+	req := self.Req
+	ipClient := ip.GetIPOfClient(req)
+	self.IPClient = ipClient
 	return
 }
 
@@ -109,4 +102,9 @@ func (self *EntityControllerBase) execFront() {
 func (self *EntityControllerBase) GetRouteType() (routeType int) {
 	routeType = conf.RouteTypeDefault
 	return routeType
+}
+
+func (self *EntityControllerBase) GetParamsOut() (paramsOut typeMap.AttrT1) {
+	paramsOut = self.ParamsOut
+	return paramsOut
 }

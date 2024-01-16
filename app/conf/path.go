@@ -50,6 +50,24 @@ func GetPathViewFooter() (pathViewFooter string) {
 	return pathViewFooter
 }
 
+func GetPathViewSectionProject() (pathViewSectionProject string) {
+	pathViewSectionProject = getPathFromEnv("PathViewSectionProject")
+	pathViewSectionProject = file.GetFilePathEmbed(pathViewSectionProject)
+	return pathViewSectionProject
+}
+
+func GetPathViewJSSM3() (pathViewJSSM3 string) {
+	pathViewJSSM3 = getPathFromEnv("PathViewJSSM3")
+	pathViewJSSM3 = file.GetFilePathEmbed(pathViewJSSM3)
+	return pathViewJSSM3
+}
+
+func GetPathViewJSSubmitReq() (pathViewJSSubmitReq string) {
+	pathViewJSSubmitReq = getPathFromEnv("PathViewJSSubmitReq")
+	pathViewJSSubmitReq = file.GetFilePathEmbed(pathViewJSSubmitReq)
+	return pathViewJSSubmitReq
+}
+
 func GetPathPrivateKey() (pathPrivateKey string) {
 	pathPrivateKey = getPathFromEnv("PathPrivateKey")
 	return pathPrivateKey

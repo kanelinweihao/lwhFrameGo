@@ -1,7 +1,9 @@
 package dbReader
 
 import (
+	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db/dbConnector"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 )
 
@@ -39,6 +41,13 @@ func (self *EntityDBReader) readAttrChan() *EntityDBReader {
 	attrT3DBData := make(typeMap.AttrT3)
 	for sqlName, chanBase := range attrChan {
 		attrT2DBData := readFromChannelOfReadDBData(chanBase)
+		if len(attrT2DBData) == 0 {
+			msgEmptySQL := fmt.Sprintf(
+				"The data of sqlName |%s| is empty",
+				sqlName)
+			times.ShowTimeAndMsg(msgEmptySQL)
+			continue
+		}
 		attrT3DBData[sqlName] = attrT2DBData
 	}
 	self.AttrT3DBData = attrT3DBData

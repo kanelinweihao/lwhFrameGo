@@ -18,11 +18,13 @@
 | 路径 | 备注         |
 | :-- |:-----------|
 | github.com/akavel/rsrc | icon       |
+| github.com/golang-jwt/jwt/v5 | jwt        |
 | github.com/go-playground/validator/v10 | validator  |
 | github.com/go-sql-driver/mysql | mysql_base |
 | github.com/jmoiron/sqlx | mysql_sqlx |
 | github.com/redis/go-redis/v9 | redis      |
 | github.com/shopspring/decimal | decimal    |
+| github.com/tjfoc/gmsm | gmsm       |
 | github.com/xuri/excelize/v2 | excel      |
 | golang.org/x/crypto/ssh | ssh        |
 | golang.org/x/exp/slog | log        |

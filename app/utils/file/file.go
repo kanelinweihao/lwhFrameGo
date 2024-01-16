@@ -68,13 +68,6 @@ func GetFilename(filePath string) (filename string) {
 	return filename
 }
 
-func GetFilenameWithExt(filePath string) (filenameWithExt string) {
-	filename := filepath.Base(filePath)
-	extWithDot := filepath.Ext(filePath)
-	filenameWithExt = filename + extWithDot
-	return filenameWithExt
-}
-
 func IsDir(filePath string) (isDir bool) {
 	fileInfo, errFileInfo := getFileInfo(filePath)
 	err.ErrCheck(errFileInfo)

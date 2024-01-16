@@ -1,11 +1,9 @@
 package dbReader
 
 import (
-	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
@@ -43,12 +41,12 @@ func (self *EntityDBDataRead) readDB() *EntityDBDataRead {
 		attrT2DBData[numStr] = attrT1DBData
 		num++
 	}
-	if len(attrT2DBData) == 0 {
-		msgEmptySQL := fmt.Sprintf(
-			"The sql is invalid :\n|%s|\n",
-			queryWithArgs)
-		times.ShowTimeAndMsg(msgEmptySQL)
-	}
+	// if len(attrT2DBData) == 0 {
+	// 	msgEmptySQL := fmt.Sprintf(
+	// 		"The data of sql is empty :\n|%s|\n",
+	// 		queryWithArgs)
+	// 	times.ShowTimeAndMsg(msgEmptySQL)
+	// }
 	self.AttrT2DBData = attrT2DBData
 	return self
 }

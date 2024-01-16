@@ -11,6 +11,7 @@ type EntityServiceBase1 struct {
 	ParamsIn         typeMap.AttrT1
 	EntityParams     typeStruct.EntityParams
 	AttrT3DBData     typeMap.AttrT3
+	IsEmpty          bool
 	ParamsAppend     typeMap.AttrT1
 	PathDirExcel     string
 	ArrPathFileExcel []string
@@ -19,7 +20,10 @@ type EntityServiceBase1 struct {
 
 func (self *EntityServiceBase1) Exec(paramsIn typeMap.AttrT1) (paramsOut typeMap.AttrT1) {
 	self.ParamsIn = paramsIn
-	self.Derived.InitParams().GetDBData().PutExcel().SendEmail().SetCache()
+	self.Derived.InitParams().GetDBData()
+	if !self.IsEmpty {
+		self.Derived.PutExcel().SendEmail().SetCache()
+	}
 	paramsOut = self.ParamsOut
 	return paramsOut
 }
@@ -50,6 +54,10 @@ func (self *EntityServiceBase1) GetDBData() typeStruct.EntityService1 {
 	}
 	entityRepoDB := funcInitEntityRepoDB(paramsToRepo)
 	attrT3DBData, paramsAppend := entityRepoDB.GetDBData()
+	self.IsEmpty = true
+	if len(attrT3DBData) > 0 {
+		self.IsEmpty = false
+	}
 	self.AttrT3DBData = attrT3DBData
 	self.ParamsAppend = paramsAppend
 	entityParams := self.EntityParams

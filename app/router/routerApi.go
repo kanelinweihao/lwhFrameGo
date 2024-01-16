@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/api/common/controllerApiCommon"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/api/user/controllerApiUser"
+	"github.com/kanelinweihao/lwhFrameGo/app/middleware"
 	"net/http"
 )
 
@@ -20,10 +21,10 @@ func SetRouterApi() {
 	// 获取用户手机号和所属机构
 	http.HandleFunc(
 		"/api/user/getMobileNoAndOrgIdByShortUserId",
-		controllerApiUser.GetMobileNoAndOrgIdByShortUserId)
+		middleware.WithMiddlewareApi(controllerApiUser.GetMobileNoAndOrgIdByShortUserId))
 	// 获取UID
 	http.HandleFunc(
 		"/api/user/getUserIdByMobileNoAndOrgId",
-		controllerApiUser.GetUserIdByMobileNoAndOrgId)
+		middleware.WithMiddlewareApi(controllerApiUser.GetUserIdByMobileNoAndOrgId))
 	return
 }

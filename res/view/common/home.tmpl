@@ -1,9 +1,19 @@
+{{/*header*/}}
 {{template "header.tmpl" .}}
-{{/*参数显示*/}}
-{{range $routeMsg, $routeName := .AttrS1Router}}
-    <div>
-        <a href={{$routeName}}>{{$routeMsg}}</a>
-    </div>
-    <p></p>
-{{end}}
+{{/*sectionProject*/}}
+{{template "sectionProject.tmpl" .}}
+{{/*sectionListRouter*/}}
+<section>
+    {{range $index, $attrS1Router := .ArrAttrS1ForSectionListRouter}}
+        <div>
+            <a href={{- $attrS1Router.RouteName -}}>{{- $attrS1Router.RouteNameCN -}}</a>
+        </div>
+        <p></p>
+    {{else}}
+        <div>
+            无路由数据
+        </div>
+    {{end}}
+</section>
+{{/*footer*/}}
 {{template "footer.tmpl"}}

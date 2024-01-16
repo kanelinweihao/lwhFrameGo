@@ -1,48 +1,38 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>获取UID</title>
-</head>
-<body>
-    {{/*参数显示*/}}
-    <div>
-        项目名称Title : {{.ProjectTitle}}
-    </div>
-    <div>
-        项目版本Version : {{.ProjectVersion}}
-    </div>
-    <p></p>
-    {{/*提交表单*/}}
-    <form>
+{{/*header*/}}
+{{template "header.tmpl" .}}
+{{/*main*/}}
+{{/*提交表单*/}}
+<section>
+    <form id="formReq">
         <div>
-            手机号MobileNo
-            <input type="text" name="MobileNo" value={{.MobileNo}} onkeyup="value=value.replace(/[^\d]/g,'')">
+            <label for="MobileNo">手机号MobileNo</label>
+            <input id="MobileNo" type="text" name="MobileNo" value={{.MobileNo}} onkeyup="value=value.replace(/[^\d]/g,'')">
         </div>
         <div>
-            机构编号OrgId
-            <input type="text" name="OrgId" value={{.OrgId}} onkeyup="value=value.replace(/[^\d]/g,'')">
-        </div>
-        <div style="display:none;">
-            隐藏标识Sign
-            <input type="text" name="Sign" value={{.Sign}}>
+            <label for="OrgId">机构编号OrgId</label>
+            <input id="OrgId" type="text" name="OrgId" value={{.OrgId}} onkeyup="value=value.replace(/[^\d]/g,'')">
         </div>
         <div>
-            <input type="submit">
+            <button id="buttonSubmitReq">提交</button>
         </div>
     </form>
-    <p></p>
-    {{/*结果显示*/}}
+</section>
+{{/*结果显示*/}}
+<section>
     <div>
-        <b>{{.MsgShow}}</b>
+        <b id="msgShow">{{.MsgShow}}</b>
     </div>
     <div>
-        用户编号UserId
-        <input type="text" name="UserId" value={{.UserId}} onkeyup="value=value.replace(/[^\d]/g,'')" disabled>
+        <i id="jsonRes">{{.JsonRes}}</i>
     </div>
-    <p></p>
     <div>
-        <i>{{.JsonRes}}</i>
+        <label for="UserId">用户编号UserId</label>
+        <input id="UserId" type="text" name="UserId" value={{.UserId}} onkeyup="value=value.replace(/[^\d]/g,'')" disabled>
     </div>
-</body>
-</html>
+</section>
+{{/*footer*/}}
+{{template "footer.tmpl"}}
+{{/*js_sm3*/}}
+{{template "jsSM3.tmpl"}}
+{{/*js_submitReq*/}}
+{{template "jsSubmitReq.tmpl"}}

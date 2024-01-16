@@ -9,7 +9,9 @@ import (
 func GetTypeInfo(value interface{}) (isPtr bool, typeName string, typeKindName string) {
 	t := reflect.TypeOf(value)
 	if t == nil {
-		msgError := "The value has not been instantiated yet"
+		msgError := fmt.Sprintf(
+			"The value |%v| has not been instantiated yet",
+			value)
 		err.ErrPanic(msgError)
 	}
 	isPtr = t.Kind() == reflect.Ptr

@@ -1,48 +1,34 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>计算抽中次数正好是总次数一半的概率</title>
-</head>
-<body>
-    {{/*参数显示*/}}
-    <div>
-        项目名称Title : {{.ProjectTitle}}
-    </div>
-    <div>
-        项目版本Version : {{.ProjectVersion}}
-    </div>
-    <p></p>
-    {{/*提交表单*/}}
-    <form>
+{{/*header*/}}
+{{template "header.tmpl" .}}
+{{/*main*/}}
+{{/*提交表单*/}}
+<section>
+    <form id="formReq">
         <p>
             假设每次抽奖的中奖概率为[50%](即一半概率抽中一半概率抽不中),
             若总共抽奖[X]次,求抽中次数正好为总次数的一半的概率[Rate]
         </p>
         <div>
-            总抽奖次数X
-            <input type="text" name="X" value={{.X}} onkeyup="value=value.replace(/[^\d\.\,\-]/g,'')">
-        </div>
-        <div style="display:none;">
-            隐藏标识Sign
-            <input type="text" name="Sign" value={{.Sign}}>
+            <label for="X">总抽奖次数X</label>
+            <input id="X" type="text" name="X" value={{.X}} onkeyup="value=value.replace(/[^\d\.\,\-]/g,'')">
         </div>
         <div>
-            <input type="submit">
+            <button id="buttonSubmitReq">提交</button>
         </div>
     </form>
-    <p></p>
-    {{/*结果显示*/}}
+</section>
+{{/*结果显示*/}}
+<section>
     <div>
-        <b>{{.MsgShow}}</b>
+        <b id="msgShow">{{.MsgShow}}</b>
     </div>
     <div>
-        目标概率Rate
-        <input type="text" name="Rate" value={{.Rate}} onkeyup="value=value.replace(/[^\d\.\,\-]/g,'')">
+        <i id="jsonRes">{{.JsonRes}}</i>
     </div>
-    <p></p>
     <div>
-        <i>{{.JsonRes}}</i>
+        <label for="Rate">目标概率Rate</label>
+        <input id="Rate" type="text" name="Rate" value={{.Rate}} onkeyup="value=value.replace(/[^\d\.\,\-]/g,'')">
     </div>
-</body>
-</html>
+</section>
+{{/*footer*/}}
+{{template "footer.tmpl"}}
