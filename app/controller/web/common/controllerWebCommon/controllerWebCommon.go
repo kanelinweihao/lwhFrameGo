@@ -3,7 +3,7 @@ package controllerWebCommon
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebClientIP"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebHome"
-	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebProjectName"
+	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebProjectTitle"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebProjectVersion"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebRoot"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
@@ -26,15 +26,8 @@ func Home(resp http.ResponseWriter, req *http.Request) {
 	return
 }
 
-func ClientIP(resp http.ResponseWriter, req *http.Request) {
-	entityController = controllerWebClientIP.InitEntityController()
-	defer entityController.Close()
-	entityController.Exec(resp, req)
-	return
-}
-
-func ProjectName(resp http.ResponseWriter, req *http.Request) {
-	entityController = controllerWebProjectName.InitEntityController()
+func ProjectTitle(resp http.ResponseWriter, req *http.Request) {
+	entityController = controllerWebProjectTitle.InitEntityController()
 	defer entityController.Close()
 	entityController.Exec(resp, req)
 	return
@@ -42,6 +35,13 @@ func ProjectName(resp http.ResponseWriter, req *http.Request) {
 
 func ProjectVersion(resp http.ResponseWriter, req *http.Request) {
 	entityController = controllerWebProjectVersion.InitEntityController()
+	defer entityController.Close()
+	entityController.Exec(resp, req)
+	return
+}
+
+func ClientIP(resp http.ResponseWriter, req *http.Request) {
+	entityController = controllerWebClientIP.InitEntityController()
 	defer entityController.Close()
 	entityController.Exec(resp, req)
 	return

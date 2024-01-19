@@ -8,33 +8,26 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-func (self *EntityControllerBase) setResDefault() *EntityControllerBase {
-	self.setParamsDefault().setJsonRes()
+func (self *EntityControllerBase) execSvc() *EntityControllerBase {
+	isRespDefault := self.isRespDefault()
+	if !isRespDefault {
+		self.setParamsIn().setParamsFromSvc().setParamsOut()
+	}
+	self.setJsonRes()
 	return self
 }
 
-func (self *EntityControllerBase) setRes() *EntityControllerBase {
-	self.setParamsDefault().setParamsIn().setParamsFromSvc().setParamsOut().setJsonRes()
-	return self
-}
-
-func (self *EntityControllerBase) setParamsDefault() *EntityControllerBase {
-	paramsInDefault, paramsOutDefault := self.Derived.GetParamsDefault()
-	self.ParamsInDefault = paramsInDefault
-	self.ParamsOutDefault = paramsOutDefault
-	self.ParamsIn = self.ParamsInDefault
-	self.ParamsOut = self.ParamsOutDefault
-	return self
-}
-
-func (self *EntityControllerBase) GetParamsDefault() (paramsInDefault typeMap.AttrT1, paramsOutDefault typeMap.AttrT1) {
-	paramsInDefault = conf.ParamsInDefaultDefault
-	paramsOutDefault = conf.ParamsOutDefaultDefault
-	return paramsInDefault, paramsOutDefault
+func (self *EntityControllerBase) isRespDefault() (isRespDefault bool) {
+	req := self.Req
+	countValues := len(req.URL.Query())
+	isRespDefault = countValues == 0
+	self.IsRespDefault = isRespDefault
+	return isRespDefault
 }
 
 func (self *EntityControllerBase) setParamsIn() *EntityControllerBase {
-	valuesFromReq := self.ValuesFromReq
+	req := self.Req
+	valuesFromReq := req.URL.Query()
 	paramsInDefault := self.ParamsInDefault
 	paramsIn := make(typeMap.AttrT1)
 	for field, valueDefault := range paramsInDefault {

@@ -28,6 +28,9 @@ func getParamsReq(req *http.Request) (paramsReq typeMap.AttrT1) {
 }
 
 func checkSign(paramsReq typeMap.AttrT1) {
+	if len(paramsReq) == 0 {
+		return
+	}
 	sign := getSign(paramsReq)
 	if sign == "" {
 		return
@@ -48,14 +51,13 @@ func checkSign(paramsReq typeMap.AttrT1) {
 func getSign(paramsReq typeMap.AttrT1) (sign string) {
 	signToAssign, ok := paramsReq["Sign"]
 	if !ok {
-		return ""
-		/*routeName := ctx.RouteName
+		routeName := entityCTX.RouteName
 		jsonParamsReq := conv.ToJsonFromAttr(paramsReq)
 		msgError := fmt.Sprintf(
 			"The sign of routeName |%s| is required, the paramsReq is |%s|",
 			routeName,
 			jsonParamsReq)
-		err.ErrPanic(msgError)*/
+		err.ErrPanic(msgError)
 	}
 	sign, ok = signToAssign.(string)
 	if !ok {

@@ -2,7 +2,6 @@ package conf
 
 import (
 	"fmt"
-	"html"
 	"html/template"
 )
 
@@ -16,36 +15,17 @@ func GetDomain() (domain string) {
 	return domain
 }
 
-func divDisplay(isDivDisplay string) (msgDivDisplay string) {
+func divDisplay(isDivDisplay bool) (msgDivDisplay string) {
 	msgDivDisplay = "block"
-	if isDivDisplay == "FALSE" {
+	if !isDivDisplay {
 		msgDivDisplay = "none"
 	}
 	return msgDivDisplay
 }
 
-func inputDisabled(isInputDisabled string) (msgInputDisabled string) {
-	msgInputDisabled = "false"
-	if isInputDisabled == "TRUE" {
-		msgInputDisabled = "disabled"
-	}
-	return msgInputDisabled
-}
-
-func inputOnkeyup(isInputOnkeyup string) (msgInputOnkeyup string) {
-	msgInputOnkeyup = ""
-	if isInputOnkeyup == "onlyNumber" {
-		msgInputOnkeyup = `onkeyup="value=value.replace(/[^\d]/g,'')"`
-		msgInputOnkeyup = html.EscapeString(msgInputOnkeyup)
-	}
-	return msgInputOnkeyup
-}
-
 func GetTmplFuncMap() (tmplFuncMap template.FuncMap) {
 	tmplFuncMap = template.FuncMap{
-		"funcDivDisplay":    divDisplay,
-		"funcInputDisabled": inputDisabled,
-		"funcInputOnkeyup":  inputOnkeyup,
+		"funcDivDisplay": divDisplay,
 	}
 	return tmplFuncMap
 }

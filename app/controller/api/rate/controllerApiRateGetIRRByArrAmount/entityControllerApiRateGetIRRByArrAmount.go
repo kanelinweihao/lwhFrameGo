@@ -1,20 +1,23 @@
-package controllerWebProjectName
+package controllerApiRateGetIRRByArrAmount
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	"github.com/kanelinweihao/lwhFrameGo/app/service/rate/serviceRate"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-var RouteType int = conf.RouteTypeWeb
-var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{}
-var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"ProjectTitle":   "未知项目名称",
-	"ProjectVersion": "v1.0.0",
-	"RouteNameCN":    "项目名称",
+var RouteType int = conf.RouteTypeApi
+var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
+	"StrArrAmount":   "0,0,-1,-1.5,0,0,5,0,0",
+	"ErrorPrecision": 4,
 }
-var FuncService typeStruct.FuncService = nil
-var PathTmpl string = "./res/view/common/projectInfo.tmpl"
+var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
+	"StrArrAmount":   "0,0,-1,-1.5,0,0,5,0,0",
+	"ErrorPrecision": 4,
+	"IRR":            "0",
+}
+var FuncService typeStruct.FuncService = serviceRate.GetIRRByArrAmount
 
 type EntityController struct {
 	typeStruct.EntityController
@@ -34,9 +37,4 @@ func (self *EntityController) GetParamsDefault() (paramsInDefault typeMap.AttrT1
 func (self *EntityController) GetFuncService() (funcService typeStruct.FuncService) {
 	funcService = FuncService
 	return funcService
-}
-
-func (self *EntityController) GetPathTmpl() (pathTmpl string) {
-	pathTmpl = PathTmpl
-	return pathTmpl
 }

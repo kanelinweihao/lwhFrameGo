@@ -7,26 +7,65 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
+var RouteNameCN string = "获取用户手机号和所属机构"
 var RouteType int = conf.RouteTypeWeb
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
 	"ShortUserId": 0,
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"RouteNameCN": "获取用户手机号和所属机构",
 	"ShortUserId": 1,
 	"UserId":      0,
 	"MobileNo":    "0",
 	"OrgId":       0,
 }
-var ArrEntitySectionIn []typeStruct.EntitySection = nil
-var ArrEntitySectionOut []typeStruct.EntitySection = nil
-var ParamsOutAppendWeb typeMap.AttrT1 = typeMap.AttrT1{
-	"RouteNameCN":         "获取用户手机号和所属机构",
-	"ArrEntitySectionIn":  ArrEntitySectionIn,
-	"ArrEntitySectionOut": ArrEntitySectionOut,
-}
 var FuncService typeStruct.FuncService = serviceUser.GetMobileNoAndOrgIdByShortUserId
-var PathTmpl string = "./res/view/user/getMobileNoAndOrgIdByShortUserId.tmpl"
+var PathTmpl string = "./res/view/auto/auto1.tmpl"
+var ArrEntitySectionIn []typeStruct.EntitySection = []typeStruct.EntitySection{
+	typeStruct.EntitySection{
+		FieldName:         "ShortUserId",
+		FieldNameCN:       "用户编号简写",
+		FieldRemark:       "",
+		InputType:         "text",
+		IsDivDisplay:      true,
+		IsInputDisabled:   false,
+		IsInputOnlyNumber: true,
+		Value:             "",
+	},
+}
+var ArrEntitySectionOut []typeStruct.EntitySection = []typeStruct.EntitySection{
+	typeStruct.EntitySection{
+		FieldName:         "UserId",
+		FieldNameCN:       "用户编号",
+		FieldRemark:       "",
+		InputType:         "text",
+		IsDivDisplay:      true,
+		IsInputDisabled:   true,
+		IsInputOnlyNumber: true,
+		Value:             "",
+	},
+	typeStruct.EntitySection{
+		FieldName:         "MobileNo",
+		FieldNameCN:       "手机号",
+		FieldRemark:       "",
+		InputType:         "text",
+		IsDivDisplay:      true,
+		IsInputDisabled:   true,
+		IsInputOnlyNumber: true,
+		Value:             "",
+	},
+	typeStruct.EntitySection{
+		FieldName:         "OrgId",
+		FieldNameCN:       "机构编号",
+		FieldRemark:       "",
+		InputType:         "text",
+		IsDivDisplay:      true,
+		IsInputDisabled:   true,
+		IsInputOnlyNumber: true,
+		Value:             "",
+	},
+}
+var TextSectionMsg string = "\n"
+var IsReqToApi bool = true
 
 type EntityController struct {
 	typeStruct.EntityController
@@ -74,6 +113,12 @@ func (self *EntityController) SetArrEntitySectionOut(arrEntitySectionOut []typeS
 }
 
 func (self *EntityController) GetParamsOutAppendWeb() (paramsOutAppendWeb typeMap.AttrT1) {
-	paramsOutAppendWeb = ParamsOutAppendWeb
+	paramsOutAppendWeb = typeMap.AttrT1{
+		"RouteNameCN":         RouteNameCN,
+		"ArrEntitySectionIn":  ArrEntitySectionIn,
+		"ArrEntitySectionOut": ArrEntitySectionOut,
+		"TextSectionMsg":      TextSectionMsg,
+		"IsReqToApi":          IsReqToApi,
+	}
 	return paramsOutAppendWeb
 }

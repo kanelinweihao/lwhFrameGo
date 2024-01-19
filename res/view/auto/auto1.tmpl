@@ -1,0 +1,97 @@
+{{/*header*/}}
+{{template "header.tmpl" .}}
+{{/*sectionMsg*/}}
+<section id="sectionMsg">
+    <div>
+        <i id="textSectionMsg" style="white-space: pre-line;">
+            {{- .TextSectionMsg -}}
+        </i>
+    </div>
+</section>
+{{/*sectionIn*/}}
+<section id="sectionIn">
+    <form id="formReq">
+        {{range $index, $entityIn := .ArrEntitySectionIn}}
+            {{$lenRemark := len $entityIn.FieldRemark}}
+            {{$isRemarkExisted := ne $lenRemark 0}}
+            {{$msgDivDisplay := funcDivDisplay $entityIn.IsDivDisplay}}
+        <div style="display:{{$msgDivDisplay}};">
+            <label for="{{- $entityIn.FieldName -}}">
+                {{- $entityIn.FieldNameCN -}}{{- $entityIn.FieldName -}}
+                {{if $isRemarkExisted}}
+                ({{- $entityIn.FieldRemark -}})
+                {{end}}
+            </label>
+            <input id="{{- $entityIn.FieldName -}}" type="{{- $entityIn.InputType -}}" name="{{- $entityIn.FieldName -}}" value="{{- $entityIn.Value -}}">
+        </div>
+        <script>
+            input = document.getElementById("{{- $entityIn.FieldName -}}")
+            input.disabled={{- $entityIn.IsInputDisabled -}};
+            {{ if $entityIn.IsInputOnlyNumber }}
+            input.onkeyup = function(){
+                this.value=this.value.replace(/\D/g,'');
+            }
+            {{ end }}
+        </script>
+        {{else}}
+        <div>
+            无入参表单
+        </div>
+        {{end}}
+        <div>
+            <button id="buttonSubmitReq">提交</button>
+        </div>
+    </form>
+    <div style="display:none;">
+        <label for="isReqToApi">isReqToApi</label>
+        <input id="isReqToApi" type="text" name="isReqToApi" value="{{.IsReqToApi}}">
+    </div>
+</section>
+{{/*sectionOut*/}}
+<section id="sectionOut">
+    <form id="formResp">
+        <div>
+            <b id="msgShow">
+                {{.MsgShow}}
+            </b>
+        </div>
+        <div>
+            <i id="jsonRes">
+                {{.JsonRes}}
+            </i>
+        </div>
+        {{range $index, $entityOut := .ArrEntitySectionOut}}
+            {{$lenRemark := len $entityOut.FieldRemark}}
+            {{$isRemarkExisted := ne $lenRemark 0}}
+            {{$msgDivDisplay := funcDivDisplay $entityOut.IsDivDisplay}}
+        <div style="display:{{$msgDivDisplay}};">
+            <label for="{{- $entityOut.FieldName -}}">
+                {{- $entityOut.FieldNameCN -}}{{- $entityOut.FieldName -}}
+                {{if $isRemarkExisted}}
+                    ({{- $entityOut.FieldRemark -}})
+                {{end}}
+            </label>
+            <input id="{{- $entityOut.FieldName -}}" type="{{- $entityOut.InputType -}}" name="{{- $entityOut.FieldName -}}" value="{{- $entityOut.Value -}}">
+        </div>
+        <script>
+            input = document.getElementById("{{- $entityOut.FieldName -}}")
+            input.disabled={{- $entityOut.IsInputDisabled -}};
+            {{ if $entityOut.IsInputOnlyNumber }}
+            input.onkeyup = function(){
+                this.value=this.value.replace(/\D/g,'');
+            }
+            {{ end }}
+        </script>
+        {{else}}
+            <div>
+                无出参表单
+            </div>
+        {{end}}
+    </form>
+</section>
+{{/*footer*/}}
+{{template "footer.tmpl"}}
+{{/*js_sm3*/}}
+{{template "jsSM3.tmpl"}}
+{{/*js_submitReq*/}}
+{{template "jsSubmitReq.tmpl"}}

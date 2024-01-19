@@ -1,11 +1,11 @@
-package controllerApiProjectName
+package controllerApiClientIP
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/base/controllerBase"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-var routeName = "/api/projectName"
+var routeName = "/api/ip"
 
 func InitEntityController() (entityController typeStruct.EntityController) {
 	entityController = new(EntityController)

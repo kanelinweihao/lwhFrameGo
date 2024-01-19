@@ -15,10 +15,10 @@ func MiddleLog(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func setLog(action string) {
-	routeName := ctx.RouteName
-	msgShow := action + "_" + routeName
+	routeName := entityCTX.RouteName
+	msgShow := action + "   " + routeName
 	times.ShowTimeAndMsg(msgShow)
-	msgLog := ctx.ToLog()
+	msgLog := entityCTX.ToLog()
 	logs.SetLog(msgLog, action)
 	return
 }

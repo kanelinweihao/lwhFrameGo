@@ -6,14 +6,14 @@ import (
 )
 
 func (self *EntityControllerBase) execApi() *EntityControllerBase {
-	self.execRes()
+	self.writeResp()
 	return self
 }
 
-func (self *EntityControllerBase) execRes() *EntityControllerBase {
+func (self *EntityControllerBase) writeResp() *EntityControllerBase {
 	jsonRes := self.JsonRes
 	resp := self.Resp
-	_, errFprintln := fmt.Fprintln(resp, jsonRes)
-	err.ErrCheck(errFprintln)
+	_, errF := fmt.Fprintln(resp, jsonRes)
+	err.ErrCheck(errF)
 	return self
 }

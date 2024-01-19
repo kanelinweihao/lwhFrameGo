@@ -26,7 +26,6 @@ func (self *EntityControllerBase) setParamsToTmpl() *EntityControllerBase {
 		paramsOutAppendWebBase,
 		paramsOutAppendDerived)
 	self.ParamsToTmpl = paramsToTmpl
-	// dd.DD(self.ParamsToTmpl)
 	return self
 }
 
@@ -34,9 +33,9 @@ func (self *EntityControllerBase) getParamsOutAppendWebBase() (paramsAppend type
 	projectTitle := conf.GetProjectNameCN()
 	projectVersion := conf.GetProjectVersion()
 	ipClient := self.IPClient
-	isReqValid := self.IsReqValid
+	isRespDefault := self.IsRespDefault
 	msgShow := "Ready"
-	if isReqValid {
+	if !isRespDefault {
 		msgShow = "Success"
 	}
 	jsonRes := self.JsonRes
@@ -60,14 +59,14 @@ func (self *EntityControllerBase) getParamsOutAppend() (paramsOutAppendWeb typeM
 }
 
 func (self *EntityControllerBase) getArrEntitySectionIn() (arrEntitySectionIn []typeStruct.EntitySection) {
-	paramsOut := self.GetParamsOut()
+	paramsOut := self.ParamsOut
 	arrEntitySectionIn = self.Derived.GetArrEntitySectionIn()
 	arrEntitySectionIn = getArrEntitySectionWithValue(arrEntitySectionIn, paramsOut)
 	return arrEntitySectionIn
 }
 
 func (self *EntityControllerBase) getArrEntitySectionOut() (arrEntitySectionOut []typeStruct.EntitySection) {
-	paramsOut := self.GetParamsOut()
+	paramsOut := self.ParamsOut
 	arrEntitySectionOut = self.Derived.GetArrEntitySectionOut()
 	arrEntitySectionOut = getArrEntitySectionWithValue(arrEntitySectionOut, paramsOut)
 	return arrEntitySectionOut

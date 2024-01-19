@@ -1,20 +1,17 @@
 package controllerWebRoot
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/conf"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/customerBehavior/controllerWebCustomerBehaviorGetCustomerBehaviorByUserId"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
-
-var RouteType int = conf.RouteTypeWeb
 
 type EntityController struct {
 	typeStruct.EntityController
 }
 
 func (self *EntityController) GetRouteType() (routeType int) {
-	routeType = RouteType
+	routeType = controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.RouteType
 	return routeType
 }
 
@@ -32,4 +29,35 @@ func (self *EntityController) GetFuncService() (funcService typeStruct.FuncServi
 func (self *EntityController) GetPathTmpl() (pathTmpl string) {
 	pathTmpl = controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.PathTmpl
 	return pathTmpl
+}
+
+func (self *EntityController) GetArrEntitySectionIn() (arrEntitySectionIn []typeStruct.EntitySection) {
+	arrEntitySectionIn = controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.ArrEntitySectionIn
+	return arrEntitySectionIn
+}
+
+func (self *EntityController) GetArrEntitySectionOut() (arrEntitySectionOut []typeStruct.EntitySection) {
+	arrEntitySectionOut = controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.ArrEntitySectionOut
+	return arrEntitySectionOut
+}
+
+func (self *EntityController) SetArrEntitySectionIn(arrEntitySectionIn []typeStruct.EntitySection) {
+	controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.ArrEntitySectionIn = arrEntitySectionIn
+	return
+}
+
+func (self *EntityController) SetArrEntitySectionOut(arrEntitySectionOut []typeStruct.EntitySection) {
+	controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.ArrEntitySectionOut = arrEntitySectionOut
+	return
+}
+
+func (self *EntityController) GetParamsOutAppendWeb() (paramsOutAppendWeb typeMap.AttrT1) {
+	paramsOutAppendWeb = typeMap.AttrT1{
+		"RouteNameCN":         controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.RouteNameCN,
+		"ArrEntitySectionIn":  controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.ArrEntitySectionIn,
+		"ArrEntitySectionOut": controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.ArrEntitySectionOut,
+		"TextSectionMsg":      controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.TextSectionMsg,
+		"IsReqToApi":          controllerWebCustomerBehaviorGetCustomerBehaviorByUserId.IsReqToApi,
+	}
+	return paramsOutAppendWeb
 }

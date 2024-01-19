@@ -31,7 +31,6 @@ var arrAttrS1ForSectionListRouter []typeMap.AttrS1 = []typeMap.AttrS1{
 	},
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"RouteNameCN":                   "列表主页",
 	"ArrAttrS1ForSectionListRouter": arrAttrS1ForSectionListRouter,
 }
 var FuncService typeStruct.FuncService = nil

@@ -5,10 +5,10 @@ import (
 	"net/http"
 )
 
-func WithMiddlewareWeb(funcController typeFunc.FuncController) (handlerFunc http.HandlerFunc) {
+func WithMiddlewareWeb(funcController typeFunc.FuncController, routeName string) (handlerFunc http.HandlerFunc) {
 	handlerFunc = http.HandlerFunc(funcController)
 	handlerFunc = MiddleSign(handlerFunc)
 	handlerFunc = MiddleLog(handlerFunc)
-	handlerFunc = MiddleCTX(handlerFunc)
+	handlerFunc = MiddleCTX(handlerFunc, routeName)
 	return handlerFunc
 }

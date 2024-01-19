@@ -1,8 +1,20 @@
 <script>
+let inp = document.getElementById("isReqToApi")
+console.log(inp.value);
+let isReqToApi = (inp.value === 'true');
+console.log('isReqToApi : ' + String(isReqToApi));
 let btn = document.getElementById("buttonSubmitReq");
 btn.onclick = function (e) {
     e.preventDefault()
-    submitReq()
+    let bMsgShow = document.getElementById("msgShow");
+    bMsgShow.innerHTML = "Executing"
+    let paramsFull = getParamsWithSign();
+    console.log('jsonReq : ' + toJson(paramsFull));
+    if (isReqToApi) {
+        submitApi(paramsFull)
+    } else {
+        submitWeb(paramsFull)
+    }
 }
 
 function toJson(obj) {
@@ -13,19 +25,29 @@ function toObj(json) {
     return JSON.parse(json)
 }
 
-function submitReq() {
+function submitWeb(paramsFull) {
+    let urlWeb = getUrlWeb();
+    console.log('urlWeb : ' + urlWeb)
+    let urlGet = getUrlGet(urlWeb, paramsFull)
+    console.log('urlGet : ' +urlGet)
+    openUrlGet(urlGet)
+}
+
+function submitApi(paramsFull) {
     let urlApi = getUrlApi();
     console.log('urlApi : ' + urlApi)
-    let paramsFull = getParamsWithSign();
-    console.log('jsonReq : ' + toJson(paramsFull));
     let urlGet = getUrlGet(urlApi, paramsFull)
     console.log('urlGet : ' +urlGet)
-    submitGet(urlGet)
+    ajaxGet(urlGet)
+}
+
+function getUrlWeb() {
+    return window.location.pathname
 }
 
 function getUrlApi() {
-    let pathname = window.location.pathname;
-    return pathname.replace('web', 'api')
+    let urlWeb = getUrlWeb()
+    return urlWeb.replace('web', 'api')
 }
 
 function getParamsReq(form) {
@@ -70,10 +92,69 @@ function getUrlGet(urlApi, params) {
     return urlApi + '?' + query
 }
 
+function openUrlGet(urlGet) {
+    window.location.href = urlGet;
+}
+
+function ajaxGet(urlGet) {
+    // 创建XMLHttpRequest对象
+    let xhr = new XMLHttpRequest();
+    // 设置请求类型、URL和异步标志
+    xhr.open(
+        'GET',
+        urlGet,
+        true
+    );
+    // 注册回调函数
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) {
+            return;
+        }
+        if (xhr.status !== 200) {
+            let formatError = "Fail to send data, the urlGet is |{urlGet}|, the networkCode is |{networkCode}|"
+            let msgError = formatError.replace("{urlGet}", urlGet).replace("{networkCode}", xhr.status);
+            console.error(msgError);
+            return;
+        }
+        console.log('callback')
+        handleResp(xhr.responseText);
+    };
+    // 发送请求
+    xhr.send();
+}
+
+function ajaxPost(urlPost, json) {
+    // 创建XMLHttpRequest对象
+    let xhr = new XMLHttpRequest();
+    // 设置请求类型、URL和异步标志
+    xhr.open(
+        'POST',
+        urlPost,
+        true
+    );
+    // 设置请求头信息
+    // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    // 注册回调函数
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) {
+            return;
+        }
+        if (xhr.status !== 200) {
+            let formatError = "Fail to send data, the urlPost is |{urlPost}|, the networkCode is |{networkCode}|"
+            let msgError = formatError.replace("{urlPost}", urlPost).replace("{networkCode}", xhr.status);
+            console.error(msgError);
+            return;
+        }
+        console.log('callback')
+        handleResp(xhr.responseText);
+    };
+    // 发送请求
+    xhr.send(json);
+}
+
 function handleResp(strResp) {
     let jsonResp = strResp;
-    let bMsgShow = document.getElementById("msgShow");
-    bMsgShow.innerHTML = "Executing"
     let iJsonRes = document.getElementById("jsonRes");
     iJsonRes.innerHTML = jsonResp
     console.log('jsonResp : ' + jsonResp);
@@ -85,36 +166,8 @@ function handleResp(strResp) {
         let input = document.getElementById(key);
         input.value = data[key];
     }
+    let bMsgShow = document.getElementById("msgShow");
     bMsgShow.innerHTML = "Success"
     console.log('success');
-}
-
-function submitGet(urlGet) {
-    // 创建XMLHttpRequest对象
-    let xhr = new XMLHttpRequest();
-    // 设置请求类型、URL和异步标志
-    xhr.open(
-        'GET',
-        urlGet,
-        true
-    );
-    // 设置请求头信息
-    // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // 注册回调函数
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4) {
-            return;
-        }
-        if (xhr.status !== 200) {
-            let formatError = "Fail to send data, the urlApi is |{urlApi}|, the networkCode is |{networkCode}|"
-            let msgError = formatError.replace("{urlApi}", urlGet).replace("{networkCode}", xhr.status);
-            console.error(msgError);
-            return;
-        }
-        handleResp(xhr.responseText);
-    };
-    // 发送请求
-    xhr.send();
 }
 </script>

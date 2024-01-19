@@ -1,4 +1,4 @@
-package controllerFileFavicon
+package controllerApiProjectTitle
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
@@ -6,11 +6,12 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-var RouteType int = conf.RouteTypeFile
+var RouteType int = conf.RouteTypeApi
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{}
-var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{}
+var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
+	"ProjectTitle": "未知项目名称",
+}
 var FuncService typeStruct.FuncService = nil
-var PathTmpl string = ""
 
 type EntityController struct {
 	typeStruct.EntityController
@@ -23,6 +24,7 @@ func (self *EntityController) GetRouteType() (routeType int) {
 
 func (self *EntityController) GetParamsDefault() (paramsInDefault typeMap.AttrT1, paramsOutDefault typeMap.AttrT1) {
 	paramsInDefault = ParamsInDefault
+	ParamsOutDefault["ProjectTitle"] = conf.GetProjectNameCN()
 	paramsOutDefault = ParamsOutDefault
 	return paramsInDefault, paramsOutDefault
 }
@@ -30,9 +32,4 @@ func (self *EntityController) GetParamsDefault() (paramsInDefault typeMap.AttrT1
 func (self *EntityController) GetFuncService() (funcService typeStruct.FuncService) {
 	funcService = FuncService
 	return funcService
-}
-
-func (self *EntityController) GetPathTmpl() (pathTmpl string) {
-	pathTmpl = PathTmpl
-	return pathTmpl
 }

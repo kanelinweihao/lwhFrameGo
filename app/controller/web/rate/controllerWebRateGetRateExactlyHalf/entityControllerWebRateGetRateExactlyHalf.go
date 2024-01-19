@@ -7,24 +7,43 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
+var RouteNameCN string = "计算抽中次数正好是总次数一半的概率"
 var RouteType int = conf.RouteTypeWeb
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"X":    10,
+	"X": 10,
 }
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"RouteNameCN": "计算抽中次数正好是总次数一半的概率",
-	"X":           10,
-	"Rate":        "0",
-}
-var ArrEntitySectionIn []typeStruct.EntitySection = nil
-var ArrEntitySectionOut []typeStruct.EntitySection = nil
-var ParamsOutAppendWeb typeMap.AttrT1 = typeMap.AttrT1{
-	"RouteNameCN":         "计算抽中次数正好是总次数一半的概率",
-	"ArrEntitySectionIn":  ArrEntitySectionIn,
-	"ArrEntitySectionOut": ArrEntitySectionOut,
+	"X":    10,
+	"Rate": "0",
 }
 var FuncService typeStruct.FuncService = serviceRate.GetRateExactlyHalf
-var PathTmpl string = "./res/view/rate/getRateExactlyHalf.tmpl"
+var PathTmpl string = "./res/view/auto/auto1.tmpl"
+var ArrEntitySectionIn []typeStruct.EntitySection = []typeStruct.EntitySection{
+	typeStruct.EntitySection{
+		FieldName:         "X",
+		FieldNameCN:       "总抽奖次数",
+		FieldRemark:       "",
+		InputType:         "text",
+		IsDivDisplay:      true,
+		IsInputDisabled:   false,
+		IsInputOnlyNumber: true,
+		Value:             "",
+	},
+}
+var ArrEntitySectionOut []typeStruct.EntitySection = []typeStruct.EntitySection{
+	typeStruct.EntitySection{
+		FieldName:         "Rate",
+		FieldNameCN:       "目标概率",
+		FieldRemark:       "",
+		InputType:         "text",
+		IsDivDisplay:      true,
+		IsInputDisabled:   true,
+		IsInputOnlyNumber: true,
+		Value:             "",
+	},
+}
+var TextSectionMsg string = "假设每次抽奖的中奖概率为[50%](即一半概率抽中一半概率抽不中),\n若总共抽奖[X]次,求抽中次数正好为总次数的一半的概率[Rate]\n"
+var IsReqToApi bool = false
 
 type EntityController struct {
 	typeStruct.EntityController
@@ -72,6 +91,12 @@ func (self *EntityController) SetArrEntitySectionOut(arrEntitySectionOut []typeS
 }
 
 func (self *EntityController) GetParamsOutAppendWeb() (paramsOutAppendWeb typeMap.AttrT1) {
-	paramsOutAppendWeb = ParamsOutAppendWeb
+	paramsOutAppendWeb = typeMap.AttrT1{
+		"RouteNameCN":         RouteNameCN,
+		"ArrEntitySectionIn":  ArrEntitySectionIn,
+		"ArrEntitySectionOut": ArrEntitySectionOut,
+		"TextSectionMsg":      TextSectionMsg,
+		"IsReqToApi":          IsReqToApi,
+	}
 	return paramsOutAppendWeb
 }

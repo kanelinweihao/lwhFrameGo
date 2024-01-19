@@ -1,4 +1,4 @@
-package controllerWebProjectVersion
+package controllerWebProjectTitle
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
@@ -6,11 +6,11 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-var RouteNameCN string = "项目版本"
+var RouteNameCN string = "项目名称"
 var RouteType int = conf.RouteTypeWeb
 var ParamsInDefault typeMap.AttrT1 = typeMap.AttrT1{}
 var ParamsOutDefault typeMap.AttrT1 = typeMap.AttrT1{
-	"ProjectVersion": "v1.0.0",
+	"ProjectTitle": "未知项目名称",
 }
 var FuncService typeStruct.FuncService = nil
 var PathTmpl string = "./res/view/common/projectInfo.tmpl"
@@ -30,7 +30,7 @@ func (self *EntityController) GetRouteType() (routeType int) {
 
 func (self *EntityController) GetParamsDefault() (paramsInDefault typeMap.AttrT1, paramsOutDefault typeMap.AttrT1) {
 	paramsInDefault = ParamsInDefault
-	ParamsOutDefault["ProjectVersion"] = conf.GetProjectVersion()
+	ParamsOutDefault["ProjectTitle"] = conf.GetProjectNameCN()
 	paramsOutDefault = ParamsOutDefault
 	return paramsInDefault, paramsOutDefault
 }

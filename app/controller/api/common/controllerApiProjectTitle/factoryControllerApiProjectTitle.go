@@ -1,11 +1,11 @@
-package controllerFileFavicon
+package controllerApiProjectTitle
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/base/controllerBase"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-var routeName = "/favicon.ico"
+var routeName = "/api/projectTitle"
 
 func InitEntityController() (entityController typeStruct.EntityController) {
 	entityController = new(EntityController)

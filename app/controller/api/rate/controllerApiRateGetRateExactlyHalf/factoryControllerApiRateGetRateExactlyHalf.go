@@ -1,11 +1,11 @@
-package controllerWebProjectName
+package controllerApiRateGetRateExactlyHalf
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/base/controllerBase"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
-var routeName = "/projectName"
+var routeName = "/api/rate/getRateExactlyHalf"
 
 func InitEntityController() (entityController typeStruct.EntityController) {
 	entityController = new(EntityController)

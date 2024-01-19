@@ -22,6 +22,6 @@ func (self *EntityControllerBase) Close() {
 	errClose := self.Req.Body.Close()
 	err.ErrCheck(errClose)
 	self.Req = nil
-	self.ValuesFromReq = nil
+	self.Resp = nil
 	return
 }

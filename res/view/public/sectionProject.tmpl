@@ -1,11 +1,18 @@
 {{/*sectionProject*/}}
-<div>
-    项目名称ProjectTitle : {{.ProjectTitle}}
-</div>
-<div>
-    项目版本ProjectVersion : {{.ProjectVersion}}
-</div>
-<div>
-    客户端地址ClientIP : {{.ClientIP}}
-</div>
-<p></p>
+<p>
+    <div>
+        <label for="ProjectTitle">项目名称ProjectTitle</label>
+        <input id="ProjectTitle" type="text" name="ProjectTitle" value={{.ProjectTitle}} disabled>
+    </div>
+    <div>
+        <label for="ProjectVersion">项目版本ProjectVersion</label>
+        <input id="ProjectVersion" type="text" name="ProjectVersion" value={{.ProjectVersion}} disabled>
+    </div>
+    <div>
+        <label for="ClientIP">客户端地址ClientIP</label>
+        <input id="ClientIP" type="text" name="ClientIP" value={{.ClientIP}} disabled>
+    </div>
+{{/*    <div>*/}}
+{{/*        <i id="jsonRes">{{.JsonRes}}</i>*/}}
+{{/*    </div>*/}}
+</p>

@@ -6,14 +6,14 @@ import (
 )
 
 type EntitySection struct {
-	FieldName     string `validate:"required,min=2"`
-	FieldNameCN   string `validate:"required,min=2"`
-	FieldRemark   string `validate:"required,min=2"`
-	Value         string `validate:"omitempty"`
-	InputType     string `validate:"required,oneof='text' 'password'"`
-	DivDisplay    string `validate:"required,oneof='TRUE' 'FALSE'"`
-	InputDisabled string `validate:"required,oneof='TRUE' 'FALSE'"`
-	InputOnkeyup  string `validate:"required,oneof='' 'onlyNumber'"`
+	FieldName         string `validate:"required,min=2"`
+	FieldNameCN       string `validate:"required,min=2"`
+	FieldRemark       string `validate:"required,min=2"`
+	InputType         string `validate:"required,oneof='text' 'password'"`
+	IsDivDisplay      bool   `validate:"required"`
+	IsInputDisabled   bool   `validate:"required"`
+	IsInputOnlyNumber bool   `validate:"required"`
+	Value             string `validate:"omitempty"`
 }
 
 type EntityBase interface{}
@@ -29,7 +29,6 @@ type EntityController interface {
 	GetParamsDefault() (paramsInDefault typeMap.AttrT1, paramsOutDefault typeMap.AttrT1)
 	GetFuncService() (funcService FuncService)
 	GetPathTmpl() (pathTmpl string)
-	GetParamsOut() (paramsOut typeMap.AttrT1)
 	GetArrEntitySectionIn() (arrEntitySectionIn []EntitySection)
 	GetArrEntitySectionOut() (arrEntitySectionOut []EntitySection)
 	SetArrEntitySectionIn(arrEntitySectionIn []EntitySection)
@@ -37,6 +36,7 @@ type EntityController interface {
 	GetParamsOutAppendWeb() (paramsOutAppendWeb typeMap.AttrT1)
 	Close()
 	Exec(resp http.ResponseWriter, req *http.Request)
+	GetIpClient() (ipClient string)
 }
 type FuncService func(paramsIn typeMap.AttrT1) (paramsOut typeMap.AttrT1)
 
