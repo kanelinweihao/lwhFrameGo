@@ -5,45 +5,54 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/ip"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeFunc"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"golang.org/x/net/context"
 	"net/http"
 )
 
 var entityCTX *EntityCTX
 
-func MiddleCTX(next http.HandlerFunc, routeName string) http.HandlerFunc {
-	return func(resp http.ResponseWriter, req *http.Request) {
-		entityCTX = new(EntityCTX)
-		entityCTX.Init(resp, req, routeName)
-		ctx := entityCTX.setCTXToReq()
-		next(resp, req.WithContext(ctx))
+func CTX(routeName string) typeFunc.FuncMiddlewareBase {
+	return func(next http.HandlerFunc) http.HandlerFunc {
+		return func(resp http.ResponseWriter, req *http.Request) {
+			entityCTX = new(EntityCTX)
+			entityCTX.Init(resp, req, routeName)
+			ctx := entityCTX.setCTXToReq()
+			next(resp, req.WithContext(ctx))
+		}
 	}
 }
-
-// // 在这里进行需要的操作或者设置数据
-// data := "Hello from middleware!" // 模拟从middleware获取的数据
-// // 创建一个上下文对象，并将数据存入其中
-// ctx := context.WithValue(req.Context(), "myData", data)
-// // 调用下一个处理程序时将上下文对象传递给它
-// next.ServeHTTP(resp, req.WithContext(ctx))
-// data := req.Context().Value("myData").(string)
-// fmt.Println(data)
 
 type EntityCTX struct {
 	Req       *http.Request
 	Resp      http.ResponseWriter
+	ParamsReq typeMap.AttrT1
 	RouteName string
 	IpClient  string
+	JwtToken  string
 }
 
 func (self *EntityCTX) Init(resp http.ResponseWriter, req *http.Request, routeName string) *EntityCTX {
-	self.setRespAndReq(resp, req).setRouteName(routeName).setIPOfClient()
+	self.setRespAndReq(resp, req).setParamsReq().setRouteName(routeName).setIPOfClient().setJWTToken()
 	return self
 }
 
 func (self *EntityCTX) setRespAndReq(resp http.ResponseWriter, req *http.Request) *EntityCTX {
 	self.Req = req
 	self.Resp = resp
+	return self
+}
+
+func (self *EntityCTX) setParamsReq() *EntityCTX {
+	req := self.Req
+	valuesFromReq := req.URL.Query()
+	paramsReq := make(typeMap.AttrT1, len(valuesFromReq))
+	for field, _ := range valuesFromReq {
+		paramsReq[field] = valuesFromReq.Get(field)
+	}
+	self.ParamsReq = paramsReq
+
 	return self
 }
 
@@ -68,10 +77,32 @@ func (self *EntityCTX) setIPOfClient() *EntityCTX {
 	return self
 }
 
+func (self *EntityCTX) setJWTToken() *EntityCTX {
+	req := self.Req
+	// arrHeader := req.Header
+	// for headerKey, arrHeaderValue := range arrHeader {
+	// 	if headerKey != consts.HeaderKeyJwtToken {
+	// 		continue
+	// 	}
+	// 	jwtToken := arrHeaderValue[0]
+	// 	self.JwtToken = jwtToken
+	// }
+	cookies := req.Cookies()
+	for _, cookie := range cookies {
+		if cookie.Name != "jwtToken" {
+			continue
+		}
+		jwtToken := cookie.Value
+		self.JwtToken = jwtToken
+	}
+	return self
+}
+
 func (self *EntityCTX) ToJson() (json string) {
 	attrT1 := conv.ToAttrFromEntity(self)
 	delete(attrT1, "Req")
 	delete(attrT1, "Resp")
+	delete(attrT1, "ParamsReq")
 	json = conv.ToJsonFromAttr(attrT1)
 	return json
 }
@@ -92,7 +123,6 @@ func (self *EntityCTX) ToLog() (msgLog string) {
 }
 
 func (self *EntityCTX) InitByJson(json string) *EntityCTX {
-	attrT1 := conv.ToAttrFromJson(json)
-	conv.ToEntityFromAttr(attrT1, self)
+	conv.ToEntityFromJson(json, self)
 	return self
 }

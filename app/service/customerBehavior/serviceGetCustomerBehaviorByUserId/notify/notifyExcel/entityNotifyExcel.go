@@ -1,9 +1,9 @@
 package notifyExcel
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityNotifyExcel struct {
-	typeStruct.EntityNotifyExcel
+	typeInterface.EntityNotifyExcel
 }

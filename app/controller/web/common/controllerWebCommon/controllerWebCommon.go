@@ -6,11 +6,11 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebProjectTitle"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebProjectVersion"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/common/controllerWebRoot"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"net/http"
 )
 
-var entityController typeStruct.EntityController
+var entityController typeInterface.EntityController
 
 func Root(resp http.ResponseWriter, req *http.Request) {
 	entityController = controllerWebRoot.InitEntityController()

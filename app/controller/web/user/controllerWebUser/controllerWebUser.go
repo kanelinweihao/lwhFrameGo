@@ -3,11 +3,11 @@ package controllerWebUser
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/user/controllerWebUserGetMobileNoAndOrgIdByShortUserId"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/user/controllerWebUserGetUserIdByMobileNoAndOrgId"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"net/http"
 )
 
-var entityController typeStruct.EntityController
+var entityController typeInterface.EntityController
 
 func GetMobileNoAndOrgIdByShortUserId(resp http.ResponseWriter, req *http.Request) {
 	entityController = controllerWebUserGetMobileNoAndOrgIdByShortUserId.InitEntityController()

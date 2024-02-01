@@ -51,14 +51,10 @@
 <section id="sectionOut">
     <form id="formResp">
         <div>
-            <b id="msgShow">
-                {{.MsgShow}}
-            </b>
+            <b id="msgShow">{{.MsgShow}}</b>
         </div>
         <div>
-            <i id="jsonRes">
-                {{.JsonRes}}
-            </i>
+            <i id="jsonRes">{{.JsonRes}}</i>
         </div>
         {{range $index, $entityOut := .ArrEntitySectionOut}}
             {{$lenRemark := len $entityOut.FieldRemark}}

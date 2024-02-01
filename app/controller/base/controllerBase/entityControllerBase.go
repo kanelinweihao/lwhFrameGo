@@ -1,6 +1,8 @@
 package controllerBase
 
 import (
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeFunc"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 	"html/template"
@@ -8,7 +10,7 @@ import (
 )
 
 type EntityControllerBase struct {
-	Derived          typeStruct.EntityController
+	Derived          typeInterface.EntityController
 	RouteName        string
 	Resp             http.ResponseWriter
 	Req              *http.Request
@@ -16,7 +18,7 @@ type EntityControllerBase struct {
 	IsRespDefault    bool
 	ParamsInDefault  typeMap.AttrT1
 	ParamsOutDefault typeMap.AttrT1
-	FuncService      typeStruct.FuncService
+	FuncService      typeFunc.FuncService
 	ParamsFromSvc    typeMap.AttrT1
 	ParamsIn         typeMap.AttrT1
 	ParamsOut        typeMap.AttrT1
@@ -30,6 +32,11 @@ type EntityControllerBase struct {
 func (self *EntityControllerBase) Exec(resp http.ResponseWriter, req *http.Request) {
 	self.setParams(resp, req).execSvc().execFront()
 	return
+}
+
+func (self *EntityControllerBase) GetEntityDataController() (entityDataController *typeStruct.EntityDataController) {
+	entityDataController = nil
+	return entityDataController
 }
 
 func (self *EntityControllerBase) GetIpClient() (ipClient string) {

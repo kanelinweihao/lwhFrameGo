@@ -43,7 +43,8 @@ func (self *EntityControllerBase) setCTX() *EntityControllerBase {
 }
 
 func (self *EntityControllerBase) setDefault() *EntityControllerBase {
-	paramsInDefault, paramsOutDefault := self.Derived.GetParamsDefault()
+	entityDataController := self.Derived.GetEntityDataController()
+	paramsInDefault, paramsOutDefault := entityDataController.GetParamsDefault()
 	self.ParamsInDefault = paramsInDefault
 	self.ParamsOutDefault = paramsOutDefault
 	self.ParamsIn = self.ParamsInDefault

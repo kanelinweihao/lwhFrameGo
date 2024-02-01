@@ -4,21 +4,21 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/service/base/repoBase/repoDBBase"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 var ArrSQLName = []string{
 	"GetUserIdByMobileNoAndOrgId",
 }
 
-func InitEntityRepoDB(paramsRepoDB typeMap.AttrT1) (entityRepoDB typeStruct.EntityRepoDB) {
+func InitEntityRepoDB(paramsRepoDB typeMap.AttrT1) (entityRepoDB typeInterface.EntityRepoDB) {
 	entityRepoDB = new(EntityRepoDB)
 	entityRepoDBBase := new(repoDBBase.EntityRepoDBBase)
 	entityRepoDB.Load(entityRepoDBBase).Init(paramsRepoDB)
 	return entityRepoDB
 }
 
-func (self *EntityRepoDB) Load(entityRepoDBBase typeStruct.EntityRepoDB) typeStruct.EntityRepoDB {
+func (self *EntityRepoDB) Load(entityRepoDBBase typeInterface.EntityRepoDB) typeInterface.EntityRepoDB {
 	self.EntityRepoDB = entityRepoDBBase
 	entityRepoDBBase.Load(self)
 	return self

@@ -1,12 +1,13 @@
 {{/*header*/}}
 {{template "header.tmpl" .}}
 {{/*sectionProject*/}}
-{{template "sectionProject.tmpl" .}}
+{{/*{{template "sectionProject.tmpl" .}}*/}}
 {{/*sectionListRouter*/}}
 <section>
     {{range $index, $attrS1Router := .ArrAttrS1ForSectionListRouter}}
         <div>
-            <a href={{- $attrS1Router.RouteName -}}>{{- $attrS1Router.RouteNameCN -}}</a>
+            {{/*<a href={{- $attrS1Router.RouteName -}}>{{- $attrS1Router.RouteNameCN -}}</a>*/}}
+            <button class="btnUrlJump" value={{- $attrS1Router.RouteName -}}>{{- $attrS1Router.RouteNameCN -}}</button>
         </div>
         <p></p>
     {{else}}
@@ -17,3 +18,5 @@
 </section>
 {{/*footer*/}}
 {{template "footer.tmpl"}}
+{{/*js_home*/}}
+{{template "jsHome.tmpl"}}

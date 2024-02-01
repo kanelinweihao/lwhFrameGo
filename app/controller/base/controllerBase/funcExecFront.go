@@ -3,18 +3,20 @@ package controllerBase
 import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/consts"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 )
 
 func (self *EntityControllerBase) execFront() {
-	routeType := self.Derived.GetRouteType()
+	entityDataController := self.Derived.GetEntityDataController()
+	routeType := entityDataController.GetRouteType()
 	self.RouteType = routeType
 	switch routeType {
-	case conf.RouteTypeFile:
+	case consts.RouteTypeFile:
 		self.execFile()
-	case conf.RouteTypeApi:
+	case consts.RouteTypeApi:
 		self.execApi()
-	case conf.RouteTypeWeb:
+	case consts.RouteTypeWeb:
 		self.execWeb()
 	default:
 		msgError := fmt.Sprintf(

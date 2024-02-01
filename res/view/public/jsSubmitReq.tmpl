@@ -1,53 +1,66 @@
 <script>
-let inp = document.getElementById("isReqToApi")
-console.log(inp.value);
-let isReqToApi = (inp.value === 'true');
+const urlLogin = '/web/auth/login';
+const urlHome = '/web/home';
+// const headerKeyJwtToken = 'Jwt-Token';
+// isReqToApi
+let inputIRTA = document.getElementById('isReqToApi');
+console.log(inputIRTA.value);
+let isReqToApi = (inputIRTA.value === 'true');
 console.log('isReqToApi : ' + String(isReqToApi));
-let btn = document.getElementById("buttonSubmitReq");
+// msgShow
+let bMsgShow = document.getElementById('msgShow');
+let msgShow = bMsgShow.innerHTML;
+let iJsonRes = document.getElementById('jsonRes');
+if (msgShow === 'Ready') {
+    iJsonRes.style.display = 'none';
+    console.log('ready');
+}
+// submit
+let btn = document.getElementById('buttonSubmitReq');
 btn.onclick = function (e) {
-    e.preventDefault()
-    let bMsgShow = document.getElementById("msgShow");
-    bMsgShow.innerHTML = "Executing"
+    e.preventDefault();
+    msgShow = 'Executing';
+    console.log('executing');
     let paramsFull = getParamsWithSign();
     console.log('jsonReq : ' + toJson(paramsFull));
     if (isReqToApi) {
-        submitApi(paramsFull)
+        submitApi(paramsFull);
     } else {
-        submitWeb(paramsFull)
+        submitWeb(paramsFull);
     }
 }
 
 function toJson(obj) {
-    return JSON.stringify(obj)
+    return JSON.stringify(obj);
 }
 
 function toObj(json) {
-    return JSON.parse(json)
+    return JSON.parse(json);
 }
 
 function submitWeb(paramsFull) {
     let urlWeb = getUrlWeb();
-    console.log('urlWeb : ' + urlWeb)
-    let urlGet = getUrlGet(urlWeb, paramsFull)
-    console.log('urlGet : ' +urlGet)
-    openUrlGet(urlGet)
+    console.log('urlWeb : ' + urlWeb);
+    let urlGet = getUrlGet(urlWeb, paramsFull);
+    console.log('urlGet : ' +urlGet);
+    openUrlGet(urlGet);
 }
 
 function submitApi(paramsFull) {
     let urlApi = getUrlApi();
-    console.log('urlApi : ' + urlApi)
-    let urlGet = getUrlGet(urlApi, paramsFull)
-    console.log('urlGet : ' +urlGet)
-    ajaxGet(urlGet)
+    console.log('urlApi : ' + urlApi);
+    let urlGet = getUrlGet(urlApi, paramsFull);
+    console.log('urlGet : ' +urlGet);
+    ajaxGet(urlGet);
 }
 
 function getUrlWeb() {
-    return window.location.pathname
+    return window.location.pathname;
 }
 
 function getUrlApi() {
-    let urlWeb = getUrlWeb()
-    return urlWeb.replace('web', 'api')
+    let urlWeb = getUrlWeb();
+    return urlWeb.replace('web', 'api');
 }
 
 function getParamsReq(form) {
@@ -73,11 +86,11 @@ function getParamsSorted(params) {
 }
 
 function getParamsWithSign() {
-    let form = document.getElementById("formReq");
+    let form = document.getElementById('formReq');
     let params = getParamsReq(form);
     let paramsSorted = getParamsSorted(params);
     let jsonSign = toJson(paramsSorted);
-    params["Sign"] = sm3Digest(jsonSign);
+    params['Sign'] = sm3Digest(jsonSign);
     return params;
 }
 
@@ -89,7 +102,7 @@ function getUrlGet(urlApi, params) {
         }
         query += encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
     }
-    return urlApi + '?' + query
+    return urlApi + '?' + query;
 }
 
 function openUrlGet(urlGet) {
@@ -105,58 +118,63 @@ function ajaxGet(urlGet) {
         urlGet,
         true
     );
+    // 设置请求头信息
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    // let jwtToken = getCookie('jwtToken');
+    // if (jwtToken !== '') {
+    //     xhr.setRequestHeader(headerKeyJwtToken, jwtToken);
+    // }
     // 注册回调函数
     xhr.onreadystatechange = function () {
         if (xhr.readyState !== 4) {
             return;
         }
         if (xhr.status !== 200) {
-            let formatError = "Fail to send data, the urlGet is |{urlGet}|, the networkCode is |{networkCode}|"
-            let msgError = formatError.replace("{urlGet}", urlGet).replace("{networkCode}", xhr.status);
+            let formatError = 'Fail to send data, the urlGet is |{urlGet}|, the networkCode is |{networkCode}|'
+            let msgError = formatError.replace('{urlGet}', urlGet).replace('{networkCode}', xhr.status);
             console.error(msgError);
             return;
         }
-        console.log('callback')
+        console.log('callback');
         handleResp(xhr.responseText);
     };
     // 发送请求
     xhr.send();
 }
 
-function ajaxPost(urlPost, json) {
-    // 创建XMLHttpRequest对象
-    let xhr = new XMLHttpRequest();
-    // 设置请求类型、URL和异步标志
-    xhr.open(
-        'POST',
-        urlPost,
-        true
-    );
-    // 设置请求头信息
-    // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    // 注册回调函数
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4) {
-            return;
-        }
-        if (xhr.status !== 200) {
-            let formatError = "Fail to send data, the urlPost is |{urlPost}|, the networkCode is |{networkCode}|"
-            let msgError = formatError.replace("{urlPost}", urlPost).replace("{networkCode}", xhr.status);
-            console.error(msgError);
-            return;
-        }
-        console.log('callback')
-        handleResp(xhr.responseText);
-    };
-    // 发送请求
-    xhr.send(json);
-}
+// function ajaxPost(urlPost, json) {
+//     // 创建XMLHttpRequest对象
+//     let xhr = new XMLHttpRequest();
+//     // 设置请求类型、URL和异步标志
+//     xhr.open(
+//         'POST',
+//         urlPost,
+//         true
+//     );
+//     // 设置请求头信息
+//     // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//     xhr.setRequestHeader('Content-Type', 'application/json');
+//     // 注册回调函数
+//     xhr.onreadystatechange = function () {
+//         if (xhr.readyState !== 4) {
+//             return;
+//         }
+//         if (xhr.status !== 200) {
+//             let formatError = 'Fail to send data, the urlPost is |{urlPost}|, the networkCode is |{networkCode}|'
+//             let msgError = formatError.replace('{urlPost}', urlPost).replace('{networkCode}', xhr.status);
+//             console.error(msgError);
+//             return;
+//         }
+//         console.log('callback')
+//         handleResp(xhr.responseText);
+//     };
+//     // 发送请求
+//     xhr.send(json);
+// }
 
 function handleResp(strResp) {
     let jsonResp = strResp;
-    let iJsonRes = document.getElementById("jsonRes");
-    iJsonRes.innerHTML = jsonResp
+    iJsonRes.innerHTML = jsonResp;
     console.log('jsonResp : ' + jsonResp);
     let objResp = toObj(jsonResp);
     console.log('objResp : ' + toJson(objResp));
@@ -166,8 +184,54 @@ function handleResp(strResp) {
         let input = document.getElementById(key);
         input.value = data[key];
     }
-    let bMsgShow = document.getElementById("msgShow");
-    bMsgShow.innerHTML = "Success"
+    let jwtToken = data['JwtToken'];
+    if (jwtToken !== undefined) {
+        console.log('jwtToken : ' + jwtToken);
+        let cookieKey = 'jwtToken';
+        let cookieValue = jwtToken;
+        let strCookie = setCookie(cookieKey, cookieValue);
+        console.log('strCookie : ' + strCookie);
+        cookieValue = getCookie(cookieKey);
+        console.log('jwtTokenFromCookie : ' + cookieValue);
+    }
+    bMsgShow.innerHTML = 'Success'
+    iJsonRes.style.display = 'block';
     console.log('success');
+    console.log(window.location.pathname);
+    if (window.location.pathname === urlLogin) {
+        openHome()
+    }
+}
+
+function setCookie(cookieKey, cookieValue) {
+    let strCookie = cookieKey + '=' + cookieValue + ';';
+    strCookie = strCookie + "path=/;";
+    let d = new Date();
+    d.setTime(d.getTime()+(1000*60*60*24*30*2)); // 2months
+    let lineExpires = "expires=" + d.toGMTString();
+    strCookie = strCookie + lineExpires;
+    document.cookie = strCookie;
+    return strCookie
+}
+
+function getCookie(cookieKey) {
+    let strCookie = document.cookie;
+    if (strCookie.length === 0) {
+        return ""
+    }
+    let startLine = strCookie.indexOf(cookieKey + "=");
+    if (startLine === -1) {
+        return ""
+    }
+    let startValue = startLine + cookieKey.length + 1;
+    let endValue = strCookie.indexOf(";", startValue);
+    if (endValue === -1) {
+        endValue = strCookie.length;
+    }
+    return strCookie.substring(startValue, endValue);
+}
+
+function openHome() {
+    window.location.href = urlHome;
 }
 </script>

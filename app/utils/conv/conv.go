@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/rfl"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 	"reflect"
 	"strconv"
 	"strings"
@@ -129,6 +129,8 @@ func ToInt(valueOld interface{}) (valueNew int) {
 		valueNew = ToIntFromBool(valueOld.(bool))
 	case "string":
 		valueNew = ToIntFromStr(valueOld.(string))
+	case "float64":
+		valueNew = int(valueOld.(float64))
 	case "int":
 		valueNew = valueOld.(int)
 	default:
@@ -239,7 +241,7 @@ func ToJsonFromAttr(attrT1 typeMap.AttrT1) (strJson string) {
 }
 
 // ToJsonFromEntity struct->json
-func ToJsonFromEntity(entity typeStruct.EntityBase) (strJson string) {
+func ToJsonFromEntity(entity typeInterface.EntityBase) (strJson string) {
 	attrT1 := ToAttrFromEntity(entity)
 	strJson = ToJsonFromAttr(attrT1)
 	return strJson
@@ -279,7 +281,7 @@ func ToAttrFromJson(strJson string) (attrT1 typeMap.AttrT1) {
 }
 
 // ToAttrFromEntity struct->map
-func ToAttrFromEntity(entity typeStruct.EntityBase) (attrT1 typeMap.AttrT1) {
+func ToAttrFromEntity(entity typeInterface.EntityBase) (attrT1 typeMap.AttrT1) {
 	attrT1 = make(typeMap.AttrT1)
 	t := reflect.TypeOf(entity).Elem()
 	v := reflect.ValueOf(entity).Elem()
@@ -303,7 +305,7 @@ func ToAttrFromEntity(entity typeStruct.EntityBase) (attrT1 typeMap.AttrT1) {
 }
 
 // ToEntityFromAttr map->struct
-func ToEntityFromAttr(attrT1 typeMap.AttrT1, entity typeStruct.EntityBase) {
+func ToEntityFromAttr(attrT1 typeMap.AttrT1, entity typeInterface.EntityBase) {
 	structValue := reflect.ValueOf(entity).Elem()
 	for k, v := range attrT1 {
 		structFieldValue := structValue.FieldByName(k)
@@ -328,6 +330,13 @@ func ToEntityFromAttr(attrT1 typeMap.AttrT1, entity typeStruct.EntityBase) {
 		}
 		structFieldValue.Set(val)
 	}
+	return
+}
+
+// ToEntityFromJson json->struct
+func ToEntityFromJson(json string, entity typeInterface.EntityBase) {
+	attrT1 := ToAttrFromJson(json)
+	ToEntityFromAttr(attrT1, entity)
 	return
 }
 

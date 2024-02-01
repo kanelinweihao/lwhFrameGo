@@ -6,7 +6,7 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/pack"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"strings"
 )
 
@@ -70,7 +70,7 @@ func getParamsEnvNeed(paramsKey typeMap.AttrS1) (paramsNeed typeMap.AttrT1) {
 	return paramsNeed
 }
 
-func getEntityConfig(paramsKey typeMap.AttrS1, entity typeStruct.EntityBase) {
+func getEntityConfig(paramsKey typeMap.AttrS1, entity typeInterface.EntityBase) {
 	paramsNeed := getParamsEnvNeed(paramsKey)
 	conv.ToEntityFromAttr(paramsNeed, entity)
 	return

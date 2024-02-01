@@ -3,11 +3,11 @@ package controllerWebRate
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/rate/controllerWebRateGetIRRByArrAmount"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/web/rate/controllerWebRateGetRateExactlyHalf"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"net/http"
 )
 
-var entityController typeStruct.EntityController
+var entityController typeInterface.EntityController
 
 func GetIRRByArrAmount(resp http.ResponseWriter, req *http.Request) {
 	entityController = controllerWebRateGetIRRByArrAmount.InitEntityController()

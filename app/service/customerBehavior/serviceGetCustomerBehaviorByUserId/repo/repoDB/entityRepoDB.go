@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityRepoDB struct {
-	typeStruct.EntityRepoDB
+	typeInterface.EntityRepoDB
 }
 
 func (self *EntityRepoDB) GetPropertiesNeed() (paramsAppend typeMap.AttrT1) {

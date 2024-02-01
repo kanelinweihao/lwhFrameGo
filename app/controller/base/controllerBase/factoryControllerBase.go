@@ -2,15 +2,15 @@ package controllerBase
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
-func (self *EntityControllerBase) Load(entityControllerDerived typeStruct.EntityController) typeStruct.EntityController {
+func (self *EntityControllerBase) Load(entityControllerDerived typeInterface.EntityController) typeInterface.EntityController {
 	self.Derived = entityControllerDerived
 	return self.Derived
 }
 
-func (self *EntityControllerBase) Init(routeName string) typeStruct.EntityController {
+func (self *EntityControllerBase) Init(routeName string) typeInterface.EntityController {
 	self.RouteName = routeName
 	return self.Derived
 }

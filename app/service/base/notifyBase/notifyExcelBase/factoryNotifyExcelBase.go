@@ -10,15 +10,15 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
-func (self *EntityNotifyExcelBase) Load(entityNotifyExcelDerived typeStruct.EntityNotifyExcel) typeStruct.EntityNotifyExcel {
+func (self *EntityNotifyExcelBase) Load(entityNotifyExcelDerived typeInterface.EntityNotifyExcel) typeInterface.EntityNotifyExcel {
 	self.Derived = entityNotifyExcelDerived
 	return self.Derived
 }
 
-func (self *EntityNotifyExcelBase) Init(paramsToNotify typeMap.AttrT1, attrT3DBData typeMap.AttrT3) typeStruct.EntityNotifyExcel {
+func (self *EntityNotifyExcelBase) Init(paramsToNotify typeMap.AttrT1, attrT3DBData typeMap.AttrT3) typeInterface.EntityNotifyExcel {
 	self.setPropertiesIn(paramsToNotify, attrT3DBData).setPropertiesMore()
 	return self
 }

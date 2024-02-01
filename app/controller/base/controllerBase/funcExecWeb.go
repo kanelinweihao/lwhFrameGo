@@ -50,26 +50,29 @@ func (self *EntityControllerBase) getParamsOutAppendWebBase() (paramsAppend type
 }
 
 func (self *EntityControllerBase) getParamsOutAppend() (paramsOutAppendWeb typeMap.AttrT1) {
-	arrEntitySectionIn := self.getArrEntitySectionIn()
-	self.Derived.SetArrEntitySectionIn(arrEntitySectionIn)
-	arrEntitySectionOut := self.getArrEntitySectionOut()
-	self.Derived.SetArrEntitySectionOut(arrEntitySectionOut)
-	paramsOutAppendWeb = self.Derived.GetParamsOutAppendWeb()
+	self.setArrEntitySectionInToDerived()
+	self.setArrEntitySectionOutToDerived()
+	entityDataController := self.Derived.GetEntityDataController()
+	paramsOutAppendWeb = entityDataController.GetParamsOutAppendWeb()
 	return paramsOutAppendWeb
 }
 
-func (self *EntityControllerBase) getArrEntitySectionIn() (arrEntitySectionIn []typeStruct.EntitySection) {
+func (self *EntityControllerBase) setArrEntitySectionInToDerived() *EntityControllerBase {
 	paramsOut := self.ParamsOut
-	arrEntitySectionIn = self.Derived.GetArrEntitySectionIn()
+	entityDataController := self.Derived.GetEntityDataController()
+	arrEntitySectionIn := entityDataController.GetArrEntitySectionIn()
 	arrEntitySectionIn = getArrEntitySectionWithValue(arrEntitySectionIn, paramsOut)
-	return arrEntitySectionIn
+	entityDataController.SetArrEntitySectionIn(arrEntitySectionIn)
+	return self
 }
 
-func (self *EntityControllerBase) getArrEntitySectionOut() (arrEntitySectionOut []typeStruct.EntitySection) {
+func (self *EntityControllerBase) setArrEntitySectionOutToDerived() *EntityControllerBase {
 	paramsOut := self.ParamsOut
-	arrEntitySectionOut = self.Derived.GetArrEntitySectionOut()
+	entityDataController := self.Derived.GetEntityDataController()
+	arrEntitySectionOut := entityDataController.GetArrEntitySectionOut()
 	arrEntitySectionOut = getArrEntitySectionWithValue(arrEntitySectionOut, paramsOut)
-	return arrEntitySectionOut
+	entityDataController.SetArrEntitySectionOut(arrEntitySectionOut)
+	return self
 }
 
 func getArrEntitySectionWithValue(arrEntitySectionWithoutValue []typeStruct.EntitySection, paramsValue typeMap.AttrT1) (arrEntitySection []typeStruct.EntitySection) {
@@ -107,7 +110,8 @@ func (self *EntityControllerBase) GetParamsOutAppendWeb() (paramsOutAppendWeb ty
 }
 
 func (self *EntityControllerBase) setTmpl() *EntityControllerBase {
-	pathTmpl := self.Derived.GetPathTmpl()
+	entityDataController := self.Derived.GetEntityDataController()
+	pathTmpl := entityDataController.GetPathTmpl()
 	self.PathTmpl = pathTmpl
 	fsResource, pathEmbedTmpl := pack.GetFSAndPath(pathTmpl)
 	fileName := file.GetFilename(pathEmbedTmpl)
@@ -119,6 +123,7 @@ func (self *EntityControllerBase) setTmpl() *EntityControllerBase {
 	pathViewSectionProject := conf.GetPathViewSectionProject()
 	pathViewJSSM3 := conf.GetPathViewJSSM3()
 	pathViewJSSubmitReq := conf.GetPathViewJSSubmitReq()
+	pathViewJSHome := conf.GetPathViewJSHome()
 	tmpl, errTmplParse := tmpl.ParseFS(
 		fsResource,
 		pathEmbedTmpl,
@@ -126,7 +131,8 @@ func (self *EntityControllerBase) setTmpl() *EntityControllerBase {
 		pathViewFooter,
 		pathViewSectionProject,
 		pathViewJSSM3,
-		pathViewJSSubmitReq)
+		pathViewJSSubmitReq,
+		pathViewJSHome)
 	tmpl = template.Must(tmpl, errTmplParse)
 	self.Tmpl = tmpl
 	return self

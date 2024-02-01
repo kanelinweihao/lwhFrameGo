@@ -3,11 +3,11 @@ package controllerApiUser
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/api/user/controllerApiUserGetMobileNoAndOrgIdByShortUserId"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/api/user/controllerApiUserGetUserIdByMobileNoAndOrgId"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"net/http"
 )
 
-var entityController typeStruct.EntityController
+var entityController typeInterface.EntityController
 
 func GetMobileNoAndOrgIdByShortUserId(resp http.ResponseWriter, req *http.Request) {
 	entityController = controllerApiUserGetMobileNoAndOrgIdByShortUserId.InitEntityController()

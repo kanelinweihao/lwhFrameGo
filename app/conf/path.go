@@ -6,6 +6,7 @@ import (
 
 var pathEnv string = "./res/env/env.env"
 var pathVersion string = "./res/version/version.env"
+var pathAdminUser string = "./res/adminUser/adminUser.env"
 
 func getPathEnv() (pathEnvEmbed string) {
 	pathEnvEmbed = file.GetFilePathEmbed(pathEnv)
@@ -15,6 +16,11 @@ func getPathEnv() (pathEnvEmbed string) {
 func getPathVersion() (pathVersionEmbed string) {
 	pathVersionEmbed = file.GetFilePathEmbed(pathVersion)
 	return pathVersionEmbed
+}
+
+func getPathAdminUser() (pathAdminUserEmbed string) {
+	pathAdminUserEmbed = file.GetFilePathEmbed(pathAdminUser)
+	return pathAdminUserEmbed
 }
 
 func getPathFromEnv(envKey string) (pathEmbed string) {
@@ -66,6 +72,12 @@ func GetPathViewJSSubmitReq() (pathViewJSSubmitReq string) {
 	pathViewJSSubmitReq = getPathFromEnv("PathViewJSSubmitReq")
 	pathViewJSSubmitReq = file.GetFilePathEmbed(pathViewJSSubmitReq)
 	return pathViewJSSubmitReq
+}
+
+func GetPathViewJSHome() (pathViewJSHome string) {
+	pathViewJSHome = getPathFromEnv("PathViewJSHome")
+	pathViewJSHome = file.GetFilePathEmbed(pathViewJSHome)
+	return pathViewJSHome
 }
 
 func GetPathPrivateKey() (pathPrivateKey string) {

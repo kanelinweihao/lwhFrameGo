@@ -4,12 +4,12 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/db"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityRepoDBBase struct {
-	Derived          typeStruct.EntityRepoDB
-	AttrT3DBData     typeMap.AttrT3
+	Derived      typeInterface.EntityRepoDB
+	AttrT3DBData typeMap.AttrT3
 	ParamsAppend     typeMap.AttrT1
 	ParamsRepoDB     typeMap.AttrT1
 	ArrSQLName       []string

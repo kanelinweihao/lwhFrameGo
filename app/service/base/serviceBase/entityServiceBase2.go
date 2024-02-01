@@ -2,15 +2,15 @@ package serviceBase
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityServiceBase2 struct {
-	Derived          typeStruct.EntityService2
-	ServiceName      string
-	ParamsIn         typeMap.AttrT1
-	EntityParams     typeStruct.EntityParams
-	AttrT3DBData     typeMap.AttrT3
+	Derived      typeInterface.EntityService2
+	ServiceName  string
+	ParamsIn     typeMap.AttrT1
+	EntityParams typeInterface.EntityParams
+	AttrT3DBData typeMap.AttrT3
 	ParamsAppend     typeMap.AttrT1
 	PathDirExcel     string
 	ArrPathFileExcel []string
@@ -24,7 +24,7 @@ func (self *EntityServiceBase2) Exec(paramsIn typeMap.AttrT1) (paramsOut typeMap
 	return paramsOut
 }
 
-func (self *EntityServiceBase2) InitParams() typeStruct.EntityService2 {
+func (self *EntityServiceBase2) InitParams() typeInterface.EntityService2 {
 	paramsIn := self.ParamsIn
 	funcInitEntityParams := self.Derived.GetFuncInitEntityParams()
 	if funcInitEntityParams == nil {
@@ -37,7 +37,7 @@ func (self *EntityServiceBase2) InitParams() typeStruct.EntityService2 {
 	return self.Derived
 }
 
-func (self *EntityServiceBase2) GetFuncInitEntityParams() (funcInitEntityParams typeStruct.FuncInitEntityParams) {
+func (self *EntityServiceBase2) GetFuncInitEntityParams() (funcInitEntityParams typeInterface.FuncInitEntityParams) {
 	funcInitEntityParams = nil
 	return funcInitEntityParams
 }

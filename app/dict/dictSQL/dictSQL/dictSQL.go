@@ -2,8 +2,8 @@ package dictSQL
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/dict/dictSQL/dictSQLSwitch"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
 func GetArrArgNameBySQLName(sqlName string) (arrArgName []string) {
@@ -11,7 +11,7 @@ func GetArrArgNameBySQLName(sqlName string) (arrArgName []string) {
 	return arrArgName
 }
 
-func GetEntityDBDataBySQLName(sqlName string) (entityDBData typeStruct.EntityDBData) {
+func GetEntityDBDataBySQLName(sqlName string) (entityDBData typeInterface.EntityDBData) {
 	_, entityDBData, _, _ = getDictSQLBySQLName(sqlName)
 	return entityDBData
 }
@@ -26,7 +26,7 @@ func GetParamsExcelTitleBySQLName(sqlName string) (paramsExcelTitle typeMap.Attr
 	return paramsExcelTitle
 }
 
-func getDictSQLBySQLName(sqlName string) (arrArgName []string, entityDBData typeStruct.EntityDBData, fileNamePrefix string, paramsExcelTitle typeMap.AttrS2) {
+func getDictSQLBySQLName(sqlName string) (arrArgName []string, entityDBData typeInterface.EntityDBData, fileNamePrefix string, paramsExcelTitle typeMap.AttrS2) {
 	arrArgName, entityDBData, fileNamePrefix, paramsExcelTitle = dictSQLSwitch.GetDictSQL(sqlName)
 	return arrArgName, entityDBData, fileNamePrefix, paramsExcelTitle
 }

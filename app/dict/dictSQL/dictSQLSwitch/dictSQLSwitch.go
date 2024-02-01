@@ -11,10 +11,10 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/dict/dictSQL/dictSQLData/dictSQLUser/dictSQLGetUserIdByMobileNoAndOrgId"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
-func GetDictSQL(sqlName string) (arrArgName []string, entityDBData typeStruct.EntityDBData, fileNamePrefix string, paramsExcelTitle typeMap.AttrS2) {
+func GetDictSQL(sqlName string) (arrArgName []string, entityDBData typeInterface.EntityDBData, fileNamePrefix string, paramsExcelTitle typeMap.AttrS2) {
 	switch sqlName {
 	case "GetMobileNoByUserId":
 		arrArgName, entityDBData, fileNamePrefix, paramsExcelTitle = dictSQLGetMobileNoByUserId.GetDictSQL()

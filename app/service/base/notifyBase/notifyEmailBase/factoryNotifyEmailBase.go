@@ -5,15 +5,15 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/file"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
-func (self *EntityNotifyEmailBase) Load(entityNotifyEmailDerived typeStruct.EntityNotifyEmail) typeStruct.EntityNotifyEmail {
+func (self *EntityNotifyEmailBase) Load(entityNotifyEmailDerived typeInterface.EntityNotifyEmail) typeInterface.EntityNotifyEmail {
 	self.Derived = entityNotifyEmailDerived
 	return self.Derived
 }
 
-func (self *EntityNotifyEmailBase) Init(pathDirExcel string, arrPathFileExcel []string) typeStruct.EntityNotifyEmail {
+func (self *EntityNotifyEmailBase) Init(pathDirExcel string, arrPathFileExcel []string) typeInterface.EntityNotifyEmail {
 	self.setPropertiesIn(pathDirExcel, arrPathFileExcel).setPropertiesMore()
 	return self.Derived
 }

@@ -2,7 +2,7 @@ package dictSQLGetProductOrderPoolNFTOfCustomerBehavior
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityDBData struct {
@@ -83,7 +83,7 @@ var ParamsExcelTitle = typeMap.AttrS2{
 	},
 }
 
-func GetDictSQL() (arrArgName []string, entityDBData typeStruct.EntityDBData, fileNamePrefix string, paramsExcelTitle typeMap.AttrS2) {
+func GetDictSQL() (arrArgName []string, entityDBData typeInterface.EntityDBData, fileNamePrefix string, paramsExcelTitle typeMap.AttrS2) {
 	arrArgName = ArrArgName
 	entityDBData = new(EntityDBData)
 	fileNamePrefix = FileNamePrefix

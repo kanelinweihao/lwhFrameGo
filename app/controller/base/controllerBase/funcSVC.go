@@ -4,8 +4,8 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/conf"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/logs"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/res"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeFunc"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
 func (self *EntityControllerBase) execSvc() *EntityControllerBase {
@@ -44,7 +44,8 @@ func (self *EntityControllerBase) setParamsIn() *EntityControllerBase {
 
 func (self *EntityControllerBase) setParamsFromSvc() *EntityControllerBase {
 	paramsIn := self.ParamsIn
-	funcService := self.Derived.GetFuncService()
+	entityDataController := self.Derived.GetEntityDataController()
+	funcService := entityDataController.GetFuncService()
 	if funcService == nil {
 		self.ParamsFromSvc = make(typeMap.AttrT1)
 		return self
@@ -55,7 +56,7 @@ func (self *EntityControllerBase) setParamsFromSvc() *EntityControllerBase {
 	return self
 }
 
-func (self *EntityControllerBase) GetFuncService() (funcService typeStruct.FuncService) {
+func (self *EntityControllerBase) GetFuncService() (funcService typeFunc.FuncService) {
 	funcService = conf.FuncServiceDefault
 	return funcService
 }

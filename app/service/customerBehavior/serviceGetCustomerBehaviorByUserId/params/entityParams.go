@@ -1,12 +1,12 @@
 package params
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityParams struct {
-	typeStruct.EntityParams  `validate:"-"`
-	UserId                   int    `validate:"required,min=1000001"`
+	typeInterface.EntityParams `validate:"-"`
+	UserId                     int    `validate:"required,min=1000001"`
 	CountProductOrderPoolNFT int    `validate:"omitempty,min=0"`
 	CountProductOrderNFTBuy  int    `validate:"omitempty,min=0"`
 	CountProductOrderNFTSell int    `validate:"omitempty,min=0"`

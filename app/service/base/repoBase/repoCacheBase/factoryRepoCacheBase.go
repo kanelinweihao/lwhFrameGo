@@ -6,15 +6,15 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/times"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
-func (self *EntityRepoCacheBase) Load(entityRepoCacheDerived typeStruct.EntityRepoCache) typeStruct.EntityRepoCache {
+func (self *EntityRepoCacheBase) Load(entityRepoCacheDerived typeInterface.EntityRepoCache) typeInterface.EntityRepoCache {
 	self.Derived = entityRepoCacheDerived
 	return self.Derived
 }
 
-func (self *EntityRepoCacheBase) Init(arrPathFileExcel []string) typeStruct.EntityRepoCache {
+func (self *EntityRepoCacheBase) Init(arrPathFileExcel []string) typeInterface.EntityRepoCache {
 	self.setPropertiesIn(arrPathFileExcel).setPropertiesMore()
 	return self.Derived
 }

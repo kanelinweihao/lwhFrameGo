@@ -2,14 +2,14 @@ package serviceGetRateExactlyHalf
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/service/rate/serviceGetRateExactlyHalf/params"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityService struct {
-	typeStruct.EntityService2
+	typeInterface.EntityService2
 }
 
-func (self *EntityService) GetFuncInitEntityParams() (funcInitEntityParams typeStruct.FuncInitEntityParams) {
+func (self *EntityService) GetFuncInitEntityParams() (funcInitEntityParams typeInterface.FuncInitEntityParams) {
 	funcInitEntityParams = params.InitEntityParams
 	return funcInitEntityParams
 }

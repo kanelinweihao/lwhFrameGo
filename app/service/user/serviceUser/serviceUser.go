@@ -4,10 +4,10 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/service/user/serviceGetMobileNoAndOrgIdByShortUserId"
 	"github.com/kanelinweihao/lwhFrameGo/app/service/user/serviceGetUserIdByMobileNoAndOrgId"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
-var entityService typeStruct.EntityService1
+var entityService typeInterface.EntityService1
 
 func GetMobileNoAndOrgIdByShortUserId(paramsIn typeMap.AttrT1) (paramsOut typeMap.AttrT1) {
 	entityService = serviceGetMobileNoAndOrgIdByShortUserId.InitEntityService()

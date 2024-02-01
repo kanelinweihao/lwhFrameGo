@@ -1,9 +1,9 @@
 package repoCache
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityRepoCache struct {
-	typeStruct.EntityRepoCache
+	typeInterface.EntityRepoCache
 }

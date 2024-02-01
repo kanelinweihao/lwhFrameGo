@@ -4,12 +4,12 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/excel"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityNotifyExcelBase struct {
-	Derived            typeStruct.EntityNotifyExcel
-	AttrS3ExcelData    typeMap.AttrS3
+	Derived         typeInterface.EntityNotifyExcel
+	AttrS3ExcelData typeMap.AttrS3
 	ParamsToNotify     typeMap.AttrT1
 	AttrT3DBData       typeMap.AttrT3
 	UserId             int

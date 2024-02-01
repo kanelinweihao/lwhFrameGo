@@ -4,8 +4,8 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/err"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
 )
 
 type EntityDBDataRead struct {
@@ -17,7 +17,7 @@ type EntityDBDataRead struct {
 	PathQuery        string
 	QueryWithoutArgs string
 	QueryWithArgs    string
-	EntityDBData     typeStruct.EntityDBData
+	EntityDBData     typeInterface.EntityDBData
 }
 
 func (self *EntityDBDataRead) writeToChannelOfReadDBData(chanWrite chan<- typeChanData) *EntityDBDataRead {

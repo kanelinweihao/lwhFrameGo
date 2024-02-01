@@ -2,15 +2,15 @@ package serviceBase
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityServiceBase1 struct {
-	Derived          typeStruct.EntityService1
-	ServiceName      string
-	ParamsIn         typeMap.AttrT1
-	EntityParams     typeStruct.EntityParams
-	AttrT3DBData     typeMap.AttrT3
+	Derived      typeInterface.EntityService1
+	ServiceName  string
+	ParamsIn     typeMap.AttrT1
+	EntityParams typeInterface.EntityParams
+	AttrT3DBData typeMap.AttrT3
 	IsEmpty          bool
 	ParamsAppend     typeMap.AttrT1
 	PathDirExcel     string
@@ -28,7 +28,7 @@ func (self *EntityServiceBase1) Exec(paramsIn typeMap.AttrT1) (paramsOut typeMap
 	return paramsOut
 }
 
-func (self *EntityServiceBase1) InitParams() typeStruct.EntityService1 {
+func (self *EntityServiceBase1) InitParams() typeInterface.EntityService1 {
 	paramsIn := self.ParamsIn
 	funcInitEntityParams := self.Derived.GetFuncInitEntityParams()
 	if funcInitEntityParams == nil {
@@ -41,12 +41,12 @@ func (self *EntityServiceBase1) InitParams() typeStruct.EntityService1 {
 	return self.Derived
 }
 
-func (self *EntityServiceBase1) GetFuncInitEntityParams() (funcInitEntityParams typeStruct.FuncInitEntityParams) {
+func (self *EntityServiceBase1) GetFuncInitEntityParams() (funcInitEntityParams typeInterface.FuncInitEntityParams) {
 	funcInitEntityParams = nil
 	return funcInitEntityParams
 }
 
-func (self *EntityServiceBase1) GetDBData() typeStruct.EntityService1 {
+func (self *EntityServiceBase1) GetDBData() typeInterface.EntityService1 {
 	paramsToRepo := self.ParamsOut
 	funcInitEntityRepoDB := self.Derived.GetFuncInitEntityRepoDB()
 	if funcInitEntityRepoDB == nil {
@@ -68,12 +68,12 @@ func (self *EntityServiceBase1) GetDBData() typeStruct.EntityService1 {
 	return self.Derived
 }
 
-func (self *EntityServiceBase1) GetFuncInitEntityRepoDB() (funcInitEntityRepoDB typeStruct.FuncInitEntityRepoDB) {
+func (self *EntityServiceBase1) GetFuncInitEntityRepoDB() (funcInitEntityRepoDB typeInterface.FuncInitEntityRepoDB) {
 	funcInitEntityRepoDB = nil
 	return funcInitEntityRepoDB
 }
 
-func (self *EntityServiceBase1) PutExcel() typeStruct.EntityService1 {
+func (self *EntityServiceBase1) PutExcel() typeInterface.EntityService1 {
 	paramsToNotify := self.ParamsOut
 	attrT3DBData := self.AttrT3DBData
 	funcInitEntityNotifyExcel := self.Derived.GetFuncInitEntityNotifyExcel()
@@ -87,12 +87,12 @@ func (self *EntityServiceBase1) PutExcel() typeStruct.EntityService1 {
 	return self.Derived
 }
 
-func (self *EntityServiceBase1) GetFuncInitEntityNotifyExcel() (funcInitEntityNotifyExcel typeStruct.FuncInitEntityNotifyExcel) {
+func (self *EntityServiceBase1) GetFuncInitEntityNotifyExcel() (funcInitEntityNotifyExcel typeInterface.FuncInitEntityNotifyExcel) {
 	funcInitEntityNotifyExcel = nil
 	return funcInitEntityNotifyExcel
 }
 
-func (self *EntityServiceBase1) SendEmail() typeStruct.EntityService1 {
+func (self *EntityServiceBase1) SendEmail() typeInterface.EntityService1 {
 	pathDirExcel := self.PathDirExcel
 	arrPathFileExcel := self.ArrPathFileExcel
 	funcInitEntityNotifyEmail := self.Derived.GetFuncInitEntityNotifyEmail()
@@ -104,12 +104,12 @@ func (self *EntityServiceBase1) SendEmail() typeStruct.EntityService1 {
 	return self.Derived
 }
 
-func (self *EntityServiceBase1) GetFuncInitEntityNotifyEmail() (funcInitEntityNotifyEmail typeStruct.FuncInitEntityNotifyEmail) {
+func (self *EntityServiceBase1) GetFuncInitEntityNotifyEmail() (funcInitEntityNotifyEmail typeInterface.FuncInitEntityNotifyEmail) {
 	funcInitEntityNotifyEmail = nil
 	return funcInitEntityNotifyEmail
 }
 
-func (self *EntityServiceBase1) SetCache() typeStruct.EntityService1 {
+func (self *EntityServiceBase1) SetCache() typeInterface.EntityService1 {
 	arrPathFileExcel := self.ArrPathFileExcel
 	funcInitEntityRepoCache := self.Derived.GetFuncInitEntityRepoCache()
 	if funcInitEntityRepoCache == nil {
@@ -120,7 +120,7 @@ func (self *EntityServiceBase1) SetCache() typeStruct.EntityService1 {
 	return self.Derived
 }
 
-func (self *EntityServiceBase1) GetFuncInitEntityRepoCache() (funcInitEntityRepoCache typeStruct.FuncInitEntityRepoCache) {
+func (self *EntityServiceBase1) GetFuncInitEntityRepoCache() (funcInitEntityRepoCache typeInterface.FuncInitEntityRepoCache) {
 	funcInitEntityRepoCache = nil
 	return funcInitEntityRepoCache
 }

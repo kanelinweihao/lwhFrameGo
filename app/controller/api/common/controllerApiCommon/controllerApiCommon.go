@@ -4,11 +4,11 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/api/common/controllerApiClientIP"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/api/common/controllerApiProjectTitle"
 	"github.com/kanelinweihao/lwhFrameGo/app/controller/api/common/controllerApiProjectVersion"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"net/http"
 )
 
-var entityController typeStruct.EntityController
+var entityController typeInterface.EntityController
 
 func ProjectTitle(resp http.ResponseWriter, req *http.Request) {
 	entityController = controllerApiProjectTitle.InitEntityController()

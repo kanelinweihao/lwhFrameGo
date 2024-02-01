@@ -2,15 +2,15 @@ package repoDBBase
 
 import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
-func (self *EntityRepoDBBase) Load(entityRepoDBDerived typeStruct.EntityRepoDB) typeStruct.EntityRepoDB {
+func (self *EntityRepoDBBase) Load(entityRepoDBDerived typeInterface.EntityRepoDB) typeInterface.EntityRepoDB {
 	self.Derived = entityRepoDBDerived
 	return self.Derived
 }
 
-func (self *EntityRepoDBBase) Init(paramsRepoDB typeMap.AttrT1) typeStruct.EntityRepoDB {
+func (self *EntityRepoDBBase) Init(paramsRepoDB typeMap.AttrT1) typeInterface.EntityRepoDB {
 	self.setPropertiesIn(paramsRepoDB).setPropertiesMore()
 	return self.Derived
 }

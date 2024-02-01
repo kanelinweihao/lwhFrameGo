@@ -6,26 +6,26 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/funcArr"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 var IRRToCheckPositive = "0.1024"
 var IRRToCheckNegative = "-0.1024"
 
-func InitEntityParams(paramsIn typeMap.AttrT1) (entityParams typeStruct.EntityParams) {
+func InitEntityParams(paramsIn typeMap.AttrT1) (entityParams typeInterface.EntityParams) {
 	entityParams = new(EntityParams)
 	entityParamsBase := new(paramsBase.EntityParamsBase)
 	entityParams.Load(entityParamsBase).Init(paramsIn)
 	return entityParams
 }
 
-func (self *EntityParams) Load(entityParamsBase typeStruct.EntityParams) typeStruct.EntityParams {
+func (self *EntityParams) Load(entityParamsBase typeInterface.EntityParams) typeInterface.EntityParams {
 	self.EntityParams = entityParamsBase
 	entityParamsBase.Load(self)
 	return self
 }
 
-func (self *EntityParams) SetParamsExec() typeStruct.EntityParams {
+func (self *EntityParams) SetParamsExec() typeInterface.EntityParams {
 	strArrAmount := self.StrArrAmount
 	precision := self.ErrorPrecision + 8
 	arrAmountWithZero := conv.ToArrStrFromStr(strArrAmount, ",")

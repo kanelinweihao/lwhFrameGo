@@ -6,6 +6,13 @@ import (
 	"reflect"
 )
 
+func IsPtr(value interface{}) (isPtr bool) {
+	t := reflect.TypeOf(value)
+	k := t.Kind()
+	isPtr = k == reflect.Ptr
+	return isPtr
+}
+
 func GetTypeInfo(value interface{}) (isPtr bool, typeName string, typeKindName string) {
 	t := reflect.TypeOf(value)
 	if t == nil {

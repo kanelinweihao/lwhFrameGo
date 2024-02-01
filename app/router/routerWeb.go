@@ -21,71 +21,71 @@ func getArrRouterWeb() (arrRouterWeb []Router) {
 		Router{
 			RouteName:      "/",
 			FuncController: controllerWebCommon.Root,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.Web,
 		},
 		// 列表主页
 		Router{
-			RouteName:      "/home",
+			RouteName:      "/web/home",
 			FuncController: controllerWebCommon.Home,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.Web,
 		},
 		// 项目名称
 		Router{
-			RouteName:      "/projectTitle",
+			RouteName:      "/web/projectTitle",
 			FuncController: controllerWebCommon.ProjectTitle,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.Web,
 		},
 		// 项目版本
 		Router{
-			RouteName:      "/projectVersion",
+			RouteName:      "/web/projectVersion",
 			FuncController: controllerWebCommon.ProjectVersion,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.Web,
 		},
 		// 客户端IP
 		Router{
-			RouteName:      "/ip",
+			RouteName:      "/web/ip",
 			FuncController: controllerWebCommon.ClientIP,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.Web,
 		},
 		// auth
-		// 获取用户手机号和所属机构
+		// 登录
 		Router{
 			RouteName:      "/web/auth/login",
 			FuncController: controllerWebAuth.Login,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
-		},
-		// user
-		// 获取用户手机号和所属机构
-		Router{
-			RouteName:      "/web/user/getMobileNoAndOrgIdByShortUserId",
-			FuncController: controllerWebUser.GetMobileNoAndOrgIdByShortUserId,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
-		},
-		// 获取UID
-		Router{
-			RouteName:      "/web/user/getUserIdByMobileNoAndOrgId",
-			FuncController: controllerWebUser.GetUserIdByMobileNoAndOrgId,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.WebGA,
 		},
 		// customerBehavior
 		// 获取客诉数据
 		Router{
 			RouteName:      "/web/customerBehavior/getCustomerBehaviorByUserId",
 			FuncController: controllerWebCustomerBehavior.GetCustomerBehaviorByUserId,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.Web,
+		},
+		// user
+		// 获取用户手机号和所属机构
+		Router{
+			RouteName:      "/web/user/getMobileNoAndOrgIdByShortUserId",
+			FuncController: controllerWebUser.GetMobileNoAndOrgIdByShortUserId,
+			FuncMiddleware: middleware.Web,
+		},
+		// 获取UID
+		Router{
+			RouteName:      "/web/user/getUserIdByMobileNoAndOrgId",
+			FuncController: controllerWebUser.GetUserIdByMobileNoAndOrgId,
+			FuncMiddleware: middleware.Web,
 		},
 		// rate
 		// 计算内部收益率IRR
 		Router{
 			RouteName:      "/web/rate/getIRRByArrAmount",
 			FuncController: controllerWebRate.GetIRRByArrAmount,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.Web,
 		},
 		// 计算抽中次数正好是总次数一半的概率
 		Router{
 			RouteName:      "/web/rate/getRateExactlyHalf",
 			FuncController: controllerWebRate.GetRateExactlyHalf,
-			FuncMiddleware: middleware.WithMiddlewareWeb,
+			FuncMiddleware: middleware.Web,
 		},
 	}
 	return arrRouterWeb

@@ -4,13 +4,13 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/cache"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 	"time"
 )
 
 type EntityRepoCacheBase struct {
-	Derived            typeStruct.EntityRepoCache
-	BoxToCache         typeMap.BoxData
+	Derived    typeInterface.EntityRepoCache
+	BoxToCache typeMap.BoxData
 	ArrPathFileExcel   []string
 	CacheKey           string
 	CacheValue         string

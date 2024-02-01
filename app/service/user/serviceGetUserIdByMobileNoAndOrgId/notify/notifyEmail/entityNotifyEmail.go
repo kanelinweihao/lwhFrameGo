@@ -1,9 +1,9 @@
 package notifyEmail
 
 import (
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityNotifyEmail struct {
-	typeStruct.EntityNotifyEmail
+	typeInterface.EntityNotifyEmail
 }

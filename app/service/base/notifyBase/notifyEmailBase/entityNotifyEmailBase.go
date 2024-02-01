@@ -4,12 +4,12 @@ import (
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/conv"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/email"
 	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeMap"
-	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeStruct"
+	"github.com/kanelinweihao/lwhFrameGo/app/utils/typeInterface"
 )
 
 type EntityNotifyEmailBase struct {
-	Derived          typeStruct.EntityNotifyEmail
-	BoxToEmail       typeMap.BoxData
+	Derived    typeInterface.EntityNotifyEmail
+	BoxToEmail typeMap.BoxData
 	PathDirExcel     string
 	ArrPathFileExcel []string
 	ArrEmailTo       []string

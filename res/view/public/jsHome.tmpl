@@ -1,0 +1,64 @@
+<script>
+// const headerKeyJwtToken = 'Jwt-Token';
+let btnList = document.getElementsByClassName('btnUrlJump');
+for (let i = 0; i < btnList.length; i++) {
+    let btn = btnList[i];
+    btn.onclick = function (e) {
+        e.preventDefault();
+        let urlGet = btn.value;
+        console.log(urlGet);
+        ajaxGetJump(urlGet);
+    }
+}
+
+function ajaxGetJump(urlGet) {
+    // 创建XMLHttpRequest对象
+    let xhr = new XMLHttpRequest();
+    // 设置请求类型、URL和异步标志
+    xhr.open(
+        'GET',
+        urlGet,
+        true
+    );
+    // 设置请求头信息
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    // let jwtToken = getCookie('jwtToken');
+    // console.log(jwtToken);
+    // if (jwtToken !== '') {
+    //     xhr.setRequestHeader(headerKeyJwtToken, jwtToken);
+    // }
+    // 注册回调函数
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) {
+            return;
+        }
+        if (xhr.status !== 200) {
+            let formatError = 'Fail to send data, the urlGet is |{urlGet}|, the networkCode is |{networkCode}|'
+            let msgError = formatError.replace('{urlGet}', urlGet).replace('{networkCode}', xhr.status);
+            console.error(msgError);
+            return;
+        }
+        console.log('callback');
+        window.location.href = urlGet;
+    };
+    // 发送请求
+    xhr.send();
+}
+
+function getCookie(cookieKey) {
+    let strCookie = document.cookie;
+    if (strCookie.length === 0) {
+        return ""
+    }
+    let startLine = strCookie.indexOf(cookieKey + "=");
+    if (startLine === -1) {
+        return ""
+    }
+    let startValue = startLine + cookieKey.length + 1;
+    let endValue = strCookie.indexOf(";", startValue);
+    if (endValue === -1) {
+        endValue = strCookie.length;
+    }
+    return strCookie.substring(startValue, endValue);
+}
+</script>
